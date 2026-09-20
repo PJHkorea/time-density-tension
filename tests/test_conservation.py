@@ -56,7 +56,7 @@ def test_einstein_gr_reduction_limit(tdt_engine):
     # 제1닻줄(제1영점)에 대한 해밀토니안 궤적 연산
     h_anchor_1 = tdt_engine.get_anchoring_hamiltonian(a_present, anchor_index=1)
     
-    # a = 1 일 때 기저 시간 밀도는 rho_0 * 1^(-gamma) = 1.0 이므로,
+    # a = 1 일 때 기저 시간 밀도는 rho_0 * 1^(-gamma) = 1.0 이물질 평형이므로,
     # H_Anchor = 0.5 + i * Omega_1 이 되어야 함
     expected_real = 0.5
     expected_imag = tdt_engine.omega_nodes[0]  # 리만 제타 제1영점 허수부 (14.134725...)
