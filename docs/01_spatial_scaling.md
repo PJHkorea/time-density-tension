@@ -97,10 +97,21 @@ graph TD
 
 To track how the discrete $\sqrt{n}$ scaling resistance emerges, we must connect the continuous Laplacian eigenvalues to the quantized topological nodes.
 
-#### 3.1.1 Energy Distribution and the Spatial Gradient
-In a 2D harmonic holographic grid, the total quantum energy density $ℰ_n$ scales linearly with the eigenvalues $λ_n = k_n^2$ of the Spatial Laplacian operator ($∇^2$). However, the observable macroscopic tension or effective spatial gradient acceleration $|∇_x|$ relates directly to the square root of the energy density (the wave number $k_n$):
+#### 3.1.1 Energy Distribution, Quantum Amplitude, and the Spatial Gradient
 
-$$ |\nabla_{\perp}| \propto k_{n}=\sqrt{\lambda_{n}} \quad \text{--- (3.1)} $$
+In a 2D harmonic holographic grid, the total quantum energy density $\mathcal{E}&#95;{n}$ scales linearly with the structural eigenvalues $\lambda&#95;{n} = \text{layer}&#95;{n}^{2}$ of the Spatial Laplacian operator ($\nabla&#95;{\perp}^2$). However, a fundamental cosmological question arises: Why must the observable macroscopic tension or effective spatial gradient acceleration $\nabla_{\perp}$ track the square root of the eigenvalue ($\nabla_{\perp} \propto \sqrt{\lambda_{n}}$)?
+
+
+TDT theory demonstrates that this radical assumption is strictly bounded by the core postulates of quantum mechanics and entropic gravity, making it an empirically testable cosmological framework:
+
+1. **The Quantum Amplitude Principle:** In any unitary quantum system, the observable physical energy density is governed by the squared modulus of the probability amplitude ($\mathcal{E} \propto |\Psi|^2$). Conversely, the foundational field amplitude that drives mechanical displacement and spatial deformation must scale with the square root of the energy field ($\Psi \propto \sqrt{\mathcal{E}}$). Since spacetime tension represents the physical restoring force of the base-layer wave function, it must natively track the field amplitude ($\sqrt{\lambda_n}$) rather than the diluted bulk energy.
+2. **Entropic Gravity and Holographic Projection:** On cosmological scales, the equivalent gravitational acceleration field is not a fundamental particle exchange but an emergent entropic force driven by the spatial gradient of information density on a holographic boundary. According to the holographic equipartition theorem, the effective linear tension acting across a dimensional interface translates to the square root of the total localized eigenvalue constraint.
+
+Therefore, the relation between the macroscopically manifested spatial gradient and the quantum eigenvalue boundary is rigidly locked:
+
+$$|\nabla_{\perp}| \propto k_n = \sqrt{\lambda_n} \quad \text{--- (3.1)}$$
+
+This framework moves the square-root dependency from an ad-hoc cosmological assumption to a verifiable geometric consequence of boundary amplitude projection, providing the exact mechanism required to bypass cold dark matter particle densities in galactic virial halos.
 
 
 #### 3.1.2 McMahon's Asymptotic Expansion and Holographic Dimensional Reduction
