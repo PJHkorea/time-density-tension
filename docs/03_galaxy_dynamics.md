@@ -2,27 +2,29 @@
 
 ## TDT-Core Phase 03: Resolution of Rubin's Galactic Rotation Curves and Cosmic Filament Viscous Shielding
 
-This document formalizes the geometric expansion of **Time-Density Tension (TDT) Theory** onto galactic and macro-cosmic web scales. By deploying the invariants established in Phase 02—specifically the universally derived baryonic fluid phase shift ($\delta_{\text{phase}} = 0.039513$)—and introducing the **Dynamic Debye Damping Factor ($\mathcal{D}(r)$)**, this framework completely accounts for the flat galactic rotation curves discovered by Vera Rubin and the non-linear density profiles of cosmic filaments observed by SDSS without invoking cold dark matter particle halos.
+This document formalizes the geometric expansion of **Time-Density Tension (TDT) Theory** onto galactic and macro-cosmic web scales. By deploying the invariants established in Phase 02—specifically the universally derived baryonic fluid phase shift ($\delta_{\text{phase}} = 0.039513$)—and introducing the Dynamic Debye Damping Factor $\mathcal{D}(r)$ , this framework completely accounts for the flat galactic rotation curves discovered by Vera Rubin and the non-linear density profiles of cosmic filaments observed by SDSS without invoking cold dark matter particle halos.
 
 
 ---
 
 ## 1. Galactic Surface Mass Density and Laplacian Field Projection
 
-TDT theory proposes that the missing mass attributed to dark matter halos is an illusion created by ignoring the intrinsic spatial gradient of the base-layer time density. By mapping the Poisson equation onto the 2D holographic boundary of the galactic disk, the equivalent **Dark Matter Surface Mass Density Profile (\(\Sigma_{\text{DM}}(r)\))** is derived directly via the 2D transverse Laplacian (\(\nabla_{\perp}^2\)) acting upon the inverse dynamic time-density field:
+TDT theory proposes that the missing mass attributed to dark matter halos is an illusion created by ignoring the intrinsic spatial gradient of the base-layer time density. By mapping the Poisson equation onto the 2D holographic boundary of the galactic disk, the equivalent Dark Matter Surface Mass Density Profile $\Sigma_{\text{DM}}(r)$ is derived directly via the 2D transverse Laplacian ($\nabla_{\perp}^2$)
+ acting upon the inverse dynamic time-density field:
 
-\[\Sigma_{\text{DM}}(r) = \frac{\mathcal{C}_{\text{univ}}}{4\pi G} \cdot \nabla_{\perp}^2 \left( \frac{1}{\rho_{\text{Time}}(r)} \right) = \frac{\mathcal{C}_{\text{univ}}}{4\pi G} \cdot \left( \frac{\partial^2}{\partial r^2} + \frac{1}{r}\frac{\partial}{\partial r} \right) \left( r^{\gamma \cdot \sqrt{n}} \right)\]
+$$\Sigma_{\text{DM}}(r) = \frac{\mathcal{C}_{\text{univ}}}{4\pi G} \cdot \nabla_{\perp}^2 \left( \frac{1}{\rho_{\text{Time}}(r)} \right) = \frac{\mathcal{C}_{\text{univ}}}{4\pi G} \cdot \left( \frac{\partial^2}{\partial r^2} + \frac{1}{r}\frac{\partial}{\partial r} \right) \left( r^{\gamma \cdot \sqrt{n}} \right)$$
+
 
 Where:
-* **\(G\)** is Newton's gravitational constant.
-* **\(\mathcal{C}_{\text{univ}} \approx 0.850720\)** is the universal coupling constant verified in Phase 02.
-* **\(r\)** is the radial galactic coordinate scaled by the anchor mode index (\(n\)).
+* **$G$** is Newton's gravitational constant.
+* **$\mathcal{C}_{\text{univ}} \approx 0.850720$** is the universal coupling constant verified in Phase 02.
+* **$r$** is the radial galactic coordinate scaled by the anchor mode index ($n$).
 
 ### 1.1 Field Equation Expansion
 
-Executing the radial derivatives under the spatial quantization rules (\(\sqrt{n}\)) established in `01_spatial_scaling.md` yields the structural density scaling law across galactic disk radii:
+Executing the radial derivatives under the spatial quantization rules ($\sqrt{n}$) established in `01_spatial_scaling.md` yields the structural density scaling law across galactic disk radii:
 
-\[\Sigma_{\text{DM}}(r) = \frac{\mathcal{C}_{\text{univ}}}{4\pi G} \cdot \left( \gamma\sqrt{n}(\gamma\sqrt{n}-1) + \gamma\sqrt{n} \right) r^{\gamma\sqrt{n}-2} = \frac{\mathcal{C}_{\text{univ}} \cdot \gamma^2 n}{4\pi G} \cdot r^{\gamma\sqrt{n}-2}\]
+$$\Sigma_{\text{DM}}(r) = \frac{\mathcal{C}_{\text{univ}}}{4\pi G} \cdot \left( \gamma\sqrt{n}(\gamma\sqrt{n}-1) + \gamma\sqrt{n} \right) r^{\gamma\sqrt{n}-2} = \frac{\mathcal{C}_{\text{univ}} \cdot \gamma^2 n}{4\pi G} \cdot r^{\gamma\sqrt{n}-2}$$
 
 This strict geometric derivation demonstrates that the equivalent mass profile is not governed by hypothetical non-baryonic particles, but is an inevitable structural consequence of the 2D polar dimensional reduction acting on the cosmic base layer.
 
@@ -31,7 +33,7 @@ This strict geometric derivation demonstrates that the equivalent mass profile i
 
 ## 2. Dynamic Debye Damping Factor ($\mathcal{D}(r)$) and Fluid Phase Coupling
 
-While the pure geometric Laplacian field established in Section 1 dictates the macroscopic spacetime structure, real galactic disks and cosmic web filaments are embedded with gaseous baryonic fluids (interstellar and intergalactic media). To prevent unphysical runaway tension and precisely map the transition between the fluid-dense inner cores and the highly rarefied outer regimes, TDT applies the **Dynamic Debye Damping Factor ($\mathcal{D}(r)$)**.
+While the pure geometric Laplacian field established in Section 1 dictates the macroscopic spacetime structure, real galactic disks and cosmic web filaments are embedded with gaseous baryonic fluids (interstellar and intergalactic media). To prevent unphysical runaway tension and precisely map the transition between the fluid-dense inner cores and the highly rarefied outer regimes, TDT applies the Dynamic Debye Damping Factor $\mathcal{D}(r)$.
 
 Instead of introducing arbitrary cutoffs, the damping factor is driven by the localized density gradient of the baryon fluid, acting as a non-linear topological phase switch:
 
@@ -54,11 +56,12 @@ This elegant formulation ensures that in ultra-dense core regions ($r \to 0$), t
 
 ## 3. Vera Rubin's Galactic Rotation Curves and Observational Convergence
 
-The total observed orbital velocity $v_{\text{total\_amended}}(r)$ of a galaxy is formalised as a non-linear combination of classical Newtonian baryonic mechanics, base-layer geometric tension, and the localized exponential decay of the fluid viscosity profile. The complete velocity field equation is defined as:
+The total observed orbital velocity $v_{total\_amended}(r)$ of a galaxy is formalised as a non-linear combination of classical Newtonian baryonic mechanics, base-layer geometric tension, and the localized exponential decay of the fluid viscosity profile. The complete velocity field equation is defined as:
 
 $$v_{\text{total}}(r) = \sqrt{v_{\text{baryon}}^2(r) + v_{\text{tension}}^2(r)}$$
 
-$$v_{\text{total\_amended}}(r) = v_{\text{total}}(r) \times \left[ 1 + \delta_{\text{phase}} \cdot \exp\left(-\frac{r}{R_d}\right) \right]$$
+$$v_{total\_amended}(r) = v_{total}(r) \times \left[ 1 + \delta_{phase} \cdot \exp\left(-\frac{r}{R_d}\right) \right]$$
+
 
 Where:
 * **$v_{\text{baryon}}(r)$** is the classical circular velocity contributed by visible gas and stellar bulges/disks.
@@ -87,10 +90,12 @@ Beyond localized galactic boundaries ($r \gg 30.0\text{ kpc}$), the discrete 2D 
 
 When baryonic gas falls from cosmic voids into the deep potential wells of intergalactic filaments, large-scale shock heating and hydrodynamic resistance trigger topological damping. Utilizing the **Dynamic Debye Damping Factor ($\mathcal{D}(r)$)** established in Section 2, the uncorrected linear web filament tension density $\lambda_{\text{Web}}(r)$ is precisely amended:
 
-$$\lambda_{\text{Web\_Amended}}(r) = \lambda_{\text{Web}}(r) \times \left[ 1 + \delta_{\text{phase}} \cdot \mathcal{D}(r) \right]$$
+$$\lambda_{Web\_Amended}(r) = \lambda_{Web}(r) \times \left[ 1 + \delta_{phase} \cdot \mathcal{D}(r) \right]$$
+
 
 Where the localization phase switch is calibrated at the cosmological intergalactic boundary:
-$$\mathcal{D}(r) = \exp \left( -\left[ \frac{r}{1.2\text{ Mpc}} \right]^2 \right) \cdot \left( 1 + \tanh \left( \frac{0.1\text{ Mpc} - r}{R_{\text{scale}}} \right) \right)$$
+
+$$\mathcal{D}(r) = \exp \left( -\left[ \frac{r}{1.2\text{ Mpc}} \right]^2 \right) \cdot \left( 1 + \tanh \left( \frac{0.1\text{ Mpc} - r}{R_{scale}} \right) \right)$$
 
 ### 4.1 Quantitative Verification against SDSS Filament Catalogs
 
