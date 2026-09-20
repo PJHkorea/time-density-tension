@@ -99,7 +99,7 @@ This extraordinary sub-pixel convergence mathematically establishes that the dam
 
 Using the stabilized `src/tdt_core.py` engine, TDT theory provides the absolute multipole coordinates for high-order acoustic nodes yet to be cleanly isolated from observational foreground noise. These coordinates serve as a direct blind test for upcoming cosmological surveys:
 
-| Acoustic Node | Riemann Anchor (\(\Omega_n\)) | Phase State | TDT Predicted Position (\(l_n\)) | Observational Horizon Status |
+| Acoustic Node | Riemann Anchor ($\Omega_n$) | Phase State | TDT Predicted Position ($l_n$) | Observational Horizon Status |
 | :---: | :---: | :---: | :---: | :--- |
 | **Peak $l_3$** | 25.010858 | 2nd Compression | **808.41** | Embedded in high-multipole noise regimes; prime target for resolution |
 | **Peak $l_4$** | 30.424876 | 2nd Rarefaction | **1121.15** | Bounded by severe Silk Damping limits; requires clean foreground stripping |
