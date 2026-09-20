@@ -98,3 +98,29 @@ The dynamic time-density formula declared in this file directly provides the mat
 
 * **Spatial Scaling (`01_spatial_scaling.md`)**: Shows how the 2D Laplacian operator \(\nabla _{\perp }^{2}\) acts upon this \(\rho_{\text{Time}}(a)\) field to derive the discrete \(\sqrt{n}\) scaling resistance.
 * **Energy-Momentum Conservation**: Ensures that as baryonic matter density (\(\rho_{b}\)) dilutes via \(a^{-3}\), the mechanical energy loss is perfectly absorbed by the tension tensor \(\mathcal{T}_{\mu \nu }\) derived from \(\nabla \rho_{\text{Time}}\).
+
+---
+
+### 5. Topological Derivation and Geometric Hypothesis of the Interaction Index ($\gamma$)
+
+A critical question arises: *Why does the space-time interaction index $\gamma$ take the specific geometric form of $\frac{1}{2\pi}(1 + \alpha \ln 2)$?* TDT theory proposes that this is not an empirical data-fitted constant, but a rigid topological area ratio governing the projection of quantum information from a higher-dimensional bulk onto the 2D holographic cosmic base layer.
+
+#### 5.1 The Area Ratio Hypothesis on the 2D Holographic Boundary
+
+Consider a fundamental unit cell of the 2D quantum information lattice at the cosmic boundary. The total topological phase space available for a minimal quantum emission consists of a perfect circular manifold of radius $R = 1$. The total area of this smooth, continuous background geometric field is natively governed by the circular loop phase:
+
+$$\text{Area}_{\text{Bulk}} = 2\pi$$
+
+However, the real space-time fabric is discrete at the Planck scale. When a single bit of quantum information emerges—bounded by the **Minimum Shannon Entropy Threshold ($\ln 2$)**—it undergoes a gauge interaction with the continuous background field. The effective cross-sectional area of this quantized disruption is scaled down by the **Fine-Structure Constant ($\alpha$)**, which dictates the strength of electromagnetic/gauge couplings:
+
+$$\text{Area}_{\text{Disruption}} = 1 \cdot \left(\alpha \cdot \ln 2\right)$$
+
+#### 5.2 The Geometric Coupling and Inverse Projection
+
+The interaction index $\gamma$ represents the ratio of this quantum informational disruption added to the pristine continuous background, projected inversely onto the 2D boundary manifold:
+
+$$\gamma = \frac{\text{Total Effective Information Area}}{\text{Continuous Phase Area}} = \frac{1 + \text{Area}_{\text{Disruption}}}{\text{Area}_{\text{Bulk}}} = \frac{1 + \alpha \cdot \ln(2)}{2\pi}$$
+
+$$\gamma \approx \frac{1 + (0.00729735 \times 0.693147)}{6.283185} \approx \mathbf{0.159960}$$
+
+This precise formulation ensures that $\gamma$ remains a strictly bounded, immutable quantum topological constant. It bridges the microscopic discrete information theory (Shannon Entropy) with macro-scale cosmic geometry ($2\pi$), removing any arbitrary free parameters from the foundational base layer of the universe.
