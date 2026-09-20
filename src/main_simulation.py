@@ -179,10 +179,12 @@ def execute_tdt_simulation_part1(core: TDTCore):
     print("=" * 80)
 
 def main():
-    """Main execution portal for TDT unified cosmological tracking."""
-    # Loading 30 prime anchors to ensure comprehensive manifold capacity
+    """TDT unified cosmological tracking을 위한 메인 실행 포털입니다."""
+    # 30개의 소수 닻줄 격자 고착화 엔진 로드
     core_engine = TDTCore(num_anchors=30)
-    execute_tdt_simulation_part2(core_engine)
+    
+    # 런타임 NameError 결함 교정: part1 마스터 시뮬레이션 매트릭스 엔진 호출
+    execute_tdt_simulation_part1(core_engine)
 
 if __name__ == "__main__":
     main()
