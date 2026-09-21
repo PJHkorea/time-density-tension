@@ -20,11 +20,6 @@ class TDTCore:
         # 3. 천체물리학 표준 차원 상수
         self.G_INV = 232504.5  
 
-
-
-
-
-
         
         # 4. 고정밀 리만 제타 함수 비자명 영점(Critical Line) 앵커 배열
         known_zeta_zeros = [
