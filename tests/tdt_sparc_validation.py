@@ -168,7 +168,7 @@ def parse_sparc_data_dynamic_fixed(text_data):
 # 4. [완벽 교정] 마스터 데이터셋 병합 및 최종 파이프라인 연산 검증 구역
 # =========================================================================
 
-# --- 리얼 우주 물리 검증용 raw 데이터셋 로드 ---
+# --- 리얼 우주 물리 검증용 raw 데이터셋 로드 (기존 174번 라인 내용) ---
 datafile2_data = """
 CamB          3.36   0.16   1.99  1.50   1.86   3.75   0.00   30.32     0.00 
 CamB          3.36   0.41   4.84  1.50   4.24   9.47   0.00   23.77     0.00 
@@ -183,34 +183,69 @@ DDO064        6.8    0.10   6.29  4.62  -1.13   1.96   0.00   28.50     0.00
 DDO154        4.04   0.49  13.80  1.60   3.74  12.31   0.00   15.93     0.00 
 """
 
-# 🎯 [하이브리드 병합 완전성 복원]: 
-# 1구역에서 정의한 파서로 각각의 프레임을 뽑아낸 뒤, 메타 정보(거리/경사각)와 회전 곡선을 조인합니다.
+# =========================================================================
+# [순서 보정 구역]: 파서 함수가 먼저 눈에 보여야 아래 조인문이 터지지 않습니다.
+# =========================================================================
+def parse_sparc_table1(text_data):
+    rows = []
+    for line in text_data.strip().split('\n'):
+        if not line.strip() or line.strip().startswith('#'): continue
+        tokens = line.strip().split()
+        if len(tokens) < 6: continue
+        try:
+            g_id = str(tokens[0]).strip().upper()
+            d_val = float(tokens[2])  # 은하 거리 D (Mpc)
+            i_val = float(tokens[5])  # 은하 경사각 (deg)
+            rows.append([g_id, d_val, i_val])
+        except ValueError: continue
+    return pd.DataFrame(rows, columns=['galaxy', 'distance_mpc', 'inclination_deg'])
+
+def parse_sparc_data_dynamic_fixed(text_data):
+    rows = []
+    for line in text_data.strip().split('\n'):
+        if not line.strip() or line.strip().startswith('#'): continue
+        tokens = line.strip().split()
+        if len(tokens) < 6: continue
+        try:
+            g_id = str(tokens[0]).strip().upper()
+            r_val = float(tokens[1])   # 관측 반지름 R (kpc)
+            v_obs  = float(tokens[3])  # 실제 관측 속도 V_obs (km/s)
+            v_gas  = float(tokens[5])  # 가스 성분 속도 (km/s)
+            v_disk = float(tokens[6])  # 디스크 성분 속도 (km/s)
+            v_bul = float(tokens[7]) if len(tokens) > 7 else 0.0
+            
+            v_baryon_sq = max(0, v_gas**2 + v_disk**2 + v_bul**2)
+            v_baryon = np.sqrt(v_baryon_sq)
+            estimated_baryon_mass = (v_baryon_sq * r_val) * 1e6
+            rows.append([g_id, r_val, v_obs, v_baryon, estimated_baryon_mass])
+        except (ValueError, IndexError): continue
+    return pd.DataFrame(rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
+
+
+# 🎯 [하이브리드 병합 실행]: 이제 파서 함수 선언 '아래'로 왔기 때문에 NameError 없이 완벽하게 조인됩니다!
 df_meta = parse_sparc_table1(table1_data)
 df_curves = parse_sparc_data_dynamic_fixed(datafile2_data)
 df = pd.merge(df_curves, df_meta, on='galaxy', how='left')
 
-# -------------------------------------------------------------------------
-# [3단계] TDT 물리 엔진 차원 정합 보정 및 동적 연산 구역 (변수명 완벽 싱크)
-# -------------------------------------------------------------------------
-# 30개의 수론적 리만 앵커를 탑재한 초정밀 코어 인스턴스 생성
+
+# =========================================================================
+# [3단계] TDT 물리 엔진 차원 정합 보정 및 동적 연산 구역 (화면 하단 연동)
+# =========================================================================
 core = TDTCore(num_anchors=30)
 
 radius_vals = df['radius'].values
 mass_vals = df['baryon_mass'].values
 v_baryon_vals = df['v_baryon'].values
 
-# 우리가 2단계 클래스 내부에 완벽히 들여쓰기 교정해 둔 진짜 '지능형 질량 가변 공식' 호출
+# 물리 코어 엔진 함수 공식 정식 실행
 v_tension = core.calculate_galactic_tension(radius_vals, mass_vals)
-
-# 최종 TDT 합성 예측 속도 산출 (바리온 속도 제곱 + 인장력 속도 제곱의 제곱근)
 v_total_bare = np.sqrt(v_baryon_vals**2 + v_tension**2)
 
-# 🎯 클래스 내부의 calculate_dynamic_friction과 이름을 완벽 매칭하고,
-# 수치 폭발을 막기 위해 가산 합성 공식 구조로 연산을 안전하게 집행합니다.
+# 마찰력 계수 호출 및 최종 가산 구조 반영 (v_total_bare에 연동)
 dynamic_fluid_friction = core.calculate_dynamic_friction(radius_vals, mass_vals)
 df['v_tdt_predicted'] = v_total_bare + (1.0 + dynamic_fluid_friction)
 
-# 🎯 [오차 발산 방어선 구축]: 관측치가 0.1 이하로 극도로 작아 오차가 비정상적으로 튀는 이상치 방어
+# 최종 오차율 정산 (이상치 방어 마스크)
 valid_mask = df['v_obs'] > 0.1
 final_errors = np.abs(df.loc[valid_mask, 'v_tdt_predicted'] - df.loc[valid_mask, 'v_obs']) / df.loc[valid_mask, 'v_obs'] * 100
 mean_universal_error = np.mean(final_errors)
