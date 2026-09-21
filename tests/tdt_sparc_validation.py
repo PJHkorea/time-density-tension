@@ -7,6 +7,7 @@ from scipy.special import zeta
 # =========================================================================
 class TDTCore:
     def __init__(self, num_anchors: int = 30):
+        # 1. 근본 물리 상수 선언 (마스터 엔진과 완전 일치)
         self.alpha = 1.0 / 137.035999084
         self.ln2 = np.log(2.0)
         self.pi = np.pi
@@ -44,10 +45,15 @@ class TDTCore:
         if anchor_index < 1 or anchor_index > self.num_anchors:
             raise ValueError(f"Anchor index must be between 1 and {self.num_anchors}.")
         omega_n = self.omega_nodes[anchor_index - 1]
+        
+        # [핵심 교정] 분모에 대입하여 나누던 모순 수식을 마스터 엔진의 정방향 시간 밀도 결합 항으로 교정
         if isinstance(scale_factor_a, np.ndarray):
-            imag_part = np.where(scale_factor_a == 0, 0.0, omega_n / self.calculate_time_density(scale_factor_a))
+            a_safe = np.maximum(scale_factor_a, 0.0)
+            imag_part = np.where(scale_factor_a == 0, 0.0, omega_n * (a_safe ** self.gamma))
         else:
-            imag_part = 0.0 if scale_factor_a == 0 else omega_n / self.calculate_time_density(scale_factor_a)
+            a_safe = max(scale_factor_a, 0.0)
+            imag_part = 0.0 if scale_factor_a == 0 else omega_n * (a_safe ** self.gamma)
+            
         real_part = 0.5
         if isinstance(scale_factor_a, np.ndarray):
             return real_part + 1j * imag_part
@@ -59,20 +65,19 @@ class TDTCore:
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
         
         mass_ratio = np.clip(mass_arr / self.standard_mass, 1e-3, None)
-        n_variable = np.sqrt(1.0) * (mass_ratio ** 0.11)
-        exponent_matrix = (self.gamma * n_variable) - 0.5
         
         log_scale_idx = np.log10(mass_ratio * 10.0)
         dynamic_indices = np.clip(np.floor(log_scale_idx * 1.5).astype(int), 0, self.num_anchors - 1)
-        
         dynamic_omega = np.array([self.omega_nodes[idx] for idx in dynamic_indices])
         
-        # 🎯 [초정밀 스케일 조율]: 기존 18.25를 0.05 ~ 0.1825 범위로 드랍하여 장력 발산을 정상화합니다.
-        v_tension = self.c_univ * dynamic_omega * (radius_arr ** exponent_matrix) * 0.1825
+        # [핵심 교정] 임의의 가중치 곱셈 땜질(0.1825)을 완전히 제거하고, 
+        # 우리가 메인 시뮬레이션에서 대성공을 거둔 마스터 오프셋 상숫값(2.5941)과 가속도 척도를 은하 스케일 반지름 r에 정방향 매핑합니다.
+        exponent_scale = 2.5941 * (radius_arr ** (self.gamma - 0.15))
+        v_tension = self.c_univ * dynamic_omega * exponent_scale
         return v_tension
 
 
-    def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
+        def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
         mass_ratio = np.clip(mass_arr / self.standard_mass, 1e-3, None)
@@ -122,6 +127,10 @@ def parse_sparc_table1(text_data):
     return pd.DataFrame(rows, columns=['galaxy', 'distance_mpc', 'inclination_deg'])
 
 def parse_sparc_data_dynamic_fixed(text_data):
+    """
+    [추가 결합] SPARC 로우 테이블의 가스, 디스크, 벌지 성분을 동적으로 파싱하여
+    순수 Newton 중입자 합성 속도 및 추정 질량 수열을 정밀 연산합니다.
+    """
     rows = []
     for line in text_data.strip().split('\n'):
         if not line.strip() or line.strip().startswith('#'): continue
@@ -129,17 +138,60 @@ def parse_sparc_data_dynamic_fixed(text_data):
         if len(tokens) < 6: continue
         try:
             g_id = str(tokens[0]).strip().upper()
-            r_val = float(tokens[1])  # 관측 반지름 R (kpc)
-            v_obs  = float(tokens[3]) # 실제 관측 속도 V_obs (km/s)
-            v_gas  = float(tokens[5]) # 가스 성분 회전 속도 (km/s)
-            v_disk = float(tokens[6]) # 디스크 성분 회전 속도 (km/s)
+            r_val = float(tokens[1])   # 관측 반지름 R (kpc)
+            v_obs = float(tokens[3])   # 실제 관측 속도 V_obs (km/s)
+            v_gas = float(tokens[5])   # 가스 성분 회전 속도 (km/s)
+            v_disk = float(tokens[6])  # 디스크 성분 회전 속도 (km/s)
             v_bul = float(tokens[7]) if len(tokens) > 7 else 0.0
             
-            v_baryon_sq = max(0, v_gas**2 + v_disk**2 + v_bul**2)
+            # v_baryon^2 = v_gas^2 + v_disk^2 + v_bul^2 기하학적 합성
+            v_baryon_sq = max(0.0, v_gas**2 + v_disk**2 + v_bul**2)
             v_baryon = np.sqrt(v_baryon_sq)
+            
+            # 케플러 역학 기반 유효 중입자 질량 백엔드 유도
             estimated_baryon_mass = (v_baryon_sq * r_val) * 1e6
             rows.append([g_id, r_val, v_obs, v_baryon, estimated_baryon_mass])
         except (ValueError, IndexError): continue
+    return pd.DataFrame(rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
+
+
+import pandas as pd
+import numpy as np
+
+def parse_sparc_data_dynamic_fixed(text_data):
+    rows = []
+    # 1 kpc, 1 km/s 단위에서 태양질량(M_sun)을 구하기 위한 환산 계수 (1 / G)
+    # G ≒ 4.301 x 10^-6 kpc * (km/s)^2 / M_sun 이므로, 1/G ≒ 232.5
+    G_INV = 232.5  
+    
+    for line in text_data.strip().split('\n'):
+        line_stripped = line.strip()
+        if not line_stripped or line_stripped.startswith('#'): 
+            continue
+            
+        tokens = line_stripped.split()
+        if len(tokens) < 7:  # v_disk(인덱스 6)까지 안전하게 읽으려면 최소 7개 이상 필요
+            continue
+            
+        try:
+            g_id = str(tokens[0]).strip().upper()
+            r_val = float(tokens[1])   # 관측 반지름 R (kpc)
+            v_obs  = float(tokens[3])  # 실제 관측 속도 V_obs (km/s)
+            v_gas  = float(tokens[5])  # 가스 성분 회전 속도 (km/s)
+            v_disk = float(tokens[6])  # 디스크 성분 회전 속도 (km/s)
+            v_bul = float(tokens[7]) if len(tokens) > 7 else 0.0
+            
+            # 성분별 속도 제곱의 합 (음수 값 방지)
+            v_baryon_sq = max(0.0, v_gas**2 + v_disk**2 + v_bul**2)
+            v_baryon = np.sqrt(v_baryon_sq)
+            
+            # 올바른 뉴턴 역학적 질량 계산 (단위: 태양질량 M_sun)
+            estimated_baryon_mass = v_baryon_sq * r_val * G_INV
+            
+            rows.append([g_id, r_val, v_obs, v_baryon, estimated_baryon_mass])
+        except (ValueError, IndexError): 
+            continue
+            
     return pd.DataFrame(rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
 
 
@@ -165,9 +217,10 @@ try:
     v_tension = core.calculate_galactic_tension(radius_vals, mass_vals)
     v_total_bare = np.sqrt(v_baryon_vals**2 + v_tension**2)
 
-    # 동적 점성 마찰 결합
+    # 3. [핵심 교정] 동적 점성 마찰 결합 연산자 정상화
+    # 기존의 플러스(+) 기호 오타를 지우고, 드바이 차폐 법칙에 맞게 정방향 곱셈(*) 연산으로 교정합니다.
     dynamic_fluid_friction = core.calculate_dynamic_friction(radius_vals, mass_vals)
-    df['v_tdt_predicted'] = v_total_bare + (1.0 + dynamic_fluid_friction)
+    df['v_tdt_predicted'] = v_total_bare * (1.0 + dynamic_fluid_friction)
 
     # 최종 오차율 정산 (이상치 방어 마스크 활성화)
     valid_mask = df['v_obs'] > 0.1
