@@ -1,13 +1,3 @@
-"""
-TDT (Time-Density Tension) Cosmology - Numerical Conservation Unit Tests
-Filename: tests/test_conservation.py
-
-This module operationalizes automated unit testing for the core mathematical and 
-physical invariants of TDT theory using the pytest framework. It rigorously verifies 
-the closed-loop energy-momentum tensor conservation inside the black hole horizon 
-and checks the asymptotic reduction limits back to classical Einsteinian general relativity.
-"""
-
 import os
 import sys
 import pytest
@@ -24,11 +14,11 @@ def tdt_engine():
     return TDTCore(num_anchors=30)
 
 def test_interior_covariant_conservation(tdt_engine):
-    """
-    [물리 법칙 검증 01]
-    블랙홀 내부(r < Rs) 수축 상태 공간에서 복소 시간 장력 텐서의 공변 보존 법칙을 검증합니다.
-    유도 수식: \nabla_{\mu}\mathcal{T}^{\mu\nu} = H_BH * \rho_Imag * [2 - 2\gamma] = 0 (for \gamma -> 1)
-    """
+    
+    # [물리 법칙 검증 01]
+    # 블랙홀 내부(r < Rs) 수축 상태 공간에서 복소 시간 장력 텐서의 공변 보존 법칙을 검증합니다.
+    # 유도 수식: "\nabla_{\mu}\mathcal{T}^{\mu\nu} = H_BH * \rho_Imag * [2 - 2\gamma] = 0 (for \gamma -> 1)"
+    
     effective_gamma = 1.0
     
     h_bh_samples = np.array([-10.0, -100.0, -500.5, -1424.68])
@@ -53,8 +43,8 @@ def test_einstein_gr_reduction_limit(tdt_engine):
     # 제1닻줄(제1영점)에 대한 해밀토니안 궤적 연산
     h_anchor_1 = tdt_engine.get_anchoring_hamiltonian(a_present, anchor_index=1)
     
-    # a = 1 일 때 기저 시간 밀도는 rho_0 * 1^(-gamma) = 1.0 평형이므로,
-    # H_Anchor = 0.5 + i * Omega_1 이 되어야 함
+    # "a = 1 일 때 기저 시간 밀도는 rho_0 * 1^(-gamma) = 1.0" 평형이므로,
+    # "H_Anchor = 0.5 + i * Omega_1" 이 되어야 함
     expected_real = 0.5
     expected_imag = tdt_engine.omega_nodes[0]  # 리만 제타 제1영점 허수부 (14.134725...)
     
@@ -76,4 +66,3 @@ def test_baryon_phase_shift_bounds(tdt_engine):
     # 우주론 정합 상수의 불변성을 소수점 6째 자리까지 엄격히 통제 검증
     assert np.isclose(tdt_engine.delta_phase, expected_delta, atol=1e-6), \
         f"Invariant breakage: delta_phase is {tdt_engine.delta_phase}, expected {expected_delta}"
-
