@@ -140,3 +140,6 @@ This mathematically rigorous derivation proves that square-root damping is a dir
 # Exact implementation from src/tdt_core.py
 scaling_resistance = a_recomb ** (-self.gamma * np.sqrt(n))
 ```
+
+---
+*Developed under the collaboration of Human Conscious Input and Machine Mathematical Reflection.*
