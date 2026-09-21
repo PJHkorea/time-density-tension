@@ -71,7 +71,7 @@ class TDTCore:
             return real_part + 1j * imag_part
         return complex(real_part, imag_part)
 
-      def predict_cmb_multipole(self, n: int) -> float:
+    def predict_cmb_multipole(self, n: int) -> float:
         """
         공식: l_n = C_univ * Ω_n * a_recomb^(-γ * √n) * (1 + δ_phase)^(n-1)
         TDT 양자화 규칙 기반 초기 우주배경복사 고차 피크 위치를 예측합니다.
@@ -144,6 +144,7 @@ try:
     print(f"-> 고착화된 제1 리만 앵커 좌표 (Ω₁): {core.omega_nodes[0]:.4f}")
 except Exception as e:
     print(f"❌ 엔진 등록 에러: {e}")
+
 
 
 import numpy as np
