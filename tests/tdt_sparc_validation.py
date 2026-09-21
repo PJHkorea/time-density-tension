@@ -74,8 +74,8 @@ class TDTCore:
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
         
-        # [교정 1] 은하 질량 스케일을 현실적인 10^8 M_sun 단위로 마스터 스케일링
-        mass_ratio = mass_arr / 1.0e8  
+        # [교정 1] 은하 질량 스케일을 현실적인 10^8 M_sun 단위로 마스터 스케일링 (0 나누기 방지 세이프가드 가동)
+        mass_ratio = np.clip(mass_arr / 1.0e8, 1e-10, None)
         
         # [수치 스무딩 교정] 정수형 floor 대신 연속형 인덱스 가중치를 계산하여 계단식 속도 튀는 현상 방지
         log_scale_idx = np.log10(np.clip(mass_ratio, 1e-3, None) * 10.0)
@@ -94,9 +94,8 @@ class TDTCore:
         k_gal = 0.0093415 
         
         # 💡 [핵심 교정 3] 날것의 kpc 반지름 대신, 은하 규모의 영향권 반경(kpc 스케일 고유 척도)으로 무차원 정규화
-        # 은하의 특성 반경 R_0 스케일을 질량 법칙(조량 관계)에 따라 동적으로 가해 무차원 r/R_0 매핑 유도
         characteristic_radius = 2.5 * (mass_ratio ** 0.33)
-        normalized_radius = radius_arr / characteristic_radius
+        normalized_radius = np.clip(radius_arr / characteristic_radius, 1e-10, None) # 0의 거듭제곱 오류 방지
         
         # 정규화된 경계면 위에서 위상 기하학적 인장력 변환 (Phase 01 법칙 복원)
         exponent_scale = 2.5941 * (normalized_radius ** (self.gamma - 0.15))
@@ -105,13 +104,39 @@ class TDTCore:
         v_tension = k_gal * dynamic_omega * exponent_scale
         return v_tension
 
+
     def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
+        """
+        [완벽 대칭 교정] 왜소 은하 구역의 가스 난류 부풀림을 다운사이징하고, 
+        거대 은하 구역에서는 소멸하여 장력 Floor를 온전히 보존하는 동적 드바이 차폐막 연산자.
+        """
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
-        mass_ratio = np.clip(mass_arr / self.standard_mass, 1e-3, None)
-        dynamic_delta = self.delta_phase * (mass_ratio ** -0.05)
-        dynamic_decay = self.friction_decay_rate * (mass_ratio ** 0.12)
-        return dynamic_delta * np.exp(-radius_arr / dynamic_decay)
+        
+        # 1. 기하면 장력 엔진과 정확히 일치하는 은하 체급별 특성 반경(R_0) 및 무차원 r/R_0 유도
+        mass_ratio = mass_arr / 1.0e8
+        characteristic_radius = 2.5 * (mass_ratio ** 0.33)
+        normalized_radius = radius_arr / characteristic_radius
+        
+        # 2. Phase 03 문서에 명시된 동적 드바이 감쇄 차폐막 D(r) 스위치 공식 구현
+        # r 이 R_0 보다 극도로 작은 왜소 은하 코어 영역(0.16 kpc 등)에서 감쇄력이 최대가 되도록 셋업
+        debye_scale = 1.25  # 드바이 감쇄 임계 침투 깊이 척도
+        gaussian_decay = np.exp(- (normalized_radius / debye_scale) ** 2)
+        
+        # 3. 쌍곡탄젠트(tanh) 유체 마찰 스위치 활성화 (미시 영역에서 켜지고, 외곽에서 0으로 차단)
+        # 왜소 은하 내부의 가스 난류 비선형 압축 파동을 수학적으로 흡수하는 버퍼
+        core_barrier = 0.45
+        tanh_switch = 0.5 * (1.0 + np.tanh((core_barrier - normalized_radius) / 0.2))
+        
+        # 4. 결합된 글로벌 점성 마찰 계수 산출 (중입자 위상 편이 delta_phase 상수를 기저 배율로 락인)
+        # 기저 점성 마찰 상수인 0.039513을 시스템의 마스터 댐핑 진폭으로 결합합니다.
+        base_damping = self.delta_phase # Phase 02 사전 유도치 0.039513
+        
+        # 최종 무차원 동적 유체 마찰 감쇄 배열 산출
+        dynamic_fluid_friction = base_damping * gaussian_decay * tanh_switch
+        
+        return np.clip(dynamic_fluid_friction, 0.0, 0.9)
+
 
 # =========================================================================
 # [구역 2] SPARC 은하 데이터 로드 및 고정밀 유연 파서 정의 (리팩토링 완료)
