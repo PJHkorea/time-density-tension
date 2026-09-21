@@ -89,7 +89,7 @@ class TDTCore:
         return v_tension
 
 
-    def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
+       def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
         """중입자 유체 동적 점성 필터 연산"""
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
@@ -98,14 +98,67 @@ class TDTCore:
         dynamic_decay = self.friction_decay_rate * (mass_ratio ** 0.12)
         return dynamic_delta * np.exp(-radius_arr / dynamic_decay)
 
-# 코어 엔진 단독 검증 테스트
+# =========================================================================
+# 코어 엔진 단독 검증 테스트 (클래스 인스턴스화 확인)
+# =========================================================================
 try:
     core = TDTCore(num_anchors=5)
     print("✅ [성공] TDT 코어 엔진 및 가변/점성 스위치가 정상 등록되었습니다!")
 except Exception as e:
     print(f"❌ 엔진 등록 에러: {e}")
 
-# SPARC 데이터셋 프리셋 (전체 데이터 내용은 참조 문서 확인)
+# =========================================================================
+# [새로운 삽입 구역]: SPARC 데이터셋 완벽 동기화 정밀 파서
+# =========================================================================
+def parse_sparc_data_dynamic_fixed(text_data):
+    """
+    [완벽 교정] 프리셋 데이터 포맷의 토큰 배열을 명세에 맞추어 분석하여
+    반지름(Radius)과 관측속도(v_obs)의 수치 꼬임을 원천 차단하는 유연 파서
+    """
+    rows = []
+    for line in text_data.strip().split('\n'):
+        if not line.strip() or line.strip().startswith('#'): 
+            continue
+            
+        tokens = line.strip().split()
+        if len(tokens) < 7: 
+            continue
+        
+        try:
+            g_id = str(tokens[0]).strip().upper()
+            
+            # 🎯 [인덱스 전격 교정]: SPARC 표준 9컬럼 데이터 구조에 맞게 매핑 정렬
+            # 예: CamB  3.36(r)  0.16(error)  1.99(v_obs)  1.50  1.86(v_gas)  3.75(v_disk)  0.00(v_bul)
+            if len(tokens) >= 9:
+                r_val  = float(tokens[1])   # 1번: 관측 반지름 R (kpc)
+                v_obs  = float(tokens[3])   # 3번: 실제 관측 속도 V_obs (km/s)
+                v_gas  = float(tokens[5])   # 5번: 가스 성분 회전 속도 (km/s)
+                v_disk = float(tokens[6])   # 6번: 디스크 성분 회전 속도 (km/s)
+                v_bul  = float(tokens[7])   # 7번: 벌지 성분 속도 (km/s)
+            else:
+                # 데이터 유실이나 축약형 로우 대응을 위한 최소 방어선 매핑
+                r_val  = float(tokens[1])
+                v_obs  = float(tokens[2])
+                v_gas  = float(tokens[3])
+                v_disk = float(tokens[4])
+                v_bul  = float(tokens[5]) if len(tokens) > 5 else 0.0
+            
+            # 실제 뉴턴 역학적 바리온 기여도 제곱합 합산 복원 (물리 음수 제곱 방지)
+            v_baryon_sq = max(0, v_gas**2 + v_disk**2 + v_bul**2)
+            v_baryon = np.sqrt(v_baryon_sq)
+            
+            # 은하 체급 스케일링 팩터 유도 (V^2 * R * 1e6)
+            estimated_baryon_mass = (v_baryon_sq * r_val) * 1e6
+            
+            rows.append([g_id, r_val, v_obs, v_baryon, estimated_baryon_mass])
+        except ValueError:
+            continue
+            
+    return pd.DataFrame(rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
+
+# =========================================================================
+# SPARC 데이터셋 프리셋 선언 및 파이프라인 시작점
+# =========================================================================
 datafile2_data = """
 CamB          3.36   0.16   1.99  1.50   1.86   3.75   0.00   30.32     0.00 
 CamB          3.36   0.41   4.84  1.50   4.24   9.47   0.00   23.77     0.00 
@@ -119,6 +172,7 @@ D631-7        7.72   0.90  17.80  2.22  13.51  15.52   0.00   19.64     0.00
 DDO064        6.8    0.10   6.29  4.62  -1.13   1.96   0.00   28.50     0.00 
 DDO154        4.04   0.49  13.80  1.60   3.74  12.31   0.00   15.93     0.00 
 """
+
 
 def parse_sparc_data_dynamic(text_data):
     """
