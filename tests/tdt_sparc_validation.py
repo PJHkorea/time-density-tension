@@ -61,7 +61,7 @@ class TDTCore:
             return real_part + 1j * imag_part
         return complex(real_part, imag_part)
 
-     def calculate_galactic_tension(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
+    def calculate_galactic_tension(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
         """
         [버그 교정 완료] self.omega_nodes 변수 참조 충돌을 완벽히 소거하여
         175개 실제 은하 데이터가 차원 붕괴 없이 1:1로 매핑 연산되도록 정형화합니다.
