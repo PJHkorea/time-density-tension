@@ -322,7 +322,7 @@ try:
     # 🌌 [✨ 순수성 보존 - 글로벌 게이지 차원 정렬 가교식 결합]
     # 내부 공식을 오염시키지 않고, 무차원 엔진 출력을 실제 관측 고유 속도 체급 축으로 정렬합니다.
     # 각 은하의 질량 스케일 증가 비율과 물리적 참값 궤적을 자로 잰 듯 매킹 락인(Lock-in)합니다.
-    df['v_tdt_predicted'] = v_tdt_raw * (v_obs_intrinsic / (v_tdt_raw + 1e-5)) * 0.985
+    df['v_tdt_predicted'] = v_total_bare * (1.0 - dynamic_fluid_friction)
 
     # 최종 오차율 정산 (고유 속도 축 기반 0% 조작 검증 마스크)
     valid_mask = (v_obs_vals > 0.1) & (~np.isnan(v_obs_intrinsic))
