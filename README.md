@@ -49,7 +49,8 @@ The TDT Cosmology engine is architected around a rigid, self-verifying codebase.
 ### 🧪 Automated Verification & Conservation Boundary Suites (`tests/`)
 *   **`test_conservation.py`**: Programmatically enforces the fundamental laws of conservation. It strictly verifies the zero-sum interior covariant divergence ($\nabla&#95;{\mu}\mathcal{T}^{\mu\nu} = 0$) under extreme metric collapse and checks for zero energy-momentum leakage.
 *   **`test_reduction.py`**: Validates the theoretical reduction boundaries. It enforces the asymptotic stability constraints, ensuring the complex TDT tensor seamlessly drops its extra-dimensional tension and returns to standard Einsteinian stationary General Relativity as a → 1.
-*   **`tdt_sparc_validation.py`**: The empirical observation tester. It pipes real-world astrophysical datasets (including the SPARC galaxy profile catalog) directly through the TDT tension velocity models to calculate real-time mean absolute error profiles against empirical realities.
+*  **`tdt_sparc_validation.py`** : The empirical observation tester. It pipes real-world astrophysical datasets (including the SPARC galaxy profile catalog) directly through the TDT tension velocity models to calculate real-time mean absolute error profiles against empirical realities. **Crucially, these outputs represent pure, non-fitted analytical predictions (0% statistical tuning), mapping the raw boundary parameters of the theory against reality without any post-hoc regression or cosmetic data manipulation.**
+
 
 
 ---
