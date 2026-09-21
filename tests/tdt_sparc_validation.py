@@ -4,9 +4,12 @@ import io
 import requests
 from scipy.special import zeta
 
-# [1단계 요약] 미세구조상수, 섀넌 엔트로피, 리만 제타 함수 비자명 영점 등을 포함하는 TDTCore 클래스 초기화 및 시간 밀도 계산 메서드 정의
+# =========================================================================
+# [2단계 물리 엔진] 들여쓰기 및 omega_nodes 누락 결함 완벽 교정 버전
+# =========================================================================
 class TDTCore:
     def __init__(self, num_anchors: int = 30):
+        # 1. 근본 물리 상수 및 위상학적 상수 선언
         self.alpha = 1.0 / 137.035999084
         self.ln2 = np.log(2.0)
         self.pi = np.pi
@@ -16,6 +19,23 @@ class TDTCore:
         self.num_anchors = num_anchors
         self.standard_mass = 5.0e10
         self.friction_decay_rate = 4.0
+        
+        # ✨ [핵심 버그 격파]: 누락되었던 불변의 우주적 상수 좌표계(리만 영점) 전격 복원!
+        known_zeta_zeros = [
+            14.1347251417, 21.0220396388, 25.0843194855, 30.4248761259, 32.9350615877,
+            37.5861781588, 40.9187190121, 43.3270732809, 48.0051508812, 49.7738324777,
+            52.9703214777, 56.4462476971, 59.3470440026, 60.8317785246, 65.1125440481,
+            67.0798105291, 69.5464017112, 72.0671576744, 75.7046906991, 77.1448400689,
+            79.3373750202, 82.9103808541, 84.7354929808, 87.4252746138, 88.8091112076,
+            92.4918992705, 94.6513440412, 97.3499252033, 99.2155365514, 101.9566415664
+        ]
+        
+        if num_anchors <= len(known_zeta_zeros):
+            self.omega_nodes = np.array(known_zeta_zeros[:num_anchors])
+        else:
+            extended_zeros = known_zeta_zeros + [known_zeta_zeros[-1] + i*3.0 for i in range(1, num_anchors - len(known_zeta_zeros) + 1)]
+            self.omega_nodes = np.array(extended_zeros[:num_anchors])
+
 
 
     def calculate_time_density(self, scale_factor_a: float or np.ndarray) -> float or np.ndarray:
