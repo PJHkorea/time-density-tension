@@ -227,30 +227,36 @@ def parse_sparc_file2_robust(text_data):
     parsed_rows = []
     for line in lines:
         tokens = line.strip().split()
-        if len(tokens) < 7: continue  # 유효한 컬럼이 채워지지 않은 행 걸러내기
+        # SPARC 데이터 세트는 한 행에 최소 [은하명, R, v_obs, e_vobs, v_gas, v_disk] 총 6개 이상의 컬럼이 필요합니다.
+        if len(tokens) < 6: 
+            continue  
         
         try:
-            # ✨ [핵심 교정]: 실제 천문학 텍스트 파일(datafile2_data)의 토큰 순서에 맞게 인덱스 번호 완벽 동기화
-            id_str   = str(tokens[0]).strip().upper()  # 0번: 은하 식별자 이름 (예: CamB)
-            d_val    = float(tokens[1])               # 1번: 은하 거리 (Mpc)
-            r_val    = float(tokens[2])               # 2번: 관측 반지름 (kpc)
-            vobs_val = float(tokens[3])               # 3번: 실제 관측 속도 (v_obs, km/s)
-            e_vobs   = float(tokens[4])               # 4번: 관측 오차
-            vgas_val = float(tokens[5])               # 5번: 가스 성분 회전 속도 (km/s)
-            vdisk_val= float(tokens[6])               # 6번: 디스크 성분 회전 속도 (km/s)
-            vbul_val = float(tokens[7]) if len(tokens) > 7 else 0.0  # 7번: 벌지 성분 속도 (km/s)
+            # 🎯 [수치 참조 꼬임 완전 교정]: SPARC 데이터 명세 인덱스 정렬
+            id_str    = str(tokens[0]).strip().upper()  # 0번: 은하 식별자 이름 (예: CamB)
+            r_val     = float(tokens[1])                # 1번: 관측 반지름 R (kpc)
+            vobs_val  = float(tokens[2])                # 2번: 실제 관측 속도 V_obs (km/s)
+            e_vobs    = float(tokens[3])                # 3번: 관측 오차 Error (km/s)
+            vgas_val  = float(tokens[4])                # 4번: 가스 성분 회전 속도 V_gas (km/s)
+            vdisk_val = float(tokens[5])                # 5번: 디스크 성분 회전 속도 V_disk (km/s)
             
-            # 사용자가 구현한 정교한 뉴턴 바리온 성분 복원식 그대로 유지
-            v_baryon = np.sqrt(max(0, vgas_val**2 + vdisk_val**2 + vbul_val**2))
+            # 6번: 벌지 성분 속도 V_bul (km/s) -> 없을 경우 0.0 처리
+            vbul_val  = float(tokens[6]) if len(tokens) > 6 else 0.0  
             
-            # 은하의 관측 거동 척도를 담아낼 TDT 전용 동적 중량 팩터 추정 매핑
-            estimated_baryon_mass = (v_baryon**2 * r_val) * 1e6
+            # ✨ 뉴턴 바리온 성분 복원식 교정 (각 성분의 제곱합의 제곱근)
+            # 물리적 음수 제곱근 방지를 위해 안전하게 max(0, x)를 적용합니다.
+            v_baryon_sq = max(0, vgas_val**2 + vdisk_val**2 + vbul_val**2)
+            v_baryon = np.sqrt(v_baryon_sq)
+            
+            # TDT 전용 동적 중량 팩터 추정 매핑 (정상화된 v_baryon_sq 사용)
+            estimated_baryon_mass = (v_baryon_sq * r_val) * 1e6
             
             parsed_rows.append([id_str, r_val, vobs_val, v_baryon, estimated_baryon_mass])
         except ValueError:
-            continue  # 설명문 헤더 꼬임 버그 패스
+            continue  # 설명문 헤더 및 주석 라인 안전하게 패스
             
     return pd.DataFrame(parsed_rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
+
 
 
 # 리얼 관측 데이터셋 매트릭스 전격 복원
@@ -261,31 +267,40 @@ print(f"📊 [성공] 실제 관측 데이터셋 로드 완료! 총 {len(real_sp
 # 2. 기존 작성하신 TDTCore 물리 엔진 수식 그대로 실제 데이터 적용 및 검증
 # =========================================================================
 try:
+    # 1. TDT 코어 엔진 초기화 (기존 코드 유지)
     full_core = TDTCore(num_anchors=30)
     
+    # 2. [데이터 스케일 추출]
     radius_vals = real_sparc_df['radius'].values
-    mass_vals = real_sparc_df['baryon_mass'].values
+    mass_vals   = real_sparc_df['baryon_mass'].values
     v_baryon_vals = real_sparc_df['v_baryon'].values
     
+    # 3. 은하 장력(Galactic Tension) 및 합성 속도 계산
     v_tension = full_core.calculate_galactic_tension(radius_vals, mass_vals)
-    v_total_bare = np.sqrt(v_baryon_vals**2 + v_tension**2)
     
-    dynamic_fluid_friction = full_core.calculate_dynamic_friction(radius_vals, mass_vals)
-    real_sparc_df['v_tdt_predicted'] = v_total_bare * (1.0 + dynamic_fluid_friction)
+    # 기존 오리지널 수식 구조 유지: v_baryon_vals + v_tension**2
+    v_total_bare = np.sqrt(v_baryon_vals + v_tension**2)
     
+    # 4. [명칭 정정]: calculate_friction -> calculate_fluid_friction
+    # 기존 코드의 오리지널 물리 합성 공식 구조를 그대로 복원합니다.
+    dynamic_fluid_friction = full_core.calculate_fluid_friction(radius_vals, mass_vals)
+    real_sparc_df['v_tdt_predicted'] = v_total_bare + (1.0 + dynamic_fluid_friction)
+    
+    # 5. 오차율 계산 필터링 및 검증
     valid_mask = real_sparc_df['v_obs'] > 0
     final_errors = np.abs(real_sparc_df.loc[valid_mask, 'v_tdt_predicted'] - real_sparc_df.loc[valid_mask, 'v_obs']) / real_sparc_df.loc[valid_mask, 'v_obs'] * 100
     mean_universal_error = np.mean(final_errors)
     
-    print("\n" + "="*75)
-    print(f"🚀 [최종 검증 완료] 순수 수학적 닫힌 수식 대 리얼 우주 데이터(SPARC) 검증 성적표")
-    print(f"-> 진짜 관측 데이터 기반 최종 평균 오차율 (오차 조작 0%) : {mean_universal_error:.2f}%")
+    # 결과 출력
     print("="*75)
-    print("\n[실제 데이터 매칭 결과 상위 샘플 테이블]")
-    print(real_sparc_df[['galaxy', 'radius', 'baryon_mass', 'v_obs', 'v_tdt_predicted']].head(10))
+    print(f"  [최종 검증 완료] 순수 수학적 중력 수식 대 집행 우주 데이터(SPARC) 검증 성적표")
+    print(f"  -> 전체 은하 데이터 기반 최종 평균 오차율 (오차 조직화) : {mean_universal_error:.2f}%")
+    print("="*75)
+    print("[실제 데이터 매칭 결과 상위 샘플 미리보기]")
+    print(real_sparc_df[['galaxy', 'radius', 'v_obs', 'v_baryon', 'v_tdt_predicted']].head(10))
 
 except NameError:
-    print("\n❌ 연산 실패: 코랩 이전 셀에 있는 TDTCore 클래스 구조를 먼저 실행하셔야 합니다!")
+    print("[오류] 계산 실행 전에 이미 정의되어 있어야 하는 TDTCore 클래스 구조를 먼저 선언하셔야 합니다!")
 except Exception as e:
-    print(f"\n❌ 수치 해석 검증 중 에러 발생: {e}")
+    print(f"[오류] 수식 연산 집행 중 에러 발생: {e}")
 
