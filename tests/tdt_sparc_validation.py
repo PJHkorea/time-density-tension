@@ -77,7 +77,7 @@ class TDTCore:
         return v_tension
 
 
-        def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
+    def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
         mass_ratio = np.clip(mass_arr / self.standard_mass, 1e-3, None)
