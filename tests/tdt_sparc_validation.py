@@ -235,11 +235,11 @@ try:
     mean_universal_error = np.mean(final_errors)
 
     print("\n" + "="* 75)
-    print(f"🎉 [대성공] TDT 가변성 엔진 대 리얼 우주 데이터(SPARC) 단위계 최종 정합 완료")
-    print(f"-> 진짜 관측 데이터 기반 최종 평균 오차율 (오차 조작 0%) : {mean_universal_error:.4f}%")
+    print(f"🎉 [SUCCESS] TDT Dynamics Engine & Empirical Universe Data (SPARC) Framework Aligned")
+    print(f"-> Empirical Observation-Based Mean Absolute Error (0% Manipulation) : {mean_universal_error:.4f}%")
     print("="* 75)
-    print("\n[실제 데이터 매칭 테이블]")
+    print("\n[Empirical Data Alignment & Predictive Verification Table]")
     print(df[['galaxy', 'radius', 'v_obs', 'v_baryon', 'v_tdt_predicted']])
 
 except Exception as e:
-    print(f"❌ 최종 파이프라인 집행 중 오류 발생: {e}")
+    print(f"❌ Critical error occurred during final pipeline execution: {e}")
