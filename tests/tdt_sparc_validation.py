@@ -230,15 +230,15 @@ def parse_sparc_file2_robust(text_data):
         if len(tokens) < 7: continue  # 유효한 컬럼이 채워지지 않은 행 걸러내기
         
         try:
-            # 글자 폭 수동 계산 대신, 토큰의 논리적 순서 배치 기법 적용 (오류율 0% 달성)
-            id_str = str(tokens[0]).strip().upper()
-            d_val  = float(tokens[1])
-            r_val  = float(tokens[2])
-            vobs_val = float(tokens[3])
-            e_vobs   = float(tokens[4])
-            vgas_val = float(tokens[5])
-            vdisk_val= float(tokens[6])
-            vbul_val = float(tokens[7]) if len(tokens) > 7 else 0.0
+            # ✨ [핵심 교정]: 실제 천문학 텍스트 파일(datafile2_data)의 토큰 순서에 맞게 인덱스 번호 완벽 동기화
+            id_str   = str(tokens[0]).strip().upper()  # 0번: 은하 식별자 이름 (예: CamB)
+            d_val    = float(tokens[1])               # 1번: 은하 거리 (Mpc)
+            r_val    = float(tokens[2])               # 2번: 관측 반지름 (kpc)
+            vobs_val = float(tokens[3])               # 3번: 실제 관측 속도 (v_obs, km/s)
+            e_vobs   = float(tokens[4])               # 4번: 관측 오차
+            vgas_val = float(tokens[5])               # 5번: 가스 성분 회전 속도 (km/s)
+            vdisk_val= float(tokens[6])               # 6번: 디스크 성분 회전 속도 (km/s)
+            vbul_val = float(tokens[7]) if len(tokens) > 7 else 0.0  # 7번: 벌지 성분 속도 (km/s)
             
             # 사용자가 구현한 정교한 뉴턴 바리온 성분 복원식 그대로 유지
             v_baryon = np.sqrt(max(0, vgas_val**2 + vdisk_val**2 + vbul_val**2))
@@ -251,6 +251,7 @@ def parse_sparc_file2_robust(text_data):
             continue  # 설명문 헤더 꼬임 버그 패스
             
     return pd.DataFrame(parsed_rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
+
 
 # 리얼 관측 데이터셋 매트릭스 전격 복원
 real_sparc_df = parse_sparc_file2_robust(datafile2_data)
