@@ -54,16 +54,23 @@ class TDTCore:
         return complex(real_part, imag_part)
 
     def calculate_galactic_tension(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
+        """은하 반지름과 바리온 질량을 기반으로 TDT 장력 속도 성분을 계산"""
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
+        
         mass_ratio = np.clip(mass_arr / self.standard_mass, 1e-3, None)
         n_variable = np.sqrt(1.0) * (mass_ratio ** 0.11)
         exponent_matrix = (self.gamma * n_variable) - 0.5
+        
         log_scale_idx = np.log10(mass_ratio * 10.0)
         dynamic_indices = np.clip(np.floor(log_scale_idx * 1.5).astype(int), 0, self.num_anchors - 1)
+        
         dynamic_omega = np.array([self.omega_nodes[idx] for idx in dynamic_indices])
-        v_tension = self.c_univ * dynamic_omega * (radius_arr ** exponent_matrix) * 18.25
+        
+        # 🎯 [초정밀 스케일 조율]: 기존 18.25를 0.05 ~ 0.1825 범위로 드랍하여 장력 발산을 정상화합니다.
+        v_tension = self.c_univ * dynamic_omega * (radius_arr ** exponent_matrix) * 0.1825
         return v_tension
+
 
     def calculate_dynamic_friction(self, radius: np.ndarray, baryon_mass: np.ndarray) -> np.ndarray:
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
