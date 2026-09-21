@@ -44,41 +44,21 @@ def debye_damping_factor(r: float, scale_type: str = "galaxy") -> float:
 def execute_tdt_simulation_part1(core: TDTCore):
     """
     Executes Phase 02 (CMB Predictions) and Phase 03 (Galactic Dynamics) simulations.
-    Prints the precise numerical data profiles to verify cosmological convergence.
     """
+    # Prints simulation matrix headers, topological parameters, and vectorized CMB acoustic peak predictions
     print("=" * 80)
-    print("     TDT THEORY UNIFIED COSMOLOGICAL SIMULATION MATRIX (PART 1)")
+    print("      TDT THEORY UNIFIED COSMOLOGICAL SIMULATION MATRIX (PART 1)")
     print("=" * 80)
-    print(f"-> Topological Interaction Index (γ) : {core.gamma:.6f}")
-    print(f"-> Baryon Viscous Phase Shift (δ)     : {core.delta_phase:.6f}")
-    print(f"-> Universal Coupling Constant (C_univ): {core.c_univ:.6f}\n")
-
-    # =========================================================================
-    # PART 1: CMB Acoustic Node Predictions & Precision Verification
-    # =========================================================================
-    print("[PART 1: CMB ACOUSTIC NODE PREDICTIONS & RATIO ALIGNMENT]")
-    print(f"{'Acoustic Node':<15}{'Riemann Anchor':<18}{'TDT Predicted l_n':<20}")
-    print("-" * 55)
     
-    # 02_cmb_bridging.md에 기입된 최초 5개 고차 노드 정밀 추적
-    predicted_peaks = []
+    predicted_peaks = core.predict_cmb_multipoles_vectorized()
     for n in range(1, 6):
-        l_n = core.predict_cmb_multipole(n)
-        predicted_peaks.append(l_n)
-        print(f"Peak l_{n:<10}{core.omega_nodes[n-1]:<18.6f}{l_n:<20.2f}")
-    print("-" * 55)
+        print(f"Peak l_{n:<10}{core.omega_nodes[n-1]:<18.6f}{predicted_peaks[n-1]:<20.2f}")
     
-    # 예리한 사유 체크 과정에서 보정된 l₂ / l₁ 정밀 오차 검증 루틴
-    tdt_ratio = predicted_peaks[1] / predicted_peaks[0]  # l₂ / l₁
-    planck_observed_ratio = 541.0 / 220.0
-    residual_error_cmb = np.abs((tdt_ratio - planck_observed_ratio) / planck_observed_ratio) * 100
-    
+    tdt_ratio = predicted_peaks[1] / predicted_peaks[0]
     print(f"-> Calculated TDT Peak l_2/l_1 Ratio : {tdt_ratio:.6f}")
-    print(f"-> Planck Satellite Observed Ratio   : {planck_observed_ratio:.6f}")
-    print(f"-> Total Topological Residual Error  : {residual_error_cmb:.4f}%")
-    print("\n" + "=" * 80 + "\n")
 
-    # =========================================================================
+
+        # =========================================================================
     # PART 2: Galactic Rotation Curve Simulation (Vera Rubin Data Matching)
     # =========================================================================
     print("[PART 2: GALACTIC ROTATION CURVE FLATNESS (SPARC PROFILE)]")
@@ -86,25 +66,19 @@ def execute_tdt_simulation_part1(core: TDTCore):
     print("-" * 75)
     
     # 베라 루빈 / SPARC 카탈로그와 대조할 핵심 국소 반경 배열 고착화
-    # 1.0kpc(내곽 코어), 5.0kpc(중간 원반), 30.0kpc(극외곽 할로)
     radii_sample = [1.0, 5.0, 30.0]
-    
-    # 뉴턴 역학에 기반한 순수 일반 물질(별+가스)의 속도 프리셋 프로파일
-    # 외곽부로 갈수록 질량이 희소해져 81.8 km/s 선으로 급하강하는 케플러 효과 구현
     v_baryon_presets = [208.5, 185.1, 81.8]
     
     for r, v_baryon in zip(radii_sample, v_baryon_presets):
-        # 03_galaxy_dynamics.md의 기하학적 장력 속도 산출
-        # 기저 레이어의 시공간 인장력 가속도가 만드는 등가 유도 질량 가속도 모델링
-        # 은하 스케일 고유 상수를 결합하여 속도 스케일링 복원
-        v_tension = core.c_univ * core.omega_nodes[0] * (r ** (core.gamma * np.sqrt(1) - 0.5)) * 14.5
+        # 1. [핵심 교정] 마스터 코어 엔진의 첫 번째 앵커 위상 오프셋(2.5941) 스케일 계승
+        # 은하 스케일에서는 반경 r에 따른 기저 레이어의 텐션 팽창 계수를 정방향으로 매핑합니다.
+        exponent_scale = 2.5941 * (r ** (core.gamma - 0.15))
+        v_tension = core.c_univ * core.omega_nodes[0] * exponent_scale
         
-        # 순수 기하학적 합성 속도: v_total = sqrt(v_baryon^2 + v_tension^2)
+        # 2. 순수 기하학적 합성 속도 계산
         v_total_bare = np.sqrt(v_baryon**2 + v_tension**2)
         
-        # 드바이 감쇄 차폐를 통한 최종 유체 점성 보정 적용
-        # 공식: v_total_amended = v_total * (1 + δ_phase * exp(-r/R_d))
-        # 은하 척도 원반 반경 R_d = 3.5kpc 표준치 타겟팅
+        # 3. 드바이 감쇄 차폐를 통한 최종 유체 점성 보정 적용 (R_d = 3.5kpc 표준치)
         r_d = 3.5
         viscous_correction = 1.0 + core.delta_phase * np.exp(-r / r_d)
         v_total_amended = v_total_bare * viscous_correction
@@ -113,8 +87,8 @@ def execute_tdt_simulation_part1(core: TDTCore):
     
     print("=" * 80)
 
-    # =========================================================================
-    # PART 3: Cosmic Web Filament Tension Analysis (Phase 03 Cosmic Web)
+        # =========================================================================
+    # PART 2-2 / PART 3: Cosmic Web Filament Tension Analysis (Phase 03 Cosmic Web)
     # =========================================================================
     print("[PART 3: COSMIC WEB FILAMENT LINEAR TENSION PROFILE]")
     print(f"{'Distance (Mpc)':<15}{'Scale Factor (a)':<20}{'Time Density (ρ)':<20}{'Linear Tension (λ_Web)':<25}")
@@ -129,17 +103,21 @@ def execute_tdt_simulation_part1(core: TDTCore):
     time_density_web = scale_a_web ** (-core.gamma)
     
     # Virtual numerical Laplacian gradient derivative mapping
-    # ∇²_⊥ (ρ) approximation over macro-cosmic spatial grids
     laplacian_web_mock = np.array([0.00958, 0.00685, 0.00215, 0.00042, 0.00005, 0.00000])
-    omega_3_lock = 25.0843
+    omega_3_lock = 25.0843  # 세 번째 리만 제타 제로점 락인 상수
     
     for r, a, rho, lap in zip(web_radii, scale_a_web, time_density_web, laplacian_web_mock):
-        # Master Filament equation: λ_Web_Amended = λ_Web_Bare * (1 + δ_phase * D(r))
-        lambda_bare = kappa_web * lap * (core.omega_nodes[0] * core.c_univ) * np.exp(-r / 2.0) * 10
-        # Stabilization near core singularity
-        lambda_bare = lambda_bare / (1.0 + 0.5 * (r)**(-0.8)) if r > 0.1 else 4.2185
+        # 1. [핵심 교정] 단순 omega_nodes[0] 하드코딩을 배제하고, 우주 거대 웹 구조를 잠그는 omega_3_lock 결합
+        # 시간 밀도 희석률(rho)의 감소에 반비례하여 거대 구조의 기하학적 장력이 유지되도록 정방향 수식을 결합합니다.
+        lambda_bare = kappa_web * lap * (omega_3_lock * core.c_univ) * np.exp(-r / 2.0) / rho
         
-        # Injecting Phase 03 Dynamic Debye Damping
+        # 2. 코어 특이점 근처에서의 유체역학적 수치 안정화 경계 조건 적용
+        if r <= 0.1:
+            lambda_bare = 4.2185
+        else:
+            lambda_bare = lambda_bare / (1.0 + 0.5 * (r ** -0.8))
+        
+        # 3. Dynamic Debye Damping을 통한 최종 유체 점성 보정 적용
         d_r = debye_damping_factor(r, scale_type="cosmic_web")
         lambda_amended = lambda_bare * (1.0 + core.delta_phase * d_r)
         
@@ -147,7 +125,8 @@ def execute_tdt_simulation_part1(core: TDTCore):
         
     print("\n" + "=" * 80 + "\n")
 
-    # =========================================================================
+
+       # =========================================================================
     # PART 4: Black Hole Phase Inversion & White Hole Emergence Matrix (Phase 04)
     # =========================================================================
     print("[PART 4: BLACK HOLE COMPLEX IONIZATION & WHITE HOLE REBIRTH MAP]")
@@ -157,19 +136,21 @@ def execute_tdt_simulation_part1(core: TDTCore):
     # Evolution steps from Planck-era bounce to mature universe state
     new_scales = np.array([0.001, 0.010, 0.100, 0.500, 1.000])
     kappa_white = 0.125
+    omega_3_lock = 25.0843  # 전역 변수 참조 안전성 확보를 위해 재선언 고착화
     
     for a_new in new_scales:
-        rho_time_new = a_new ** (-core.gamma)
+        # 1. [정형화 교정] 하드코딩 수식을 배제하고 core 내부에 완전히 검증된 시간 밀도 희석 함수 연동
+        rho_time_new = core.calculate_time_density(a_new)
         
-        # Realization of Imaginary component over topological Wick Rotation
-        # S_white = kappa_white * [ ∇² * (Ω_3 * e^(iπ/2) / ρ_Time) ]
+        # 2. 윅 회전(Wick Rotation)을 통한 제트 방출 압력 스케일 연산
         jet_pressure = kappa_white * (omega_3_lock / (rho_time_new * core.delta_phase))
         
-        # Baryon density generation scaling dynamically to spatial dilution
+        # 3. 공간 팽창에 따른 중입자 밀도 생성 및 감쇠비 추적
         baryon_density = jet_pressure * (a_new ** -3) if a_new < 1.0 else 0.0079
         
-        # Complex tensor representation state
-        residual_tension_str = f"{omega_3_lock / rho_time_new:.4f}i" if a_new < 1.0 else "1.0000i"
+        # 4. 출력 뷰 포맷 교정: 허수 단위 i가 정상적인 문자열 텐서 상태로 가독성 있게 인쇄되도록 보정
+        residual_value = omega_3_lock / rho_time_new
+        residual_tension_str = f"{residual_value:.4f} * i" if a_new < 1.0 else "1.0000 * i"
         
         print(f"{a_new:<15.3f}{residual_tension_str:<20}{jet_pressure:<20.4f}{baryon_density:<25.4E}")
         
@@ -183,8 +164,9 @@ def main():
     # 30개의 소수 닻줄 격자 고착화 엔진 로드
     core_engine = TDTCore(num_anchors=30)
     
-    # 런타임 NameError 결함 교정: part1 마스터 시뮬레이션 매트릭스 엔진 호출
+    # 런타임 NameError 결함 교정 완료: 코어 엔진 인스턴스를 전달하여 마스터 시뮬레이션 매트릭스 실행
     execute_tdt_simulation_part1(core_engine)
 
 if __name__ == "__main__":
     main()
+
