@@ -260,22 +260,18 @@ print(f"📊 [성공] 실제 관측 데이터셋 로드 완료! 총 {len(real_sp
 # 2. 기존 작성하신 TDTCore 물리 엔진 수식 그대로 실제 데이터 적용 및 검증
 # =========================================================================
 try:
-    # 30개의 수론적 리만 앵커를 내장한 물리 하드웨어 기동
     full_core = TDTCore(num_anchors=30)
     
     radius_vals = real_sparc_df['radius'].values
     mass_vals = real_sparc_df['baryon_mass'].values
     v_baryon_vals = real_sparc_df['v_baryon'].values
     
-    # [사용자 수식 100% 엄수]: 리만 영점 닻을 통한 시공간 인장력 계산
     v_tension = full_core.calculate_galactic_tension(radius_vals, mass_vals)
     v_total_bare = np.sqrt(v_baryon_vals**2 + v_tension**2)
     
-    # [사용자 수식 100% 엄수]: 동적 유체 점성 스위치 마찰 보정
     dynamic_fluid_friction = full_core.calculate_dynamic_friction(radius_vals, mass_vals)
     real_sparc_df['v_tdt_predicted'] = v_total_bare * (1.0 + dynamic_fluid_friction)
     
-    # 실제 우주 관측 속도와의 오차 정산
     valid_mask = real_sparc_df['v_obs'] > 0
     final_errors = np.abs(real_sparc_df.loc[valid_mask, 'v_tdt_predicted'] - real_sparc_df.loc[valid_mask, 'v_obs']) / real_sparc_df.loc[valid_mask, 'v_obs'] * 100
     mean_universal_error = np.mean(final_errors)
@@ -291,3 +287,4 @@ except NameError:
     print("\n❌ 연산 실패: 코랩 이전 셀에 있는 TDTCore 클래스 구조를 먼저 실행하셔야 합니다!")
 except Exception as e:
     print(f"\n❌ 수치 해석 검증 중 에러 발생: {e}")
+
