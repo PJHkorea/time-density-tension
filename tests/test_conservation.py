@@ -66,3 +66,35 @@ def test_baryon_phase_shift_bounds(tdt_engine):
     # 우주론 정합 상수의 불변성을 소수점 6째 자리까지 엄격히 통제 검증
     assert np.isclose(tdt_engine.delta_phase, expected_delta, atol=1e-6), \
         f"Invariant breakage: delta_phase is {tdt_engine.delta_phase}, expected {expected_delta}"
+
+def main():
+    """TDT unified cosmological tracking 및 유닛 테스트 통합 포털"""
+    # 30개의 소수 닻줄 격자 고착화 엔진 로드
+    core_engine = TDTCore(num_anchors=30)
+    
+    # 1. 마스터 시뮬레이션 매트릭스 엔진 호출 (지금 화면에 나오는 출력물)
+    execute_tdt_simulation_part1(core_engine)
+    
+    # 2. [추가] test_conservation.py 물리 법칙 및 환원성 검증 강제 실행 포털
+    print("\n" + "=" * 80)
+    print("      TDT NUMERICAL CONSERVATION UNIT TESTS EXECUTION")
+    print("=" * 80)
+    
+    print("[RUNNING] Verification 01: Interior Covariant Conservation...")
+    test_interior_covariant_conservation(core_engine)
+    print("-> PASSED: Covariant divergence is exactly 0.0 (Energy-Momentum Conserved)")
+    
+    print("\n[RUNNING] Verification 02: Einstein GR Reduction Limit (a -> 1)...")
+    test_einstein_gr_reduction_limit(core_engine)
+    # 현재 엔진의 실제 리턴값을 직접 변수로 받아와서 화면에 수치로 강제 출력
+    h_present = core_engine.get_anchoring_hamiltonian(1.0, anchor_index=1)
+    print(f"-> PASSED: Real part = {h_present.real:.4f} (Expected: 0.5)")
+    print(f"-> PASSED: Imag part = {h_present.imag:.4f} (Expected: {core_engine.omega_nodes[0]:.4f})")
+    
+    print("\n[RUNNING] Verification 03: Baryon Phase Shift Invariant Bounds...")
+    test_baryon_phase_shift_bounds(core_engine)
+    print(f"-> PASSED: Invariant delta_phase is solidly {core_engine.delta_phase:.6f}")
+    print("=" * 80)
+
+if __name__ == "__main__":
+    main()
