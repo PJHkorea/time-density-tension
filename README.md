@@ -19,7 +19,7 @@ The rigorous mathematical derivations, geometric hypotheses, and physical justif
 4. **[Phase 03: Galactic Dynamics and Cosmic Web Debye Shielding](docs/03_galaxy_dynamics.md)**
    * *Core Mechanism:* Resolves Vera Rubin's flat galactic rotation curves (SPARC catalog matching) with frozen parameter constraints. Implements a localized density-gradient phase switch—the Dynamic Debye Damping Factor $\mathcal{D}(r)$ governed by a hyperbolic tangent ($\tanh$) operator—to completely eliminate historical over-correction deficits across macro intergalactic filaments (SDSS).
 5. **[Phase 04: Black Hole Phase Inversion and White Hole Emergence](docs/04_blackhole_universe.md)**
-   * *Core Mechanism:* Models event horizon penetration ($r < R_s$) as a topological ionization of the scale factor ($\tilde{a} = i\alpha$). Solves interior covariant conservation ($\bar{\nabla}_{\mu}\mathcal{T}^{\mu\nu} = \mathbf{0}$) by showing that extreme 수축 pushes the interaction index to unity ($\gamma \to 1$) via resonance with the 3rd Riemann Anchor ($\Omega_3$), dissolving the unphysical mathematical singularity into a real-axis physical Big Bang rebound (White Hole inflationary reset).
+   * *Core Mechanism:* Models event horizon penetration ($r < R_s$) as a topological ionization of the scale factor ($\tilde{a} = i\alpha$). Solves interior covariant conservation ($\bar{\nabla}_{\mu}\mathcal{T}^{\mu\nu} = \mathbf{0}$) by showing that extreme contraction pushes the interaction index to unity ($\gamma \to 1$) via resonance with the 3rd Riemann Anchor ($\Omega_3$), dissolving the unphysical mathematical singularity into a real-axis physical Big Bang rebound (White Hole inflationary reset).
 
 ---
 
