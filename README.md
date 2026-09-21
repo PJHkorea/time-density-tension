@@ -38,35 +38,19 @@ To prevent common misconceptions regarding computational fine-tuning and numeric
 
 ---
 
-## 🛠️ Environment Setup & Quick Start
+## 📂 Core Repository Architecture & Functional Modules
 
-TDT Cosmology bridges analytical number theory with empirical observational physics. The repository provides an automated python-driven runtime engine to numerically reproduce the exact convergence matrices documented across all phases.
+The TDT Cosmology engine is architected around a rigid, self-verifying codebase. The functions are mapped directly onto the analytical framework documented in the theoretical phases:
 
-### 1. Installation & Environment Configuration
-Ensure you have Python 3.8 or higher installed on a Unix or Windows environment. Clone the repository and install the standard scientific computing dependencies:
+### ⚙️ Micro-Core Engine (`src/`)
+*   **`tdt_core.py`**: The foundational numerical framework. It derives the universal structural invariant (γ ≈ 0.159960), handles the Riemann Zeta non-trivial zero mapping ($\Omega_n$), and computes the complex anchoring Hamiltonians across varying scale factors (a).
+*   **`main_simulation.py`**: The master integration pipeline. It orchestrates the multi-scale regimes, executing the vectorized equations that yield CMB higher-order predictions, galactic rotation flattening parameters, and cosmic filament tension profiles.
 
-```bash
-# Clone the open-source repository
-git clone https://github.com
-cd time-density-tension
+### 🧪 Automated Verification & Conservation Boundary Suites (`tests/`)
+*   **`test_conservation.py`**: Programmatically enforces the fundamental laws of conservation. It strictly verifies the zero-sum interior covariant divergence ($\nabla&#95;{\mu}\mathcal{T}^{\mu\nu} = 0$) under extreme metric collapse and checks for zero energy-momentum leakage.
+*   **`test_reduction.py`**: Validates the theoretical reduction boundaries. It enforces the asymptotic stability constraints, ensuring the complex TDT tensor seamlessly drops its extra-dimensional tension and returns to standard Einsteinian stationary General Relativity as a → 1.
+*   **`tdt_sparc_validation.py`**: The empirical observation tester. It pipes real-world astrophysical datasets (including the SPARC galaxy profile catalog) directly through the TDT tension velocity models to calculate real-time mean absolute error profiles against empirical realities.
 
-# Install required mathematical packages (numpy, scipy, pytest)
-pip install -r requirements.txt
-```
-
-### 2. Execution of the Unified Cosmological Simulation Matrix
-Run the master simulation suite to print the fine-grained data maps representing CMB peak alignment, SPARC velocity flattening metrics, SDSS linear filament densities, and the non-singular white hole mass-generation profile:
-
-```bash
-python src/main_simulation.py
-```
-
-### 3. Automated Invariant Testing & Conservation Verification
-To programmatically check the mathematical closures of the system, execute the unit test block. This suite automatically verifies the zero-sum covariant divergence of the stress-energy tensor inside extreme manifolds and enforces the classical Einsteinian general relativity reduction boundaries as $a \to 1$:
-
-```bash
-pytest tests/
-```
 
 ---
 
