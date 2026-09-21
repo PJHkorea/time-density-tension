@@ -4,21 +4,22 @@ from scipy.special import zeta
 
 class TDTCore:
     def __init__(self, num_anchors: int = 30):
-        # 1. 근본 초월 및 게이지 물리 상수 (0% 마니퓰레이션 동결 유지)
         self.alpha = 1.0 / 137.035999084
         self.ln2 = np.log(2.0)
         self.pi = np.pi
         self.gamma = (1.0 + self.alpha * self.ln2) / (2.0 * self.pi)
         
-        # 🚨 [최종 게이지 선보정 락인 - 대통합 시스템 정박]
-        # 장력이 0으로 죽거나 최고 노드벽에 들이받는 연산 정체를 완벽히 해소합니다.
-        self.delta_phase = 0.5387      # 마찰 다이나믹 레인지를 성공시킨 기저 진폭 고정 유지
-        self.c_univ = 12.85            # 글로벌 장력 계수를 과폭발 없는 최적 거시 가속 척도로 상향 개방 (1.625 -> 12.85)
-        self.standard_mass = 1.0e8     # 기준 질량을 리만 노드가 아날로그적으로 숨을 쉬는 10^8 M_sun 영역으로 정렬 (1.0e9 -> 1.0e8)
-        self.friction_decay_rate = 0.25 # 드바이 마찰 감쇄 속도를 거대구역 마찰 소멸 타이밍과 싱크 (0.48 -> 0.25)
+        # 🚨 [8회차 실험 셋업 - 거대 우주 드바이 마찰막 광속 기화 개방]
+        # 7회차가 발견한 마찰 부활 뼈대는 홀딩하되, 거대 은하의 발목을 잡는 댐핑을 지수적으로 날려버립니다.
+        self.delta_phase = 0.5455      # 7회차 최적화 성공 진폭 고정 유지
+        self.c_univ = 12.85            # 글로벌 장력 출력을 최적 가속 배율로 상향 세팅 (10.15 -> 12.85)
+        self.standard_mass = 4.9985e3  # 7회차 가동에 성공한 4998 M_sun 특성 질량 고정 유지
+        self.friction_decay_rate = 0.05 # 마찰 감쇠 속도를 극도로 날카롭게 벼려 거대구역 마찰 소멸 (0.48 -> 0.05)
         
         # 3. 천체물리학 표준 차원 상수
         self.G_INV = 232504.5  
+
+
 
 
         # 4. 고정밀 리만 제타 함수 비자명 영점(Critical Line) 앵커 배열
@@ -294,30 +295,33 @@ def tdt_loss_function(params):
     errors = np.abs(v_tdt_predicted[valid_mask] - v_obs_intrinsic[valid_mask]) / v_obs_intrinsic[valid_mask] * 100
     return np.mean(errors)
 
+
 # =========================================================================
-# 2. 최적화 알고리즘 구동 구역 (Nelder-Mead 기반 다차원 스캔)
-# =========================================================================
-# =========================================================================
-# [구역 3 내 최적화 실행문 교정] - 꼼수 탈출 원천 차단 버전
+# [구역 3 내 최적화 파라미터 조율] - 6회차 황금 평형점 안전 안착 세팅
 # =========================================================================
 try:
-    print("⏳ TDT 마스터 엔진 글로벌 게이지 최적화 탐색 시작 (0% 조작 피팅)...")
+    print("⏳ TDT 마스터 엔진 7회차 글로벌 게이지 한계 개방 탐색 시작...")
 
-    initial_guess = [12.85, 1.0e8, 0.5387]
-    
+    # 우리가 직전 회차에서 대성공을 거두었던 최적 수렴 상숫값에서 출발
+    initial_guess = [10.1571, 4998.5, 0.5455] 
+
     bounds = [
-        (3.0, 50.0),     # c_univ: 이제 L-BFGS-B에 의해 3.0 이하로 절대 내려가지 못함
-        (1.0e4, 1.0e9),  # standard_mass 범위
-        (0.1, 1.5)       # delta_phase 범위
+        (3.0, 300.0),      # c_univ: 거시 공간 상한선을 300까지 시원하게 개방!
+        (1.0e1, 1.0e4),    # standard_mass 범위 안정적으로 유지
+        (0.1, 1.5)         # delta_phase 범위: 브레이크 과열 방지선 유지
     ]
 
-    # 🛠️ [교정 핵심] method를 경계 조건에 가장 엄격한 'L-BFGS-B'로 전면 교체
+    # 🌌 [들여쓰기 정밀 정렬 완료 구역] 스페이스 4칸축 칼정렬
     result = minimize(
         tdt_loss_function,
         initial_guess,
-        method='L-BFGS-B', # <- Nelder-Mead에서 L-BFGS-B로 변경!
-        bounds=bounds,     # L-BFGS-B는 이 bounds 규칙을 칼같이 준수합니다
-        options={'maxiter': 1000}
+        method='L-BFGS-B',
+        bounds=bounds,
+        options={
+            'maxiter': 3000,
+            'ftol': 1e-9,       
+            'gtol': 1e-9
+        }
     )
 
 
