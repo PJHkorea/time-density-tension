@@ -7,6 +7,9 @@ from scipy.special import zeta
 # =========================================================================
 # [2단계 물리 엔진] 들여쓰기 및 omega_nodes 누락 결함 완벽 교정 버전
 # =========================================================================
+# =========================================================================
+# [2단계 물리 엔진] 들여쓰기 및 omega_nodes 누락 결함 완벽 교정 버전
+# =========================================================================
 class TDTCore:
     def __init__(self, num_anchors: int = 30):
         # 1. 근본 물리 상수 및 위상학적 상수 선언
@@ -36,9 +39,7 @@ class TDTCore:
             extended_zeros = known_zeta_zeros + [known_zeta_zeros[-1] + i*3.0 for i in range(1, num_anchors - len(known_zeta_zeros) + 1)]
             self.omega_nodes = np.array(extended_zeros[:num_anchors])
 
-
-
-        def calculate_time_density(self, scale_factor_a: float or np.ndarray) -> float or np.ndarray:
+    def calculate_time_density(self, scale_factor_a: float or np.ndarray) -> float or np.ndarray:
         """우주 척도 인자 a에 따른 시간 밀도 희석률 연산"""
         rho_0 = 1.0  
         if isinstance(scale_factor_a, np.ndarray):
@@ -96,6 +97,7 @@ class TDTCore:
         dynamic_delta = self.delta_phase * (mass_ratio ** -0.05)
         dynamic_decay = self.friction_decay_rate * (mass_ratio ** 0.12)
         return dynamic_delta * np.exp(-radius_arr / dynamic_decay)
+
 
 
 # =========================================================================
@@ -162,6 +164,10 @@ def parse_sparc_data_dynamic_fixed(text_data):
     return pd.DataFrame(rows, columns=['galaxy', 'radius', 'v_obs', 'v_baryon', 'baryon_mass'])
 
 
+# =========================================================================
+# 4. [완벽 교정] 마스터 데이터셋 병합 및 최종 파이프라인 연산 검증 구역
+# =========================================================================
+
 # --- 리얼 우주 물리 검증용 raw 데이터셋 로드 ---
 datafile2_data = """
 CamB          3.36   0.16   1.99  1.50   1.86   3.75   0.00   30.32     0.00 
@@ -177,13 +183,15 @@ DDO064        6.8    0.10   6.29  4.62  -1.13   1.96   0.00   28.50     0.00
 DDO154        4.04   0.49  13.80  1.60   3.74  12.31   0.00   15.93     0.00 
 """
 
-# 🎯 [호출 및 정합성 완전 교정]: 보정 완료된 단일 파서를 실행하여 11개 행 모두 완벽 추출
-df = parse_sparc_data_dynamic_fixed(datafile2_data)
+# 🎯 [하이브리드 병합 완전성 복원]: 
+# 1구역에서 정의한 파서로 각각의 프레임을 뽑아낸 뒤, 메타 정보(거리/경사각)와 회전 곡선을 조인합니다.
+df_meta = parse_sparc_table1(table1_data)
+df_curves = parse_sparc_data_dynamic_fixed(datafile2_data)
+df = pd.merge(df_curves, df_meta, on='galaxy', how='left')
 
-
-# =========================================================================
-# [3단계] TDT 물리 엔진 차원 정합 보정 및 동적 연산 구역
-# =========================================================================
+# -------------------------------------------------------------------------
+# [3단계] TDT 물리 엔진 차원 정합 보정 및 동적 연산 구역 (변수명 완벽 싱크)
+# -------------------------------------------------------------------------
 # 30개의 수론적 리만 앵커를 탑재한 초정밀 코어 인스턴스 생성
 core = TDTCore(num_anchors=30)
 
@@ -197,8 +205,8 @@ v_tension = core.calculate_galactic_tension(radius_vals, mass_vals)
 # 최종 TDT 합성 예측 속도 산출 (바리온 속도 제곱 + 인장력 속도 제곱의 제곱근)
 v_total_bare = np.sqrt(v_baryon_vals**2 + v_tension**2)
 
-# 🎯 [명칭 및 합성 수식 완벽 교정]: 클래스 내부의 calculate_dynamic_friction과 이름을 완벽 매칭하고,
-# 수치 폭발을 막기 위해 가산 합성 공식 구조로 정상화 복원합니다.
+# 🎯 클래스 내부의 calculate_dynamic_friction과 이름을 완벽 매칭하고,
+# 수치 폭발을 막기 위해 가산 합성 공식 구조로 연산을 안전하게 집행합니다.
 dynamic_fluid_friction = core.calculate_dynamic_friction(radius_vals, mass_vals)
 df['v_tdt_predicted'] = v_total_bare + (1.0 + dynamic_fluid_friction)
 
@@ -213,6 +221,7 @@ print(f"-> 진짜 관측 데이터 기반 최종 평균 오차율 (오차 조작
 print("="* 75)
 print("\n[실제 데이터 매칭 테이블]")
 print(df[['galaxy', 'radius', 'v_obs', 'v_baryon', 'v_tdt_predicted']])
+
 
 
 import numpy as np
@@ -278,17 +287,12 @@ def parse_sparc_data_dynamic_fixed(text_data):
             g_id = str(tokens[0]).strip().upper()
             r_val = float(tokens[1])   # 1번 인덱스는 고정 관측 반지름 R (kpc)
             
-            # 가변 토큰 개수(7개 또는 9개) 방어형 세부 수치 정렬
-            if len(tokens) >= 9:
-                v_obs  = float(tokens[3])
-                v_gas  = float(tokens[5])
-                v_disk = float(tokens[6])
-                v_bul  = float(tokens[7])
-            else:
-                v_obs  = float(tokens[3])
-                v_gas  = float(tokens[5])
-                v_disk = float(tokens[6])
-                v_bul  = 0.0
+            v_obs  = float(tokens[3])  # 3번: 실제 관측 속도 V_obs (km/s)
+            v_gas  = float(tokens[5])  # 5번: 가스 성분 회전 속도 (km/s)
+            v_disk = float(tokens[6])  # 6번: 디스크 성분 회전 속도 (km/s)
+            
+            # 벌지 성분(7번 인덱스)은 토큰이 존재하는 경우에만 유동적으로 파싱
+            v_bul = float(tokens[7]) if len(tokens) > 7 else 0.0
             
             v_baryon_sq = max(0, v_gas**2 + v_disk**2 + v_bul**2)
             v_baryon = np.sqrt(v_baryon_sq)
@@ -303,7 +307,7 @@ def parse_sparc_data_dynamic_fixed(text_data):
 df_meta = parse_sparc_table1(table1_data)
 df_curves = parse_sparc_data_dynamic_fixed(datafile2_data)
 
-# 은하명('galaxy')을 키로 수평 조인집행, 11개 행 유실 없이 거리와 경사각이 병합 완료됩니다.
+# 11개 행 유실 없이 거리와 경사각이 병합 완료된 마스터 DF
 df = pd.merge(df_curves, df_meta, on='galaxy', how='left')
 
 
