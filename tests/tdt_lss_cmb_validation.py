@@ -1,3 +1,5 @@
+# 복사 저항(Radiation Drag)에 의한 누적 감쇄(Damping) 및 유체 역학적 변형'을 고려하지 않은 순수 기하학적 파동 공식
+
 import numpy as np
 import pandas as pd
 from scipy.integrate import quad
