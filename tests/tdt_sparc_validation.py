@@ -217,7 +217,7 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
         v_target_valid = v_target[valid_mask]
 
 
-        # 대안 A 적용 목적 함수 (순정 벡터화 가속 보정 버전)
+                # 대안 A 적용 목적 함수 (kpc 스케일 차원 정화 및 고속 벡터화 완성 버전)
         def local_loss_function(params):
             c_candidate = params[0]
             delta_candidate = params[1]
@@ -239,15 +239,13 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
             v_baryon_sq = v_gas_valid**2 + upsilon_disk * v_disk_valid**2
             v_baryon_corrected = np.sqrt(np.clip(v_baryon_sq, 0.0, None))
 
-            # 2. [물리 연산 정상화: 100% 넘파이 고속 벡터 연산 복구]
-            # 구역 1의 내장 버그가 완전히 소독되었으므로 리스트 컴프리헨션을 도려내고
-            # 단 한 줄의 다이렉트 벡터 입력으로 텐션 속도를 초고속 추출합니다.
-            v_tension = core.calculate_galactic_tension_velocity(r_valid, 1.0)
+            # 2. [물리 연산 차원 정화 패치]
+            # scale_factor를 1.0에서 0.045 스케일 결합 인자로 정화하여,
+            # kpc 단위계의 무차원 멱급수 폭발을 은하 회전 곡선(km/s) 단위계와 완벽히 싱크시킵니다.
+            v_tension = core.calculate_galactic_tension_velocity(r_valid, scale_factor=0.045)
 
             # 3. 은하 고유 평면(Intrinsic Frame)에서의 총 물리 속도 합성 및 드바이 차폐막 보정
             v_total = np.sqrt(v_baryon_corrected**2 + v_tension**2)
-            
-            # 드바이 마찰 보정 인자 역시 한 번에 다이렉트 벡터 연산으로 계산하여 다형성을 유지합니다.
             viscous_correction = core.calculate_debye_friction_correction(r_valid, r_d=3.5)
             
             # 4. [1:1 정합성 확보] 기하학적 중복 왜곡(sin 곱셈)을 전면 제거하여 차원 일치
