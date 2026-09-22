@@ -23,7 +23,7 @@ class TDTCosmologyCore:
         self.c_light_kms: float = 299792.458
 
     def calculate_tdt_expansion_rate(self, z: float, H_0: float, omega_m0: float) -> float:
-        """
+        r"""
         [LSS 팽창 식] 암흑 에너지(Λ) 없이 TDT 기저 인장력 진화 파트가 유도하는 가속 팽창률 H(z)
         공식: H(z) = H_0 * sqrt( omega_m0*(1+z)^3 + (1 - omega_m0)*(1+z)^(2*gamma) )
         """
@@ -41,9 +41,8 @@ class TDTCosmologyCore:
         Hz = self.calculate_tdt_expansion_rate(z, H_0, omega_m0)
         return 1.0 / Hz if Hz > 1e-9 else 99999.0
 
-    # 🔗 [수치 복구 완료] 누락되었던 핵심 고정밀 수치 적분 함수를 완벽히 역바인딩했습니다.
     def calculate_luminosity_distance(self, z: float, H_0: float, omega_m0: float) -> float:
-        """
+        r"""
         [고정밀 수치 적분] 적색편이 z에 따른 물리적 광도 거리 D_L (Mpc 단위) 산출
         공식: D_L(z) = (1+z) * c * \int_0^z (1 / H(z')) dz'
         """
@@ -57,9 +56,8 @@ class TDTCosmologyCore:
         D_L = (1.0 + z) * self.c_light_kms * integral
         return D_L
 
-    # [교정 완료] 불규칙하게 밀려있던 공백 격자를 칼같이 4칸 시작선으로 맞추었습니다.
     def calculate_distance_modulus(self, z: float, H_0: float, omega_m0: float) -> float:
-        """
+        r"""
         [차원 동기화] 초신성 관측값과 다이렉트 매칭할 거릿수(Distance Modulus, \mu) 변환
         공식: \mu = 5 * log10(D_L) + 25 (단, D_L의 단위는 Mpc)
         """
@@ -69,7 +67,7 @@ class TDTCosmologyCore:
         return 5.0 * np.log10(D_L_safe) + 25.0
 
     def calculate_cmb_acoustic_peak_positions(self, l_max: int = 4) -> np.ndarray:
-        """
+        r"""
         [CMB 격자 앵커 - 중입자 복사 유체 드래그 효과 완전 교정판]
         위상 상수가 구속하는 멀티폴 피크 l_n 선험적 예측
         공식: l_n = n * pi / theta_s * (1.0 + delta_phase)
@@ -84,6 +82,7 @@ class TDTCosmologyCore:
             peaks[n-1] = l_n_predicted
             
         return peaks
+
 
 
 
@@ -126,6 +125,7 @@ def run_tdt_lss_pipeline(df_lss: pd.DataFrame):
         H_0_candidate, omega_m0_candidate = params[0], params[1]
         if H_0_candidate <= 10.0 or omega_m0_candidate < 0.01 or omega_m0_candidate > 0.99:
             return 999999.0
+
         chi_square = sum(((core.calculate_distance_modulus(z, H_0_candidate, omega_m0_candidate) - mu_obs) / mu_err) ** 2 
                          for z, mu_obs, mu_err in zip(z_vals, mu_obs_vals, mu_err_vals))
         return chi_square
@@ -198,6 +198,8 @@ if __name__ == "__main__":
     # 축 3. CMB 피크축 체크 (중입자 드래그 차원 정화 완료 및 실제 멀티폴 피크 매칭)
     # ---------------------------------------------------------------------
     print("\n" + "=" * 115)
+    # 🛠️ [문법 리팩토링 정화 완결]
+    # 프롬프트 출력 시 라텍스 기호(\delta)의 역슬래시 중복 간섭을 막기 위해 raw string(r"") 지정을 고착화했습니다.
     print(r"🎯 [CMB FORECAST] PREDICTING ACOUSTIC PEAK MULTIPOLES VIA UN-TUNED PHASE MODULUS (\delta = 0.039513)")
     print("-" * 115)
     
@@ -227,4 +229,3 @@ if __name__ == "__main__":
     print(f" -> CMB Power Spectrum First Acoustic Peak Match   : {predicted_peaks[0]:.2f} (Planck Anchor: 220.0)")
     print(f" -> Universality Coherence Status                   : SUCCESS ➔ Closed-Loop Cosmological Field Confirmed")
     print("=" * 115)
-
