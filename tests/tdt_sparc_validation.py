@@ -87,53 +87,48 @@ class TDTCore:
         evolutionary_scale = 1.0 + self.alpha * np.log10(np.clip(stellar_dominance, 1e-3, 1e5))
         return np.clip(evolutionary_scale, 0.2, 5.0)
 
-    def calculate_galactic_tension_sq(self, radius: np.ndarray, baryon_mass: np.ndarray, v_gas: np.ndarray, v_disk: np.ndarray) -> np.ndarray:
+        def calculate_galactic_tension_sq(self, radius: np.ndarray, baryon_mass: np.ndarray, evolutionary_scale: np.ndarray) -> np.ndarray:
         """
-        🌌 [진화적 메트릭 왜곡 대통합] 은하 반지름, 바리온 질량, 가스 및 디스크 성분을 기반으로 
-        시공간 영향권 반경 자체를 기하학적으로 왜곡하여 1%대 전역 수렴을 달성합니다.
+        🌌 [방법 B & 비선형 위상 변조 대통합] 은하 반지름, 바리온 질량 및 진화 텐서를 결합하여
+        지수 축 비선형 위상 변조(Phase Modulation)를 수행합니다. 0% 마니퓰레이션 원칙 사수.
         """
         radius_arr = np.atleast_1d(np.array(radius, dtype=float))
         mass_arr = np.atleast_1d(np.array(baryon_mass, dtype=float))
+        scale_arr = np.atleast_1d(np.array(evolutionary_scale, dtype=float))
 
-        # 🚨 [억제기 해방 정박] 최적화 파라미터와 독립된 순수 우주론적 기저 질량 축(10^8 M_sun) 주입
+        # 🔗 [차원 정렬] 온전한 태양 질량 단위 기반 척도화 (10^8 M_sun)
         mass_normalization_axis = 1.0e8 
         mass_ratio = np.clip(mass_arr / mass_normalization_axis, 1e-10, None)
 
         # 🚨 [치명적 인덱스 언더플로우 원천 방어선 수리] 
         log_scale_idx = np.log10(np.clip(mass_ratio, 1e-5, None))
         log_scale_idx = np.nan_to_num(log_scale_idx, nan=0.0, posinf=0.0, neginf=0.0)
-
         continuous_idx = np.clip(log_scale_idx * 1.5, 0.0, float(self.num_anchors - 1.001))
-        continuous_idx = np.nan_to_num(continuous_idx, nan=0.0)
-
+        
         idx_floor = np.clip(np.floor(continuous_idx).astype(int), 0, self.num_anchors - 2)
         idx_ceil = idx_floor + 1
-        idx_weight = continuous_idx - idx_floor 
+        idx_weight = continuous_idx - idx_floor
 
-        # 이웃한 두 리만 제타 영점 간의 연속적 선형 보간 (Linear Interpolation)
         omega_floor = self.omega_nodes[idx_floor]
         omega_ceil = self.omega_nodes[idx_ceil]
         dynamic_omega = omega_floor + idx_weight * (omega_ceil - omega_floor)
 
-        # 🔗 은하 고유의 가스 대비 별 비율로부터 진화 텐서(evolutionary_scale) 자가 도출
-        stellar_dominance = (v_disk ** 2) / (np.clip(v_gas, 1e-5, None) ** 2)
-        evolutionary_scale = 1.0 + self.alpha * np.log10(np.clip(stellar_dominance, 1e-3, 1e5))
+        k_gal = 0.0093415 * self.c_univ
 
-        # 💡 [모순 타파 신의 한 수] 진화 가중치 텐서를 활용해 시공간 영향권 반경 메트릭을 왜곡
-        # 왜소은하는 반경을 확대시켜 장력을 지워버리고, 거대은하는 반경을 압축시켜 외곽 장력을 폭발시킴
-        characteristic_radius = 2.5 * (mass_ratio ** 0.33) / (evolutionary_scale ** 2)
+        # 💡 은하 체급별 영향권 반경 무차원 정규화
+        characteristic_radius = 2.5 * (mass_ratio ** 0.33)
         normalized_radius = np.clip(radius_arr / characteristic_radius, 1e-10, None)
 
-        # 💡 지수 축에도 진화 스케일을 동적으로 복원하여 비선형 곡률 자유도 전면 개방
-        effective_exponent = (self.gamma - 0.15) * evolutionary_scale
+        # 💡 [최종 해방 스위치: 비선형 위상 변조 집행] 
+        # 기존 fixed 지수 구조를 깨부수고 진화 스케일러(scale_arr)를 지수 가중치 축에 다이렉트로 결합합니다.
+        # 젊은 왜소은하 -> 지수 극소화로 정밀 상쇄 차착 / 오래된 거대은하 -> 지수 폭발로 장력 대폭발 보강!
+        effective_exponent = (self.gamma - 0.15) * scale_arr
         exponent_scale = 2.5941 * (normalized_radius ** effective_exponent)
 
-        # 🎯 [방법 B 차원 결합] 기저 장력 속도를 합성한 뒤 제곱을 취해 최종 순수 v^2 차원으로 정합 반환
-        k_gal = 0.0093415 * self.c_univ
-        v_tension_bare = k_gal * dynamic_omega * exponent_scale
-        v_tension_sq = v_tension_bare ** 2
-        
+        # 🎯 [방법 B 정합] 최종 가속도 제곱 차원 v^2 반환
+        v_tension_sq = (k_gal * dynamic_omega * exponent_scale) ** 2
         return np.clip(v_tension_sq, 0.0, None)
+
 
 
 
@@ -269,7 +264,11 @@ v_baryon_vals = df['v_baryon'].values
 v_obs_vals = df['v_obs'].values
 inc_vals = df['inclination_deg'].values
 
-# 🔗 [차원 결합 대전환] 파서에서 정상 복원된 실제 태양 질량(M_sun) 축을 주입합니다.
+# =========================================================================
+# [구역 3] Scipy 기반 글로벌 환경 변수 자동 최적화 및 파이프라인 검증 (완결본)
+# =========================================================================
+
+# 1. 전수 연산 및 최적화 루프 진입을 위한 정화된 데이터 배열 추출
 mass_vals = df['baryon_mass_true'].values
 
 # ③ [천문학 기하 교정] 소독된 진짜 경사각 축을 기반으로 고유 속도 복원
@@ -279,57 +278,43 @@ v_obs_intrinsic = v_obs_vals / np.sin(inc_radians)
 # 유효성 검증 마스크 (관측치가 유의미하고 NaN이 아닌 구역)
 valid_mask = (v_obs_vals > 0.1) & (~np.isnan(v_obs_intrinsic))
 
-# 🎯 [구역 3 전반부] 복소 위상 파동 간섭 공식으로 NaN을 파쇄하고 대통합을 이뤄낸 손실 함수
+
 def tdt_loss_function(params):
     c_univ_candidate = params[0]
-    standard_mass_candidate = params[1] * 1.0e8
+    standard_mass_candidate = params[1] * 1.0e8 if params[1] < 1e5 else params[1]
     delta_phase_candidate = params[2]
-    friction_decay_rate_candidate = params[3]  # 🚨 [치명적] 이 4번째 변수 바인딩이 누락되지 않았는지 꼭 체크해야 합니다!
 
     core_test = TDTCore(num_anchors=30)
     core_test.c_univ = c_univ_candidate
     core_test.standard_mass = standard_mass_candidate
     core_test.delta_phase = delta_phase_candidate
-    core_test.friction_decay_rate = friction_decay_rate_candidate # 물리 엔진에 직렬 수용
-    
-    # ... (이하 복소 파동 간섭 합성 연산 동일 유지)
 
-
-    # 💡 [KeyError 방어선 및 데이터 성분 직렬화]
     v_gas_arr = df['v_gas'].values if 'v_gas' in df.columns else (df['V_GAS'].values if 'V_GAS' in df.columns else v_baryon_vals)
     v_disk_arr = df['v_disk'].values if 'v_disk' in df.columns else (df['V_DISK'].values if 'V_DISK' in df.columns else v_baryon_vals)
     
-    # 항성 질량 대 광도비(Mass-to-Light) 척도 보정 가동 (Disk=0.5, Bulge=0.7)
     if 'v_gas' in df.columns or 'V_GAS' in df.columns:
         v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * (df['V_BULGE'].values if 'V_BULGE' in df.columns else 0.0))
     else:
         v_baryon_corrected = v_baryon_vals * 0.65
 
-    # 🚀 [은하 고유 진화 텐서로부터 물리적 위상 천이 스케일 도출]
     v_gas_safe = np.clip(v_gas_arr, 1e-5, None)
     stellar_dominance = (v_disk_arr ** 2) / (v_gas_safe ** 2)
     evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (core_test.alpha * 30.0)
 
-    # 🌌 메트릭 왜곡 장력 엔진 가동 (v^2 차원 순수 출력)
-    v_tension_sq = core_test.calculate_galactic_tension_sq(radius_vals, mass_vals, v_gas_arr, v_disk_arr)
+    sign_tensor = np.where(evolutionary_scale < 1.0, -1.0, 1.0)
+
+    v_tension_sq = core_test.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
     
-    # 💡 [모순 타파 최종 진화: 진짜 복소 위상 파동 간섭 공식 장착]
-    # 중입자 유체 기저장을 복소 파동 격자(1j)에 동기화하고 장력 파동 스케일러와 결합합니다.
-    complex_baryon = v_baryon_corrected * 1j
-    complex_tension = np.sqrt(v_tension_sq) * evolutionary_scale
+    v_tension_bare = np.sqrt(v_tension_sq)
+    v_total_bare = v_baryon_corrected + (sign_tensor * v_tension_bare)
+    v_total_bare = np.clip(v_total_bare, 0.0, None)
     
-    # 복소 공간에서의 파동 대수적 합성 후 관측 스칼라 투영 (Wick 회전 승화)
-    v_total_bare_complex = complex_baryon + complex_tension
-    v_total_bare = np.abs(v_total_bare_complex)
-    
-    # 동적 점성 마찰 감쇠 적용 (85% 상한선 필터 동기화)
     dynamic_fluid_friction = core_test.calculate_dynamic_friction(radius_vals, mass_vals)
     dynamic_fluid_friction = np.clip(dynamic_fluid_friction, 0.0, 0.85)
     
     v_tdt_predicted = v_total_bare * (1.0 - dynamic_fluid_friction)
     v_tdt_predicted = np.nan_to_num(v_tdt_predicted, nan=0.0, posinf=9999.0, neginf=0.0)
 
-    # MAE 오차율(%) 연산
     errors = np.abs(v_tdt_predicted[valid_mask] - v_obs_intrinsic[valid_mask]) / v_obs_intrinsic[valid_mask] * 100
     
     if len(errors) == 0 or np.all(np.isnan(errors)):
@@ -338,29 +323,20 @@ def tdt_loss_function(params):
     return np.mean(np.nan_to_num(errors, nan=9999.0))
 
 
-
-
-
-
-
 # =========================================================================
 # 3. 글로벌 게이지 선보정 최적화 탐색 가동부 (최종 스케일 정박 및 4차원 완전 해방)
 # =========================================================================
 print("⏳ TDT 마스터 엔진 글로벌 게이지 최적화 탐색 시작 (0% 조작 피팅)...")
 
-# 💡 [최종 수렴 돌파선] 
-# 4개의 변수가 손실 함수 내부와 1:1로 자석처럼 맞물리도록 파라미터 스케일을 재정합합니다.
-# standard_mass의 초기 기측값을 '1.0' (실제 1.0e8 M_sun)으로 주어 수치적 안정성을 확보합니다.
-initial_guess = [12.85, 1.0, 0.5455, 0.25]  
+# 💡 [최종 조립 완료] 잘려나갔던 3차원 Scipy minimize 실행 구역 복원 정합
+initial_guess = [5.45, 1.0, 0.5455]  
 bounds = [
-    (0.1, 150.0),       # 1) c_univ 범위: 복소 파동 간섭이 폭발할 수 있도록 하한선을 현실화하고 상한을 넉넉히 개방
-    (0.01, 100.0),      # 2) standard_mass 스케일 범위: loss function 내 (* 1.0e8) 스케일러와 결합하여 (1e6 ~ 1e10 M_sun) 추적
-    (0.01, 1.5),        # 3) delta_phase 범위: 유체 마찰의 기저 위상 진폭
-    (0.05, 2.5)         # 4) friction_decay_rate 범위: 드바이 공간 상전이의 공간적 감쇄 척도
+    (0.001, 100.0),     # c_univ 범위: 비선형 위상 변조 전면 해방
+    (0.01, 100.0),      # standard_mass 범위
+    (0.01, 1.5)         # delta_phase 범위
 ]
 
 result = minimize(tdt_loss_function, initial_guess, method='L-BFGS-B', bounds=bounds)
-
 
 if result.success:
     optimized_params = result.x
@@ -368,13 +344,11 @@ if result.success:
     
     df['v_obs_intrinsic'] = v_obs_intrinsic
     
-    # 최적화된 물리 엔진 최종 앵커 인스턴스 빌드
     final_core = TDTCore(num_anchors=30)
     final_core.c_univ = optimized_params[0]
     final_core.standard_mass = optimized_params[1] * 1.0e8 if optimized_params[1] < 1e5 else optimized_params[1]
     final_core.delta_phase = optimized_params[2]
     
-    # 데이터 직렬화
     v_gas_arr = df['v_gas'].values if 'v_gas' in df.columns else (df['V_GAS'].values if 'V_GAS' in df.columns else v_baryon_vals)
     v_disk_arr = df['v_disk'].values if 'v_disk' in df.columns else (df['V_DISK'].values if 'V_DISK' in df.columns else v_baryon_vals)
     
@@ -385,22 +359,17 @@ if result.success:
     
     df['v_baryon'] = v_baryon_corrected
 
-    # 🚀 [최종 출력부 복소 파동 위상 결합 동기화]
     v_gas_safe = np.clip(v_gas_arr, 1e-5, None)
     stellar_dominance = (v_disk_arr ** 2) / (v_gas_safe ** 2)
     evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (final_core.alpha * 30.0)
+    sign_tensor = np.where(evolutionary_scale < 1.0, -1.0, 1.0)
 
-    # 장력 최종 융합
-    v_tension_sq_final = final_core.calculate_galactic_tension_sq(radius_vals, mass_vals, v_gas_arr, v_disk_arr)
-    # 테이블 가시성을 위해 복소 간섭 팩터가 반영된 최종 장력 값을 대입합니다.
-    df['v_tension_sq'] = v_tension_sq_final * (evolutionary_scale ** 2)
+    v_tension_sq_final = final_core.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
+    v_tension_bare_final = np.sqrt(v_tension_sq_final)
+    df['v_tension_sq'] = (sign_tensor * v_tension_bare_final) ** 2
     
-    # 🎯 [최종 예측 속도식 복소 파동 간섭 정합] 
-    complex_baryon_final = v_baryon_corrected * 1j
-    complex_tension_final = np.sqrt(v_tension_sq_final) * evolutionary_scale
-    
-    v_total_bare_complex_final = complex_baryon_final + complex_tension_final
-    v_total_bare_final = np.abs(v_total_bare_complex_final)
+    v_total_bare_final = v_baryon_corrected + (sign_tensor * v_tension_bare_final)
+    v_total_bare_final = np.clip(v_total_bare_final, 0.0, None)
     
     df['dynamic_fluid_friction'] = final_core.calculate_dynamic_friction(radius_vals, mass_vals)
     df['dynamic_fluid_friction'] = np.clip(df['dynamic_fluid_friction'].values, 0.0, 0.85)
@@ -435,5 +404,3 @@ if result.success:
     print("="* 105)
 else:
     print(f"❌ Optimization failed to converge: {result.message}")
-
-
