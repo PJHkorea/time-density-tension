@@ -228,10 +228,10 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
         v_gas_vals = df_gal['v_gas'].values
         v_disk_vals = df_gal['v_disk'].values
         v_obs_raw = df_gal['v_obs'].values
-        inc_rad = np.radians(df_gal['inclination_deg'].values)
         
-        # [천문학 기하 교정] 지구 시선 방향 관측값 -> 은하 고유 회전 속도로 복원
-        v_target = v_obs_raw / np.sin(inc_rad)
+        # [천문학 기하 스케일 고정]
+        # v_obs_raw는 이미 은하 고유 평면 기준으로 정제된 속도축이므로 target에 순정 데이터 매칭
+        v_target = v_obs_raw
         
         # 유효 관측 마스크 적용
         valid_mask = (v_obs_raw > 0.1) & (~np.isnan(v_target))
@@ -243,37 +243,51 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
         v_disk_valid = v_disk_vals[valid_mask]
         v_target_valid = v_target[valid_mask]
 
-        # 대안 A 적용 목적 함수 (오타 소독 및 음수 가중치 방어막 장착)
+        # 대안 A 적용 목적 함수 (물리 차원 및 스케일 모순 완전 소독 버전)
         def local_loss_function(params):
             c_candidate = params[0]
             delta_candidate = params[1]
             upsilon_disk = params[2]
 
-            # [수치 소독] 알고리즘이 Upsilon을 음수로 던지면 계산을 거부하고 패널티 부여 (오타 수정 완료)
-            if upsilon_disk < 0.0:
-                return 9999.0
+            # [1단계 물리 감옥: 하드 레귤러라이제이션 장벽]
+            if upsilon_disk < 0.0 or c_candidate <= 1e-9 or delta_candidate < -0.3:
+                return 999999.0
 
+            # 이론적 기저 고정치 (무차원 자연단위계 기준점)
+            c_baseline = 0.850720
+            delta_baseline = 0.039513
+            
             core = TDTCore(num_anchors=30)
             core.c_univ = c_candidate
             core.delta_phase = delta_candidate
 
-            # 질량 대 광도비 가중치를 디스크 성분에만 정밀 결합하여 바리온 축 복원
+            # 1. 은하 고유 평면 기준(Intrinsic) 바리온 성분 역학 결합 (km/s)
             v_baryon_sq = v_gas_valid**2 + upsilon_disk * v_disk_valid**2
-            
-            # 혹시 모를 미세 음수 잔차까지 2중 방어하여 RuntimeWarning 원천 차단
             v_baryon_corrected = np.sqrt(np.clip(v_baryon_sq, 0.0, None))
 
-            # 순정 TDT 기저 장력 속도 추출
-            v_tension = core.calculate_galactic_tension_velocity(r_valid)
+            # 2. [완벽한 물리 교정] 순정 TDT 기저 텐션 속도 계산
+            # TDTCore 내부에서 이미 km/s 스케일에 맞춘 물리 속도가 반환되므로 순정 상태로 인입합니다.
+            v_tension = core.calculate_galactic_tension_velocity(r_valid, 1.0)
 
-            # 정통 케플러 합성 및 드바이 점성 차폐막 보정 적용
-            v_total_bare = np.sqrt(v_baryon_corrected**2 + v_tension**2)
+            # 3. 은하 고유 평면(Intrinsic Frame)에서의 총 물리 속도 합성 및 드바이 차폐막 보정
+            v_total = np.sqrt(v_baryon_corrected**2 + v_tension**2)
             viscous_correction = core.calculate_debye_friction_correction(r_valid, r_d=3.5)
-            v_predicted = v_total_bare * viscous_correction
-
-            v_predicted = np.nan_to_num(v_predicted, nan=0.0, posinf=9999.0)
+            
+            # 4. [1:1 정합성 확보] 기하학적 중복 왜곡(sin 곱셈)을 전면 제거하여 차원 일치
+            v_predicted = v_total * viscous_correction
+            v_predicted = np.nan_to_num(v_predicted, nan=0.0, posinf=99999.0)
+            
+            # [5단계 우주론적 정칙화 패널티]
+            penalty_c = 10000.0 * ((c_candidate - c_baseline) / c_baseline) ** 2
+            penalty_delta = 10000.0 * ((delta_candidate - delta_baseline) / delta_baseline) ** 2
+            
+            # [6단계] 최종 오차 산출
             errors = np.abs(v_predicted - v_target_valid) / v_target_valid * 100
-            return np.mean(errors)
+            return np.mean(errors) + penalty_c + penalty_delta
+
+
+
+
 
 
         # 초기 추정치 설정 (c_univ, delta, upsilon_disk)
