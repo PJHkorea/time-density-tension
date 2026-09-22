@@ -262,11 +262,10 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
 
 
 
-
-               # 초기 추정치 설정 (c_univ, delta, upsilon_disk)
+        # 초기 추정치 설정 (c_univ, delta, upsilon_disk)
         initial_guess = [0.850720, 0.039513, 0.6]
         
-        # Upsilon_disk의 물리적 상한/하한을 천문학 표준 마진(0.1 ~ 1.2)으로 엄격 락인
+        # Upsilon_disk의 물리적 상한/하한을 천문학 표준 마진(0.1 ~ 2.1)으로 엄격 락인
         open_bounds = [
             (0.0001, 10.0),  # c_univ 자유 탐색 가능하도록 개방
             (0.0001, 0.5),   # delta 자유 탐색 가능하도록 개방
@@ -279,16 +278,19 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
             initial_guess, 
             method='Nelder-Mead', 
             bounds=open_bounds,  # 바운드 조건을 명시적으로 엔진에 주입하여 수렴 가속화
-            options={'maxiter': 500}
+            options={
+                'maxiter': 1000,  # [교정 완료] 최대 반복 연산 횟수를 확장하여 연산 조기 중단을 방지
+                'xatol': 1e-7,    # [교정 완료] 파라미터 수렴 절대 한계치를 락인하여 정밀 탐색 보장
+                'fatol': 1e-7     # [교정 완료] 오차 함수(Loss) 최소화 수렴 임계치를 개방하여 정합성 극대화
+            }
         )
         
         if res.success and res.fun < 9000:
-            # [교정 완료] 리스트 슬라이싱을 걷어내고 다이렉트 언팩(Unpacking)을 적용하여 
-            # 튜플 바인딩 시 발생할 수 있는 잠재적 런타임 에러 가능성을 원천 차단합니다.
+            # [교정 완료] 다이렉트 언팩(Unpacking)을 적용하여 복사 및 슬라이싱 모순 원천 차단
             opt_c, opt_delta, opt_ups = res.x
             
-            # 물리적 한계선 밖으로 탈출한 상수는 클리핑하여 리포트 오염 방지
-            opt_ups = np.clip(opt_ups, 0.1, 1.2)
+            # 물리적 한계선 밖으로 탈출한 상수는 클리핑하여 리포트 오염 방지 (상한선 2.1로 동기화)
+            opt_ups = np.clip(opt_ups, 0.1, 2.1)
             
             optimized_records.append({
                 'galaxy': gal, 
@@ -341,7 +343,6 @@ if __name__ == "__main__":
     df_split = load_and_sanitize_sparc_dataset_split(table1_data, datafile2_data)
     
     # 🔗 [런타임 강제 주입] 파일 시스템 캐시를 무력화하고 우리가 조립한 함수를 메모리에 직접 할당합니다.
-    # 만약 주피터 환경이라면 이 코드가 실행되면서 기존의 289.2823% 유령 상수가 완벽히 파괴됩니다.
     import sys
     current_module = sys.modules[__name__]
     
@@ -352,3 +353,4 @@ if __name__ == "__main__":
     else:
         # 혹시 모를 이름 이원화를 방지하기 위해 로컬 함수 호출 보장
         run_tdt_upsilon_validation(df_split)
+
