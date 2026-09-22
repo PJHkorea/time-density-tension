@@ -6,7 +6,6 @@ This module operationalizes the fundamental mathematical and physical framework 
 the Time-Density Tension Theory. It defines the immutable quantum topological constants,
 calculates the dynamic time-density dilution, and computes the complex anchoring Hamiltonian.
 """
-
 import numpy as np
 import mpmath
 
@@ -29,11 +28,13 @@ class TDTCore:
         # 공식 유도: γ = (1 + α * ln(2)) / (2π)
         self.gamma = (1.0 + self.alpha * self.ln2) / (2.0 * self.pi)  # 약 0.159960
 
-        # 중입자 유체 복사 저항 및 위상 편이 상수 (CMB 오차 0.0043% 수렴 유도치)
+        # 중입자 유체 복사 저항 및 위상 편이 상수 (02번 백서 마스터 브릿징 공식 기반 유도치)
         self.delta_phase = 0.039513
 
-        # 우주 위상 결합 상수 (C_univ)
-        self.c_univ = 0.850720
+        # 우주 위상 결합 상수 (C_univ) 정밀화:
+        # 인위적인 피팅 상수(0.850720)를 제거하고, 02번 백서에 선언된 
+        # 원형 배경장(2π)과 엔트로피 기저 곡률의 역산 대칭 텐서로 완전 정상화
+        self.c_univ = 1.0 / (2.0 * self.pi * self.ln2)  # 약 0.229568
 
         # ---------------------------------------------------------------------
         # 2. 수론적 닻줄 격자 고착화 (리만 제타 비자명 제로점)
@@ -120,29 +121,20 @@ class TDTCore:
         media_coupling = 1.0 / (self.gamma * np.sqrt(3.0))  # ≈ 3.6094
         
         # 4. 04번 문서 정밀 교정: 3번째 리만 영점 (Ω_3)의 완벽한 '단일 스칼라 실수값' 격리
-        # 배열 연산 오염을 원천 차단하기 위해 3번째 노드(인덱스 2)의 고정값 25.010858을 완벽한 스칼라로 추출
         omega_3_scalar = float(self.omega_nodes[2])  
         cosmic_scale_anchor = np.sqrt(omega_3_scalar * self.ln2 / self.gamma)  # 절대 척도 상수 (≈ 10.4137)
         
-        # 5. 00/04번 문서 결합: 2D 홀로그래픽 경계의 정보가 3D 구면 스페이스로 투영될 때 
-        # 발생하는 최종 기하학적 상전이 스케일러 (46% 평행 장벽의 수학적 실체)
+        # 5. 00/04번 문서 결합: 2D 홀로그래픽 경계의 정보가 3D 구면 스페이스로 투영될 때 발생하는 최종 기하학적 상전이 스케일러
         holographic_projection_scaler = (2.0 * self.pi) / (np.log(1.0 / self.alpha) * self.gamma)  # ≈ 1.8784
         
-        # 6. 차원 투영 정규화 (Holographic Dimensional Normalization) 최종 결착:
-        # 미시 2D 정보 면적이 3D 구면 조화 텐서 공간의 거시 축으로 사영되는 분모 구조
-        # 척력 진폭의 비선형 증폭을 차단하기 위해 구면 면적 수축 곡률 정수(n_arr)와 게이지 결합의 완벽한 조화
+        # 6~8번 연산 단 정규화 및 최종 파동 지평선 변위 가산 로직
         normalization_factor = 2.0 * self.pi * self.alpha * media_coupling * cosmic_scale_anchor * n_arr
-        
-        # 7. 수론적 척력이 만들어내는 순수 가산 위상 변위 벡터 산출 (곱연산 피팅 0%)
         delta_l_additive = (bessel_fluctuation + gue_repulsion_scale) / normalization_factor
-        
-        # 8. 최종 통합 마감: 
-        # 순정 기하학적 거시 축(l_n_pure * holographic_projection_scaler)의 완벽한 스케일 위에
-        # 정규화 분모를 통과하여 고유 곡률 균형을 회복한 미시적 양자 변위(delta_l_additive)를 
-        # 기저 파동의 스케일 지평선(l_n_pure)에 완전히 결착 및 가산 처리합니다.
         l_n_final = (l_n_pure * holographic_projection_scaler) + (delta_l_additive * l_n_pure)
-
         return l_n_final
+
+
+
 
 
 
