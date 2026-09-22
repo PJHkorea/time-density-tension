@@ -196,6 +196,7 @@ New Scale (a)  Res. Tension (Trr)  White Hole Jet (S)  Emergent Baryon (ρ_b)
 ================================================================================
 ```
 ---
+### tdt_sparc_validation.py
 
 ```text
 ⚡ [SYSTEM] INJECTING HOT-PATCHED SUITE INTO RUNTIME ENVIRONMENT DIRECTLY.
