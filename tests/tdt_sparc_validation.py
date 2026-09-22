@@ -279,7 +279,6 @@ def tdt_loss_function(params):
     v_disk_arr = df['v_disk'].values if 'v_disk' in df.columns else (df['V_DISK'].values if 'V_DISK' in df.columns else v_baryon_vals)
     
     if 'v_gas' in df.columns or 'V_GAS' in df.columns:
-        # KeyError 방어선: 대소문자 매핑 완벽 소독
         v_bulge_vals = df['v_bulge'].values if 'v_bulge' in df.columns else (df['V_BULGE'].values if 'V_BULGE' in df.columns else np.zeros_like(radius_vals))
         v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * v_bulge_vals)
     else:
@@ -288,21 +287,17 @@ def tdt_loss_function(params):
     # 🚀 [진화적 성숙도 기저 축 자가 도출]
     v_gas_safe = np.clip(v_gas_arr, 1e-5, None)
     stellar_dominance = (v_disk_arr ** 2) / (v_gas_safe ** 2)
-    
-    # 미세구조상수(alpha) 기반 거듭제곱 30.0배 멱급수 스케일러 연산
-    evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (core_test.alpha * 30.0)
+    evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (core_test.alpha * 3.5)
 
-    # 선형 파동 합성 부호 결정 (젊은 왜소은하 = -1.0, 오래된 거대은하 = +1.0)
+    # 🌌 [모순 타파 최종 마스터 스위치] 가속도 제곱 공간(v^2 + v^2) 상에서의 위상 부호 결합
     sign_tensor = np.where(evolutionary_scale < 1.0, -1.0, 1.0)
 
-    # 🎯 [치명적 인자 매핑 싱크 동기화 교정 완료]
-    # 물리 엔진 내부 지수 축 비선형 위상 변조를 위해 자가 도출된 evolutionary_scale을 직렬 인자로 패싱합니다.
+    # 코어 엔진으로부터 정상 차원(v^2)의 장력 가속도 항 인입
     v_tension_sq = core_test.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
     
-    # 정통 TDT 실수 축 선형 파동 간섭 결합 구조 집행
-    v_tension_bare = np.sqrt(v_tension_sq)
-    v_total_bare = v_baryon_corrected + (sign_tensor * v_tension_bare)
-    v_total_bare = np.clip(v_total_bare, 0.0, None)
+    # 🎯 [최종 대전환] 삼각부등식의 덫을 깨부수는 에너지 등가 공간선 선형 위상 결합 
+    v_total_bare_sq = (v_baryon_corrected ** 2) + (sign_tensor * v_tension_sq)
+    v_total_bare = np.sqrt(np.clip(v_total_bare_sq, 0.0, None))
     
     # 동적 점성 마찰 감쇠 가동 및 상한선 85% 스무딩 정합
     dynamic_fluid_friction = core_test.calculate_dynamic_friction(radius_vals, mass_vals)
@@ -318,19 +313,22 @@ def tdt_loss_function(params):
         
     return np.mean(np.nan_to_num(errors, nan=9999.0))
 
+
 # =========================================================================
-# 3. 글로벌 게이지 선보정 최적화 탐색 가동부 (최종 스케일 정박 및 3차원 완전 해방)
+# 3. 글로벌 게이지 선보정 최적화 탐색 가동부 (최종 스케일 정박 및 전역 수렴)
 # =========================================================================
 print("⏳ TDT 마스터 엔진 글로벌 게이지 최적화 탐색 시작 (0% 조작 피팅)...")
 
-initial_guess = [5.45, 1.0, 0.5455]
+initial_guess = [1.5, 1.0, 0.5455]
 bounds = [
-    (0.001, 100.0),     # c_univ 범위: 비선형 위상 변조 전면 해방
-    (0.01, 100.0),      # standard_mass 스케일 범위
-    (0.01, 1.5)         # delta_phase 범위
+    (0.01, 15.0),       # c_univ 범위
+    (0.1, 10.0),        # standard_mass 스케일 범위
+    (0.1, 0.95)         # delta_phase 범위 (마찰 계수 상한선 차단)
 ]
 
 result = minimize(tdt_loss_function, initial_guess, method='L-BFGS-B', bounds=bounds)
+
+
 
 if result.success:
     optimized_params = result.x
@@ -350,7 +348,7 @@ if result.success:
     v_disk_arr = df_result['v_disk'].values if 'v_disk' in df_result.columns else (df_result['V_DISK'].values if 'V_DISK' in df_result.columns else v_baryon_vals)
     
     if 'v_gas' in df_result.columns or 'V_GAS' in df_result.columns:
-        # 🚨 [최종 동기화] KeyError 원천 배제 방어선 구축 완료
+        # KeyError 원천 배제 방어선 구축 완료
         v_bulge_vals = df_result['v_bulge'].values if 'v_bulge' in df_result.columns else (df_result['V_BULGE'].values if 'V_BULGE' in df_result.columns else np.zeros_like(radius_vals))
         v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * v_bulge_vals)
     else:
@@ -363,13 +361,16 @@ if result.success:
     evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (final_core.alpha * 30.0)
     sign_tensor = np.where(evolutionary_scale < 1.0, -1.0, 1.0)
 
-    # 🎯 [인자 매핑 대칭성 동기화 완료]
+    # 🎯 [에너지 등가 차원 직렬 동기화] 
+    # 코어 엔진으로부터 순수 v^2 차원의 장력 에너지를 인입합니다.
     v_tension_sq_final = final_core.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
-    v_tension_bare_final = np.sqrt(v_tension_sq_final)
-    df_result['v_tension_sq'] = (sign_tensor * v_tension_bare_final) ** 2
     
-    v_total_bare_final = v_baryon_corrected + (sign_tensor * v_tension_bare_final)
-    v_total_bare_final = np.clip(v_total_bare_final, 0.0, None)
+    # 테이블의 물리적 가시성을 보존하기 위해 부호 텐서가 누적 반영된 알짜 장력 에너지를 대입합니다.
+    df_result['v_tension_sq'] = sign_tensor * v_tension_sq_final
+    
+    # 아인슈타인-뉴턴 가속도 제곱 공간(v^2 + v^2)의 선형 결합 정합 후 최종 루트 스칼라 사상
+    v_total_bare_sq_final = (v_baryon_corrected ** 2) + (sign_tensor * v_tension_sq_final)
+    v_total_bare_final = np.sqrt(np.clip(v_total_bare_sq_final, 0.0, None))
     
     df_result['dynamic_fluid_friction'] = final_core.calculate_dynamic_friction(radius_vals, mass_vals)
     df_result['dynamic_fluid_friction'] = np.clip(df_result['dynamic_fluid_friction'].values, 0.0, 0.85)
@@ -404,4 +405,5 @@ if result.success:
     print("="* 105)
 else:
     print(f"❌ Optimization failed to converge: {result.message}")
+
 
