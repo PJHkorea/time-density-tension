@@ -180,6 +180,7 @@ def load_and_sanitize_sparc_dataset_split(meta_text: str, curve_text: str) -> pd
     })
     
     # 3. 필요한 컬럼 축만 조인하여 최종 데이터프레임 반환
+        # 3. 필요한 컬럼 축만 조인하여 최종 데이터프레임 반환
     df_merged = pd.merge(
         df_curves[['galaxy', 'radius', 'v_obs', 'v_gas', 'v_disk']], 
         df_meta, 
@@ -187,6 +188,11 @@ def load_and_sanitize_sparc_dataset_split(meta_text: str, curve_text: str) -> pd
         how='left'
     )
     return df_merged
+
+# [교정 완료] 함수 선언(0칸) ➡️ 내부 실행 코드(4칸) ➡️ 루프문(4칸) ➡️ 루프 내부(8칸)로 정렬했습니다.
+def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
+    galaxies = df_cleaned['galaxy'].unique()
+    optimized_records = []  # 이후 리포트 카드 빌드를 위한 초기화 리스트 배치
 
     for gal in galaxies:
         # 은하별 데이터 조각 분리
@@ -198,7 +204,6 @@ def load_and_sanitize_sparc_dataset_split(meta_text: str, curve_text: str) -> pd
         v_obs_raw = df_gal['v_obs'].values
         
         # [천문학 기하 스케일 고정]
-        # v_obs_raw는 이미 은하 고유 평면 기준으로 정제된 속도축이므로 target에 순정 데이터 매칭
         v_target = v_obs_raw
         
         # 유효 관측 마스크 적용
@@ -210,6 +215,7 @@ def load_and_sanitize_sparc_dataset_split(meta_text: str, curve_text: str) -> pd
         v_gas_valid = v_gas_vals[valid_mask]
         v_disk_valid = v_disk_vals[valid_mask]
         v_target_valid = v_target[valid_mask]
+
 
         # 대안 A 적용 목적 함수 (순정 벡터화 가속 보정 버전)
         def local_loss_function(params):
