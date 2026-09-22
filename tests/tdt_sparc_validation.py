@@ -83,13 +83,19 @@ class TDTCore:
         # mass_ratio의 연산 다이나믹 레인지를 실제 M_sun 축과 1:1로 매핑합니다.
         mass_ratio = np.clip(mass_arr / self.standard_mass, 1e-10, None)
 
-        # 🚨 [치명적 인덱스 오버플로우 원천 방어선] 
-        # 10^9배 폭발한 질량이 log10 내부에서 무한대로 터져 int64 최솟값으로 흑화하는 것을 방지합니다.
-        # 기존의 가짜 배율인 10.0 곱연산 및 상한 왜곡을 완전히 걷어내고, 30개 리만 영점 격자 내로 매끄럽게 안착시킵니다.
+        # 🚨 [치명적 인덱스 언더플로우 원천 방어선 수리] 
+        # Scipy 탐색 도중 질량이 요동쳐 log10 내부가 -inf로 리크되는 것을 완벽 차단합니다.
         log_scale_idx = np.log10(np.clip(mass_ratio, 1e-5, None))
-        continuous_idx = np.clip(log_scale_idx * 1.5, 0, self.num_anchors - 1.001)
+        
+        # 💡 [신규 추가] 혹시 모를 NaN이나 무한대(-inf) 발생 시 안전하게 0.0 영역으로 소독 처리
+        log_scale_idx = np.nan_to_num(log_scale_idx, nan=0.0, posinf=0.0, neginf=0.0)
 
-        idx_floor = np.floor(continuous_idx).astype(int)
+        # 실수형 연속 인덱스를 0과 리만 격자 최대 범위(num_anchors - 1.001) 사이로 강력 차착
+        continuous_idx = np.clip(log_scale_idx * 1.5, 0.0, float(self.num_anchors - 1.001))
+        continuous_idx = np.nan_to_num(continuous_idx, nan=0.0)
+
+        # 💡 [최종 방어선] 정수형 변환 전후로 단단히 가두어 int64 최솟값 흑화를 원천 격리
+        idx_floor = np.clip(np.floor(continuous_idx).astype(int), 0, self.num_anchors - 2)
         idx_ceil = idx_floor + 1
         idx_weight = continuous_idx - idx_floor # 소수점 아래 가중치
 
@@ -143,7 +149,7 @@ class TDTCore:
         # 최종 무차원 동적 유체 마찰 감쇄 배열 산출
         dynamic_fluid_friction = base_damping * gaussian_decay * tanh_switch
 
-        return np.clip(dynamic_fluid_friction, 0.0, 0.9)
+        return np.clip(dynamic_fluid_friction, 0.0, 0.95)
 
 
 # =========================================================================
@@ -172,35 +178,35 @@ DDO064        6.8    0.10   6.29  4.62  -1.13   1.96   0.00   28.50     0.00
 DDO154  4.04   0.49  13.80  1.60   3.74  12.31   0.00   15.93     0.00
 """
 
-import pandas as pd
-import numpy as np
-
 def parse_sparc_table1_fixed(table1_text):
     """
-    [완벽 차원 정렬] SPARC Table1 MRT 고정 폭 규격을 100% 수립하여 리팩토링.
-    가변 공백 노이즈를 완벽 차단하고, 10^9 척도를 실제 태양 질량(M_sun) 축으로 복원합니다.
+    [유연 토큰 파서] 줄바꿈 및 앞쪽 공백 흔들림 노이즈를 완벽 차단하고,
+    은하 이름을 100% 순수하게 추출하여 inclination 메타데이터를 조인합니다.
     """
     lines = table1_text.strip().split('\n')
     parsed_data = []
     
     for line in lines:
-        if not line.strip() or any(k in line for k in ['==', '--', 'Title', 'Authors', 'Table', 'Bytes', 'Explanations']):
+        line_stripped = line.strip()
+        if not line_stripped or any(k in line_stripped for k in ['==', '--', 'Title', 'Authors', 'Table', 'Bytes', 'Explanations']):
+            continue
+            
+        tokens = line_stripped.split()
+        if len(tokens) < 6:  # 유효 토큰 확보
             continue
             
         try:
-            # MRT 바이트 명세서 기반의 고정 폭 정확 슬라이싱 (0-based 파이썬 인덱스 환산)
-            galaxy = line[0:11].strip()
-            if not galaxy or galaxy.startswith('Note'):
+            # 🚨 토큰 매핑 추적으로 밀림 원천 차단
+            galaxy = str(tokens[0]).strip().upper()
+            if galaxy.startswith('NOTE'):
                 continue
                 
-            # 경사각 (Inc): 27-30 바이트 구간 추출 (인덱스 26:30)
-            inc_str = line[26:30].strip()
-            inclination = float(inc_str) if inc_str else np.nan
+            # table1_data 기준 경사각(Inc)은 6번째 열 (인덱스 5)
+            inclination = float(tokens[5])
             
-            # 총 중입자 질량 축 복원: 35-41 바이트에서 10^9 L_sun 광도 추출 후 실제 M_sun 축으로 배율 정렬
-            lum_str = line[34:41].strip()
-            luminosity_9 = float(lum_str) if lum_str else 0.0
-            baryon_mass_m_sun = luminosity_9 * 1.0e9  # 10^9 스케일을 온전한 태양 질량 단위로 환산
+            # 3번째 열 (인덱스 2)의 광도/특성 거리를 기반으로 M_sun 중입자 스케일로 정합 복원
+            luminosity_9 = float(tokens[2])
+            baryon_mass_m_sun = luminosity_9 * 1.0e9  # 10^9 스케일을 온전한 태양 질량 단위로 복원
             
             parsed_data.append({
                 'galaxy': galaxy,
@@ -214,34 +220,36 @@ def parse_sparc_table1_fixed(table1_text):
 
 def parse_sparc_data_dynamic_fixed(datafile2_text):
     """
-    [완벽 차원 정렬] SPARC datafile2 고정 폭 규격을 100% 수립하여 리팩토링.
-    가스/디스크/팽대부 컴포넌트를 정석 사각 합산하여 참값 뉴턴 바리온 속도(v_baryon)를 유도합니다.
+    [유연 토큰 파서] 공백 오차에 구애받지 않고 고유 관측치 및 
+    가스/디스크/벌지 속도를 정확한 순서로 격리하여 참값 v_baryon을 유도합니다.
     """
     lines = datafile2_text.strip().split('\n')
     parsed_data = []
     
     for line in lines:
-        if not line.strip() or any(k in line for k in ['==', '--', 'Title', 'Authors', 'Table', 'Bytes', 'Explanations', 'Galaxy identifier']):
+        line_stripped = line.strip()
+        if not line_stripped or any(k in line_stripped for k in ['==', '--', 'Title', 'Authors', 'Table', 'Bytes', 'Explanations', 'Galaxy identifier']):
+            continue
+            
+        tokens = line_stripped.split()
+        if len(tokens) < 7:  # v_disk까지 안전하게 읽기 위한 최소 토큰
             continue
             
         try:
-            # 🚨 MRT 명세서 기반의 고정 폭 정확 슬라이싱 (ID 밀림 원천 방어)
-            galaxy = line[0:11].strip()
-            if not galaxy or galaxy.startswith('Note'):
+            # 🚨 텍스트 간격에 상관없이 순수 이름만 독립 추출
+            galaxy = str(tokens[0]).strip().upper()
+            if galaxy.startswith('NOTE'):
                 continue
                 
-            # 반경 (R): 20-25 바이트 구간 파싱 (인덱스 19:25)
-            radius = float(line[19:25].strip())
+            # datafile2_data 열 순서 정밀 동기화
+            radius = float(tokens[2])   # 진짜 측정 반지름 R (kpc) -> tokens[2]로 고정
+            v_obs = float(tokens[3])    # 진짜 우주 관측 속도 V_obs (km/s)
             
-            # 관측 속도 (Vobs): 27-32 바이트 구간 파싱 (인덱스 26:32)
-            v_obs = float(line[26:32].strip())
+            v_gas = float(tokens[5])    # 진짜 가스 성분 속도 (km/s)
+            v_disk = float(tokens[6])   # 진짜 디스크 성분 속도 (km/s)
+            v_bulge = float(tokens[7]) if len(tokens) > 7 else 0.0
             
-            # 🌌 [천체물리학 정석 합성] 성분별 회전 속도 정밀 바이트 파싱 (Explanations 오프셋 준수)
-            v_gas = float(line[39:45].strip()) if line[39:45].strip() else 0.0
-            v_disk = float(line[46:52].strip()) if line[46:52].strip() else 0.0
-            v_bulge = float(line[53:59].strip()) if line[53:59].strip() else 0.0
-            
-            # 뉴턴 바리온 속도의 진짜 유효 합성 참값 유도 (가사 합산 법칙 적용)
+            # 천체물리학 정석 합성 법칙 가동
             v_baryon_true = np.sqrt(v_gas**2 + v_disk**2 + v_bulge**2)
             
             parsed_data.append({
@@ -313,9 +321,18 @@ def tdt_loss_function(params):
     # 0% 조작 검증: v_tdt_predicted 공식 순수성 보존
     v_tdt_predicted = v_total_bare * (1.0 - dynamic_fluid_friction)
 
+    # 💡 [보완] 혹시 모를 연산 발산으로 인한 NaN/Inf 발생 시 안전치로 강제 소독 (empty slice 원천 차단)
+    v_tdt_predicted = np.nan_to_num(v_tdt_predicted, nan=0.0, posinf=9999.0, neginf=0.0)
+
     # 마스킹 구역 내에서의 MAE(평균 절대 오차율, %) 연산
     errors = np.abs(v_tdt_predicted[valid_mask] - v_obs_intrinsic[valid_mask]) / v_obs_intrinsic[valid_mask] * 100
-    return np.mean(errors)
+    
+    # 💡 [보완] 에러 배열 자체가 완전히 비어버리거나 전체가 NaN일 때 Scipy가 탈출하도록 안전 페널티 부여
+    if len(errors) == 0 or np.all(np.isnan(errors)):
+        return 9999.0
+        
+    return np.mean(np.nan_to_num(errors, nan=9999.0))
+
 
 # =========================================================================
 # 3. 글로벌 게이지 선보정 최적화 탐색 가동부
