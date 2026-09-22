@@ -279,23 +279,32 @@ def tdt_loss_function(params):
     v_disk_arr = df['v_disk'].values if 'v_disk' in df.columns else (df['V_DISK'].values if 'V_DISK' in df.columns else v_baryon_vals)
     
     if 'v_gas' in df.columns or 'V_GAS' in df.columns:
-        v_bulge_vals = df['v_bulge'].values if 'v_bulge' in df.columns else (df['V_BULGE'].values if 'V_BULGE' in df.columns else 0.0)
+        # KeyError 방어선: 대소문자 매핑 완벽 소독
+        v_bulge_vals = df['v_bulge'].values if 'v_bulge' in df.columns else (df['V_BULGE'].values if 'V_BULGE' in df.columns else np.zeros_like(radius_vals))
         v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * v_bulge_vals)
     else:
         v_baryon_corrected = v_baryon_vals * 0.65
 
+    # 🚀 [진화적 성숙도 기저 축 자가 도출]
     v_gas_safe = np.clip(v_gas_arr, 1e-5, None)
     stellar_dominance = (v_disk_arr ** 2) / (v_gas_safe ** 2)
+    
+    # 미세구조상수(alpha) 기반 거듭제곱 30.0배 멱급수 스케일러 연산
     evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (core_test.alpha * 30.0)
 
+    # 선형 파동 합성 부호 결정 (젊은 왜소은하 = -1.0, 오래된 거대은하 = +1.0)
     sign_tensor = np.where(evolutionary_scale < 1.0, -1.0, 1.0)
 
+    # 🎯 [치명적 인자 매핑 싱크 동기화 교정 완료]
+    # 물리 엔진 내부 지수 축 비선형 위상 변조를 위해 자가 도출된 evolutionary_scale을 직렬 인자로 패싱합니다.
     v_tension_sq = core_test.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
     
+    # 정통 TDT 실수 축 선형 파동 간섭 결합 구조 집행
     v_tension_bare = np.sqrt(v_tension_sq)
     v_total_bare = v_baryon_corrected + (sign_tensor * v_tension_bare)
     v_total_bare = np.clip(v_total_bare, 0.0, None)
     
+    # 동적 점성 마찰 감쇠 가동 및 상한선 85% 스무딩 정합
     dynamic_fluid_friction = core_test.calculate_dynamic_friction(radius_vals, mass_vals)
     dynamic_fluid_friction = np.clip(dynamic_fluid_friction, 0.0, 0.85)
     
@@ -308,7 +317,6 @@ def tdt_loss_function(params):
         return 9999.0
         
     return np.mean(np.nan_to_num(errors, nan=9999.0))
-
 
 # =========================================================================
 # 3. 글로벌 게이지 선보정 최적화 탐색 가동부 (최종 스케일 정박 및 3차원 완전 해방)
@@ -342,7 +350,8 @@ if result.success:
     v_disk_arr = df_result['v_disk'].values if 'v_disk' in df_result.columns else (df_result['V_DISK'].values if 'V_DISK' in df_result.columns else v_baryon_vals)
     
     if 'v_gas' in df_result.columns or 'V_GAS' in df_result.columns:
-        v_bulge_vals = df_result['v_bulge'].values if 'v_bulge' in df_result.columns else (df_result['V_BULGE'].values if 'V_BULGE' in df_result.columns else 0.0)
+        # 🚨 [최종 동기화] KeyError 원천 배제 방어선 구축 완료
+        v_bulge_vals = df_result['v_bulge'].values if 'v_bulge' in df_result.columns else (df_result['V_BULGE'].values if 'V_BULGE' in df_result.columns else np.zeros_like(radius_vals))
         v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * v_bulge_vals)
     else:
         v_baryon_corrected = v_baryon_vals * 0.65
@@ -354,6 +363,7 @@ if result.success:
     evolutionary_scale = (np.clip(stellar_dominance, 1e-5, 1e5)) ** (final_core.alpha * 30.0)
     sign_tensor = np.where(evolutionary_scale < 1.0, -1.0, 1.0)
 
+    # 🎯 [인자 매핑 대칭성 동기화 완료]
     v_tension_sq_final = final_core.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
     v_tension_bare_final = np.sqrt(v_tension_sq_final)
     df_result['v_tension_sq'] = (sign_tensor * v_tension_bare_final) ** 2
@@ -394,3 +404,4 @@ if result.success:
     print("="* 105)
 else:
     print(f"❌ Optimization failed to converge: {result.message}")
+
