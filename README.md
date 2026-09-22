@@ -222,6 +222,8 @@ DDO154       | 0.850720         | 0.039513        | 1.0695         | 0.0000     
 ===================================================================================================================
 ```
 ---
+### tdt_sparc_frozen_validation.py
+
 ```text
  [SYSTEM] INJECTING HOT-PATCHED SUITE INTO RUNTIME ENVIRONMENT DIRECTLY.
 CAMB         | 0.850720         | 0.039513        | 0.1000         | 18.4046     %
