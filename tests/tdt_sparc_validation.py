@@ -270,7 +270,7 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
         open_bounds = [
             (0.0001, 10.0),  # c_univ 자유 탐색 가능하도록 개방
             (0.0001, 0.5),   # delta 자유 탐색 가능하도록 개방
-            (0.1, 1.2)       # Upsilon_disk만 표준 한계선으로 강제 제한
+            (0.1, 2.1)       # Upsilon_disk만 표준 한계선으로 강제 제한
         ]
         
         # Nelder-Mead 공법을 사용하여 불연속 면 에러(NaN 탈락) 문제를 원천 차단
