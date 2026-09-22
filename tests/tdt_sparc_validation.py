@@ -11,17 +11,14 @@ class TDTCore:
         self.gamma = (1.0 + self.alpha * self.ln2) / (2.0 * self.pi)
         
         # 🚨 [최종 선보정 정공법 락인 - 대통합 게이지 평형 정박]
-        # 실행부(Scipy)에서 최적화 파라미터로 주입받을 변수들의 초기 기저 세팅입니다.
-        self.delta_phase = 0.5455      # 마찰 다이나믹 레인지를 성공시킨 기저 진폭 고정 유지
-        self.c_univ = 12.85            # 글로벌 장력 출력을 최적 가속 배율로 상향 세팅 (10.15 -> 12.85)
+        self.delta_phase = 0.5455      
+        self.c_univ = 12.85            
         
-        # 🔗 [차원 결합 대전환] 은하 총 질량이 e9 단위로 인입되므로,
-        # 기준 질량을 원래 설계 규격인 10^8 M_sun 영역으로 완벽하게 원상 복귀 시킵니다. (4.99e3 -> 1.0e8)
+        # 🔗 [차원 결합 대전환] 기준 질량을 원래 설계 규격인 10^8 M_sun 영역으로 원상 복귀
         self.standard_mass = 1.0e8     
         
-        # 🔗 [상전이 족쇄 해제] 거대 반경 진입 시 유체 마찰이 즉각 '0.0'으로 기화 소멸하도록 벼려줍니다.
-        # 💡 [보안] 이 값 역시 고정하지 않고 나중에 최적화 범위(Bounds)에 넣을 수 있도록 준비합니다.
-        self.friction_decay_rate = 0.25 # 드바이 마찰 감쇄 곡선을 거대 우주 공간 상전이 타이밍과 싱크 (0.05 -> 0.25)
+        # 🔗 [상전이 족쇄 해제] 드바이 마찰 감쇄 곡선을 거대 우주 공간 상전이 타이밍과 싱크
+        self.friction_decay_rate = 0.25 
 
         # 3. 천체물리학 표준 차원 상수
         self.G_INV = 232504.5  
@@ -40,14 +37,12 @@ class TDTCore:
         if num_anchors <= len(known_zeta_zeros):
             self.omega_nodes = np.array(known_zeta_zeros[:num_anchors])
         else:
-            # 💡 [보완] 리만 영점의 점근적 밀도 분포(Riemann-von Mangoldt formula)를 고려한 복합 전개
             extended_zeros = list(known_zeta_zeros)
             last_zero = known_zeta_zeros[-1]
             for i in range(1, num_anchors - len(known_zeta_zeros) + 1):
                 approx_spacing = 2.0 * np.pi / np.log(last_zero + i * 2.5)
                 extended_zeros.append(extended_zeros[-1] + approx_spacing)
             self.omega_nodes = np.array(extended_zeros[:num_anchors])
-
 
     def calculate_time_density(self, scale_factor_a: float or np.ndarray) -> float or np.ndarray:
         rho_0 = 1.0
@@ -65,14 +60,11 @@ class TDTCore:
         if isinstance(scale_factor_a, np.ndarray):
             a_safe = np.maximum(scale_factor_a, 0.0)
             imag_part = np.where(scale_factor_a == 0, 0.0, omega_n * (a_safe ** self.gamma))
+            return 0.5 + imag_part * 1j  # 🔗 복소수 배열 브로드캐스팅 연산 안정화
         else:
             a_safe = max(scale_factor_a, 0.0)
             imag_part = 0.0 if scale_factor_a == 0 else omega_n * (a_safe ** self.gamma)
-
-        real_part = 0.5
-        if isinstance(scale_factor_a, np.ndarray):
-            return real_part + 1j * imag_part
-        return complex(real_part, imag_part)
+            return complex(0.5, imag_part)
 
     def calculate_galaxy_evolutionary_tensor(self, v_gas: np.ndarray, v_disk: np.ndarray) -> np.ndarray:
         """
@@ -87,7 +79,7 @@ class TDTCore:
         evolutionary_scale = 1.0 + self.alpha * np.log10(np.clip(stellar_dominance, 1e-3, 1e5))
         return np.clip(evolutionary_scale, 0.2, 5.0)
 
-        def calculate_galactic_tension_sq(self, radius: np.ndarray, baryon_mass: np.ndarray, evolutionary_scale: np.ndarray) -> np.ndarray:
+    def calculate_galactic_tension_sq(self, radius: np.ndarray, baryon_mass: np.ndarray, evolutionary_scale: np.ndarray) -> np.ndarray:
         """
         🌌 [방법 B & 비선형 위상 변조 대통합] 은하 반지름, 바리온 질량 및 진화 텐서를 결합하여
         지수 축 비선형 위상 변조(Phase Modulation)를 수행합니다. 0% 마니퓰레이션 원칙 사수.
@@ -121,17 +113,12 @@ class TDTCore:
 
         # 💡 [최종 해방 스위치: 비선형 위상 변조 집행] 
         # 기존 fixed 지수 구조를 깨부수고 진화 스케일러(scale_arr)를 지수 가중치 축에 다이렉트로 결합합니다.
-        # 젊은 왜소은하 -> 지수 극소화로 정밀 상쇄 차착 / 오래된 거대은하 -> 지수 폭발로 장력 대폭발 보강!
         effective_exponent = (self.gamma - 0.15) * scale_arr
         exponent_scale = 2.5941 * (normalized_radius ** effective_exponent)
 
         # 🎯 [방법 B 정합] 최종 가속도 제곱 차원 v^2 반환
         v_tension_sq = (k_gal * dynamic_omega * exponent_scale) ** 2
         return np.clip(v_tension_sq, 0.0, None)
-
-
-
-
 
 
 
@@ -180,9 +167,6 @@ class TDTCore:
 
 # =========================================================================
 # [구역 2] SPARC 은하 데이터 로드 및 고정밀 유연 파서 정의 (리팩토링 완료)
-# =========================================================================
-# =========================================================================
-# [구역 2] 정규화 및 소독이 완료된 SPARC 고정 매트릭스 데이터셋
 # =========================================================================
 
 # 규격: [은하명] [경사각(도)] [진짜 바리온 질량 축(M_sun)]
@@ -236,12 +220,12 @@ def parse_sparc_data_dynamic_fixed(datafile2_text):
     # 순수 성분 합성 (DDO064 등의 음수 가스 가속 부호 오차도 제곱 과정에서 자동 방어)
     df['v_baryon'] = np.sqrt(df['V_GAS']**2 + df['V_DISK']**2 + df['V_BULGE']**2)
     
+    # 🔗 [치명적 결함 해결] 최적화 손실 함수 연산에 필요한 개별 속도 성분(V_GAS, V_DISK, V_BULGE)을 유실하지 않고 보존합니다.
     return df.rename(columns={
         'GALAXY': 'galaxy',
         'RADIUS': 'radius',
         'V_OBS': 'v_obs'
-    })[['galaxy', 'radius', 'v_obs', 'v_baryon']]
-
+    })[['galaxy', 'radius', 'v_obs', 'v_baryon', 'V_GAS', 'V_DISK', 'V_BULGE']]
 
 import numpy as np
 import pandas as pd
@@ -253,10 +237,17 @@ from scipy.optimize import minimize
 
 # 1. 고정밀 소독 파서 가동 ➔ 가변 공백 노이즈 및 단위계 왜곡 원천 차단
 df_meta = parse_sparc_table1_fixed(table1_data)
+
+# 💡 [성분 보존 방어선] 파서 슬라이싱으로 유실될 수 있는 성분(V_GAS, V_DISK 등)을 원본에서 복원
+df_curves_raw = pd.read_csv(StringIO(datafile2_data.strip()), sep=r'\s+', header=0)
+df_curves_raw['GALAXY'] = df_curves_raw['GALAXY'].str.upper()
+
 df_curves = parse_sparc_data_dynamic_fixed(datafile2_data)
 
-# 두 데이터프레임을 은하 이름(galaxy) 기준으로 1:1 정밀 병합
+# 데이터프레임 정밀 병합 및 유실된 가스/디스크 컴포넌트 안전 결합
 df = pd.merge(df_curves, df_meta, on='galaxy', how='left')
+df = pd.merge(df, df_curves_raw[['GALAXY', 'RADIUS', 'V_GAS', 'V_DISK', 'V_BULGE']].rename(
+    columns={'GALAXY': 'galaxy', 'RADIUS': 'radius'}), on=['galaxy', 'radius'], how='left')
 
 # 2. 전수 연산 및 최적화 루프 진입을 위한 정화된 데이터 배열 추출
 radius_vals = df['radius'].values
@@ -283,11 +274,13 @@ def tdt_loss_function(params):
     core_test.standard_mass = standard_mass_candidate
     core_test.delta_phase = delta_phase_candidate
 
+    # 🔗 안전하게 소문자 및 대문자 컬럼 대응하도록 락인
     v_gas_arr = df['v_gas'].values if 'v_gas' in df.columns else (df['V_GAS'].values if 'V_GAS' in df.columns else v_baryon_vals)
     v_disk_arr = df['v_disk'].values if 'v_disk' in df.columns else (df['V_DISK'].values if 'V_DISK' in df.columns else v_baryon_vals)
     
     if 'v_gas' in df.columns or 'V_GAS' in df.columns:
-        v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * (df['V_BULGE'].values if 'V_BULGE' in df.columns else 0.0))
+        v_bulge_vals = df['v_bulge'].values if 'v_bulge' in df.columns else (df['V_BULGE'].values if 'V_BULGE' in df.columns else 0.0)
+        v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * v_bulge_vals)
     else:
         v_baryon_corrected = v_baryon_vals * 0.65
 
@@ -335,22 +328,26 @@ if result.success:
     optimized_params = result.x
     mean_universal_error = result.fun
     
-    df['v_obs_intrinsic'] = v_obs_intrinsic
+    # 🔗 안전하게 원본 데이터 복사본 생성 후 결과 바인딩
+    df_result = df.copy()
+    df_result['v_obs_intrinsic'] = v_obs_intrinsic
     
     final_core = TDTCore(num_anchors=30)
     final_core.c_univ = optimized_params[0]
     final_core.standard_mass = optimized_params[1] * 1.0e8 if optimized_params[1] < 1e5 else optimized_params[1]
     final_core.delta_phase = optimized_params[2]
     
-    v_gas_arr = df['v_gas'].values if 'v_gas' in df.columns else (df['V_GAS'].values if 'V_GAS' in df.columns else v_baryon_vals)
-    v_disk_arr = df['v_disk'].values if 'v_disk' in df.columns else (df['V_DISK'].values if 'V_DISK' in df.columns else v_baryon_vals)
+    # 🔗 데이터프레임 컬럼 대소문자 방어선 통합 매핑
+    v_gas_arr = df_result['v_gas'].values if 'v_gas' in df_result.columns else (df_result['V_GAS'].values if 'V_GAS' in df_result.columns else v_baryon_vals)
+    v_disk_arr = df_result['v_disk'].values if 'v_disk' in df_result.columns else (df_result['V_DISK'].values if 'V_DISK' in df_result.columns else v_baryon_vals)
     
-    if 'v_gas' in df.columns or 'V_GAS' in df.columns:
-        v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * (df['V_BULGE'].values if 'V_BULGE' in df.columns else 0.0))
+    if 'v_gas' in df_result.columns or 'V_GAS' in df_result.columns:
+        v_bulge_vals = df_result['v_bulge'].values if 'v_bulge' in df_result.columns else (df_result['V_BULGE'].values if 'V_BULGE' in df_result.columns else 0.0)
+        v_baryon_corrected = np.sqrt(v_gas_arr**2 + 0.5 * v_disk_arr**2 + 0.7 * v_bulge_vals)
     else:
         v_baryon_corrected = v_baryon_vals * 0.65
     
-    df['v_baryon'] = v_baryon_corrected
+    df_result['v_baryon'] = v_baryon_corrected
 
     v_gas_safe = np.clip(v_gas_arr, 1e-5, None)
     stellar_dominance = (v_disk_arr ** 2) / (v_gas_safe ** 2)
@@ -359,14 +356,14 @@ if result.success:
 
     v_tension_sq_final = final_core.calculate_galactic_tension_sq(radius_vals, mass_vals, evolutionary_scale)
     v_tension_bare_final = np.sqrt(v_tension_sq_final)
-    df['v_tension_sq'] = (sign_tensor * v_tension_bare_final) ** 2
+    df_result['v_tension_sq'] = (sign_tensor * v_tension_bare_final) ** 2
     
     v_total_bare_final = v_baryon_corrected + (sign_tensor * v_tension_bare_final)
     v_total_bare_final = np.clip(v_total_bare_final, 0.0, None)
     
-    df['dynamic_fluid_friction'] = final_core.calculate_dynamic_friction(radius_vals, mass_vals)
-    df['dynamic_fluid_friction'] = np.clip(df['dynamic_fluid_friction'].values, 0.0, 0.85)
-    df['v_tdt_predicted'] = v_total_bare_final * (1.0 - df['dynamic_fluid_friction'].values)
+    df_result['dynamic_fluid_friction'] = final_core.calculate_dynamic_friction(radius_vals, mass_vals)
+    df_result['dynamic_fluid_friction'] = np.clip(df_result['dynamic_fluid_friction'].values, 0.0, 0.85)
+    df_result['v_tdt_predicted'] = v_total_bare_final * (1.0 - df_result['dynamic_fluid_friction'].values)
 
     print("\n" + "="* 105)
     print(f"🎉 [OPTIMIZATION SUCCESS] TDT Environment Parameters Aligned to Real Universe Axis")
@@ -392,7 +389,7 @@ if result.success:
     pd.set_option('display.max_columns', None)
     pd.set_option('display.width', 1000)
     
-    preview_df = df[['galaxy', 'radius', 'v_obs', 'v_obs_intrinsic', 'v_baryon', 'v_tension_sq', 'dynamic_fluid_friction', 'v_tdt_predicted']]
+    preview_df = df_result[['galaxy', 'radius', 'v_obs', 'v_obs_intrinsic', 'v_baryon', 'v_tension_sq', 'dynamic_fluid_friction', 'v_tdt_predicted']]
     print(preview_df.to_string(formatters=format_dict, index=False))
     print("="* 105)
 else:
