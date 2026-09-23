@@ -21,7 +21,9 @@ While the high-frequency limit ($n \ge 3$) obeys the smooth statistical converge
 
 As formalised in Phase 04, the cosmic core transitions from the infinite complex tension of a collapsing Black Hole into a real baryonic outward jet ($\mathcal{S}_{\mu\nu}^{\text{White}}$). During the first cosmic rarefaction phase ($n = 2$), the stored imaginary spacetime elasticity does not relax smoothly; instead, it undergoes a violent, non-linear **"Snap-back Lag"**. 
 
-This transient topological shockwave acts as an asymmetric phase-opposition barrier, where the background continuous field momentarily shears against the discrete number lattice. Therefore, the ~7.96% residual variance observed at the second peak ($l_2$) is considered to be the scar of the most violent structural expansion in the universe—namely, the exact moment when the cosmic spring was instantaneously uncoiled.
+This transient topological shock wave acts as an asymmetric topological barrier, causing an instantaneous shear between the continuous background field and the discrete numerical lattice within this interval. Consequently, the sudden increase in residual variance observed at the second peak ($l_2$) is interpreted as a scar from the universe's most violent structural expansion—specifically, the moment when the cosmic spring was momentarily released.
+
+
 
 
 ### 2. Coupled Master Phase Shift Equation
