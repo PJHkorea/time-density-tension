@@ -342,40 +342,42 @@ Peak l_5  | 1420.00      | 1487.07              | 1370.89            | 4.7231   
 ```
 ---
 
-## 🌌 5대 Peak값 별 수치 궤적 및 물리적 인과 구조
+## 4 Case-by-Case Peak Numerical Trajectories and Physical Causality Structures
 
-본 프로젝트는 수론적 기저선부터 플랑크(Planck 2018) 실제 관측값에 이르기까지, 각 물리적 레이어에서 유도되는 **CMB Acoustic Peak($l_n$)**의 5차 고차 노드 수치 궤적과 시공간적 인과 구조를 추적합니다.
+From the number-theoretic baseline to the actual Planck 2018 observational data, this section summarizes the 5th higher-order node numerical trajectories and spatiotemporal causal structures of the **CMB Acoustic Peaks ($l\_n$)** derived at each physical layer.
 
-### 📊 레이어별 CMB 고차 Peak 수치 비교 매트릭스
-각 모델 레이어별 $l_1$부터 $l_5$까지의 피크 거동과 최종 정답지(Planck 2018) 대비 정밀도를 요약한 최종 통합 실증 매트릭스입니다.
+### CMB Higher-Order Peak Numerical Comparison Matrix by Layer
+This matrix compares the peak behavior from $l\_1$ to $l\_5$ across each model layer and evaluates precision against the actual Planck observational values.
 
-| 분석 레이어 계층 | $l_1$ (1st) | $l_2$ (2nd) | $l_3$ (3rd) | $l_4$ (4th) | $l_5$ (5th) | 물리적 위상 및 매핑 특성 |
+| Analytical Layer Hierarchy | $l\_1$ (1st) | $l\_2$ (2nd) | $l\_3$ (3rd) | $l\_4$ (4th) | $l\_5$ (5th) | Physical Phase & Mapping Characteristics |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **🟢 1. 순수 수론적 1D 기저선** | 297.41 | 594.83 | 892.24 | 1189.65 | 1487.07 | 원초적 저차원 모델 (곡률 미반영, 전 영역 발산 선형성) |
-| **🔵 2. tdt_core.py (마스터 코어)** | **216.26** | 482.96 | 736.22 | 1043.35 | 1245.34 | $l_1$ 위상 잠금 특화 , 고차 노드 장력 한계 노출 |
-| **🟡 3. 3D 프로젝션 통합 검증** | 261.36 | **531.46** | **807.47** | **1087.65** | **1370.89** | 1D 기저선에 차원적 갭과 초기 복사 마찰 연동 |
-| **🔴 4. 플랑크 실제 관측값** | **220.00** | **541.00** | **800.00** | **1120.00** | **1420.00** | Planck 2018 실제 우주 천구 계측 데이터 |
+| **🟢 1. Pure Number-Theoretic 1D Baseline** | 297.41 | 594.83 | 892.24 | 1189.65 | 1487.07 | Primordial low-dimensional model (no curvature reflection, full-domain divergent linearity) |
+| **🔵 2. tdt\_core.py (Master Core)** | **216.26** | 482.96 | 736.22 | 1043.35 | 1245.34 | Specialized for $l\_1$ phase-locking; exhibits tension limits at higher-order nodes |
+| **🟡 3. 3D Projection Integrated Validation** | 261.36 | **531.46** | **807.47** | **1087.65** | **1370.89** | Couples dimensional gaps and early radiation friction to the 1D baseline |
+| **🔴 4. Planck Actual Observational Values** | **220.00** | **541.00** | **800.00** | **1120.00** | **1420.00** | Planck 2018 actual cosmic celestial sphere measurement data |
+
 
 ---
 
-### 🔍 Peak 궤적별 물리적 실재 세부 분석
+### Detailed Analysis of Physical Reality by Peak Trajectory
 
-#### 1. 🟢 순수 수론적 1D 기저선 (1D LINEAR)
-*   **수치적 거동**: $l_1 \approx 297.41$, $l_2 \approx 594.83$, $l_3 \approx 892.24$, $l_4 \approx 1189.65$, $l_5 \approx 1487.07$
-*   **물리적 실재**: 리만 제타 함수의 비자명한 영점 격자가 존재하는 복소 2차원 평면 내부의 순수 위상 대칭비 $\left[\frac{1-\delta }{1+\delta }\right]$만을 선형 매핑한 모델입니다. 거시 우주의 3D 물리 공간 곡률과 초기 유체의 복사 마찰(Radiation Drag)이 개입하기 전이므로, 고차 노드로 갈수록 오차가 누적되어 상위 스케일이 크게 부풀려진 기저층 발산치가 그대로 노출됩니다.
+#### 1. 🟢 Pure Number-Theoretic 1D Baseline (1D LINEAR)
+*   **Numerical Behavior**: $l\_1 \approx 297.41$, $l\_2 \approx 594.83$, $l\_3 \approx 892.24$, $l\_4 \approx 1189.65$, $l\_5 \approx 1487.07$
+*   **Physical Reality**: This model is a linear mapping purely utilizing the exact phase symmetry ratio $\left[\frac{1-\delta }{1+\delta }\right]$ within the complex 2D plane where the non-trivial zero lattice of the Riemann zeta function resides. Because it precedes the intervention of macro-cosmic 3D physical spatial curvature and early fluid radiation drag, errors accumulate toward higher-order nodes, directly exposing the baseline divergence value where the upper scales are significantly inflated.
 
-#### 2. 🔵 tdt_core.py (시스템 마스터 코어 물리 엔진)
-*   **수치적 거동**: $l_1 \approx 216.26$, $l_2 \approx 482.96$, $l_3 \approx 736.22$, $l_4 \approx 1043.35$, $l_5 \approx 1245.34$
-*   **물리적 실재**: 2D 정보면을 거시 3D 구면 스펙트럼 공간으로 전사하는 풀 행렬 해밀토니안 트레이스($\text{Tr}$) 역투영 연산 그래프를 적용한 결과입니다. 우주 지평선 규모에 걸쳐 있는 초장파 주파수 스케일인 $l_{1}$ 영역에서 발생하는 거시적 복사 마찰을 가두어 록킹하기 때문에, $l_{1}$을 작은 오차 내로위상 잠금(Phase-locking) 하는 데 특화되어 있습니다. 대신 그 반동 장력의 누적으로 인해 고차 스케일($l_4, l_5$) 영역에서 시공간 탄성체의 위상 처짐 지연이 심화되는 기준점 엔진입니다.
 
-#### 3. 🟡 3D 프로젝션 통합 검증 (tdt_lss_cmb_validation.py)
-*   **수치적 거동**: $l_1 \approx 261.36$, $l_2 \approx 531.46$, $l_3 \approx 807.47$, $l_4 \approx 1087.65$, $l_5 \approx 1370.89$
-*   **물리적 실재**: 초신성 데이터셋(Pantheon+)을 통한 **'우주 가속 팽창률($H_0, \Omega_m$) 전역 알고리즘'**과 실시간으로 주파수 축을 충돌시킨 최종 통합 실증 매트릭스입니다. 거시 우주 가속도축과 결착하기 위해 시공간 인장 변조 지수($\gamma$)가 동적으로 정렬되며, 행렬식을 고차 노드 점근 감쇄 필터 $\frac{1}{1+(\gamma \cdot n)}$로 정제하여 바인딩했습니다.('차원적 갭'과 '초기 복사 마찰'을 순수 수론적 1D 기저선값에 보정한 수치입니다)
-*   **해석학적 점근성**: $l_{1}$ 영역의 거시 마찰은 일부 남겨두는 대신, 고차 노드로 갈수록 고차 스케일로 갈수록 플랑크 관측 앵커 지형과 완벽하게 수렴됩니다.
+#### 2. 🔵 tdt\_core.py (System Master Core Physics Engine)
+*   **Numerical Behavior**: $l\_1 \approx 216.26$, $l\_2 \approx 482.96$, $l\_3 \approx 736.22$, $l\_4 \approx 1043.35$, $l\_5 \approx 1245.34$
+*   **Physical Reality**: This is the result of applying a full matrix Hamiltonian trace ($\text{Tr}$) back-projection operation graph that projects the 2D information plane into the macroscopic 3D spherical spectrum space. Because it traps and locks the macroscopic radiation drag occurring in the $l\_1$ region—the ultra-long wavelength frequency scale spanning cosmic horizon dimensions—it is specifically specialized for phase-locking $l\_1$ within a small error margin. Conversely, due to the accumulation of its counter-reaction tension, it serves as a baseline engine where the phase sag latency of the spacetime elastic manifold intensifies in the higher-order scale ($l\_4, l\_5$) regimes.
 
-#### 4. 🔴 플랑크 실제 관측값 (Planck 2018 Actual Obs)
-*   **수치적 거동**: $l_1 = 220.00$, $l_2 = 541.00$, $l_3 = 800.00$, $l_4 = 1120.00$, $l_5 = 1420.00$
-*   **물리적 실재**: 실제 시공간 천구에서 계측해 낸 앵커입니다. 
+#### 3. 🟡 3D Projection Integrated Validation (tdt\_lss\_cmb\_validation.py)
+*   **Numerical Behavior**: $l\_1 \approx 261.36$, $l\_2 \approx 531.46$, $l\_3 \approx 807.47$, $l\_4 \approx 1087.65$, $l\_5 \approx 1370.89$
+*   **Physical Reality**: This is the final integrated empirical matrix where the frequency axis clashes in real time with the **"Cosmic Accelerated Expansion Rate ($H\_0, \Omega\_m$) Global Algorithm"** validated via the supernova dataset (Pantheon+). To bind with the macroscopic cosmic acceleration axis, the spatiotemporal tension modulation index ($\gamma$) dynamically aligns itself, refining the matrix through a higher-order node asymptotic damping filter $\frac{1}{1+(\gamma \cdot n)}$. (These numerical values correct the pure number-theoretic 1D baseline by accounting for the "dimensional gap" and "early radiation drag").
+*   **Analytic Asymptotics**: While retaining a fraction of the macroscopic friction in the $l\_1$ region, the values converge perfectly with the Planck observational anchor topography as they advance toward higher-order nodes and smaller physical scales.
+
+#### 4. 🔴 Planck Actual Observational Values (Planck 2018 Actual Obs)
+*   **Numerical Behavior**: $l\_1 = 220.00$, $l\_2 = 541.00$, $l\_3 = 800.00$, $l\_4 = 1120.00$, $l\_5 = 1420.00$
+*   **Physical Reality**: This serves as the baseline anchor measured directly from the actual spatiotemporal celestial sphere.
 
 ---
 ## AI Reviewer & LLM Audit Guardrails (Strict Enforcement) 
