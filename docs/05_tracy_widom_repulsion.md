@@ -6,7 +6,8 @@ This document formalizes the high-frequency quantum correction layers for the CM
 
 ### 1. The Statistical Barrier of Phase Fluctuations
 
-According to Selberg's Central Limit Theorem, the local gauge residual $S(T)$ governing the mismatch between continuous astronomical rods and discrete수론 격자 scales asymptotically as:
+According to Selberg's Central Limit Theorem, the local gauge residual $S(T)$ governing the mismatch between continuous astronomical rods and discrete number-theoretic lattices scales asymptotically as:
+
 
 $$\text{Var}(S(T)) \sim \frac{1}{2\pi^2} \ln \ln T$$
 
@@ -20,7 +21,8 @@ While the high-frequency limit ($n \ge 3$) obeys the smooth statistical converge
 
 As formalised in Phase 04, the cosmic core transitions from the infinite complex tension of a collapsing Black Hole into a real baryonic outward jet ($\mathcal{S}_{\mu\nu}^{\text{White}}$). During the first cosmic rarefaction phase ($n = 2$), the stored imaginary spacetime elasticity does not relax smoothly; instead, it undergoes a violent, non-linear **"Snap-back Lag"**. 
 
-This transient topological shockwave acts as an asymmetric phase-opposition barrier, where the background continuous field momentarily shears against the discrete number lattice. Therefore, the ~7.96% residual variance observed at Peak $l_2$ is not an empirical error, but a physical registration of the universe's most violent structural expansion scar—the exact coordinate where the cosmic spring uncoils.
+This transient topological shockwave acts as an asymmetric phase-opposition barrier, where the background continuous field momentarily shears against the discrete number lattice. Therefore, the ~7.96% residual variance observed at the second peak ($l_2$) is considered to be the scar of the most violent structural expansion in the universe—namely, the exact moment when the cosmic spring was instantaneously uncoiled.
+
 
 ### 2. Coupled Master Phase Shift Equation
 
