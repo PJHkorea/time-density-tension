@@ -261,7 +261,7 @@ DDO154       | 0.229606         | 0.007297        | 1.1359         | 0.0000     
 ===================================================================================================================
 ```
 ---
-
+### tdt_sparc_frozen_validation.py
 ```text
 ⚡ [SYSTEM] LAUNCHING PURIFIED FIRST-PRINCIPLES SPARC FROZEN VALIDATION ENGINE...
 CAMB         | 0.229612         | 0.007297        | 0.1000         | 8.8285      %
