@@ -31,26 +31,27 @@ When tracking the mathematical equations from the phase documents & Phase 00–0
 
 **Time-Density Tension (TDT) Cosmology** is a novel complex spacetime geometric framework that establishes an exact, non-linear topological bridge between the non-trivial zeros of the Riemann Zeta Function $(\Omega_n)$ and the acoustic oscillation multipole peaks $(l_n)$ observed in the Cosmic Microwave Background (CMB).
 
-By treating the fabric of spacetime as a dynamic, quantum-informational elastic lattice, the TDT framework completely accounts for primordial cosmic perturbations, flat galactic rotation curves, macro-scale cosmic filaments, and black hole singularity dissolution **without invoking hypothetical Dark Matter particles or Dark Energy fields**. The entire evolutionary timeline of the universe is bound under a single, parameters-free structural invariant driven solely by base-layer tension and baryonic fluid viscosity.
+By treating the fabric of spacetime as a dynamic, quantum-informational elastic lattice, the TDT framework provides a self-consistent alternative to interpret primordial cosmic perturbations, flat galactic rotation curves, macro-scale cosmic filaments, and black hole singularity dissolution **without relying on ad-hoc Dark Matter particles or Dark Energy fields**. This approach suggests that the evolutionary timeline of the universe can be bound under a single, parameter-free structural invariant driven solely by base-layer tension and baryonic fluid viscosity, opening a new predictive horizon grounded in pure topological symmetries.
 
 ---
 
 ## 📊 Empirical Verification & Boundary Regimes
 
-The mathematical integrity of the TDT core physics engine has been rigorously validated across multiple extreme cosmological limits via independent quantitative benchmarks, demonstrating high-fidelity alignment with established astronomical catalogs without post-hoc fine-tuning.
+The mathematical and computational consistency of the TDT core physics engine has been evaluated across multiple extreme cosmological limits via independent quantitative benchmarks, demonstrating high-fidelity alignment with established astronomical catalogs under zero-tuning constraints.
 
 ### 1. Microscopic Limit: Quantum Phase Transition & Singularity Dissolution
-*   **Covariant Conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu})$ :** Confirmed at exactly `0.0` within floating-point tolerance down to the absolute compression limit (a → 10⁻¹²).
-*   **Mechanism:** Under absolute compression, the timeline fluctuation undergoes a smooth quantum phase transition governed by a dynamic hyperbolic tangent manifold (γ → 1.0). Analytical chain-rule differentiation perfectly maps onto the numerical operations graph, neutralizing the runtime singularity and preserving energy-momentum conservation inherently.
+*   **Covariant Conservation& $\nabla_{\mu}\mathcal{T}^{\mu\nu}$ ) :** Confirmed at exactly `0.0` within floating-point tolerance down to the absolute compression limit (a → 10⁻¹²).
+*   **Mechanism:** Under extreme compression, the timeline fluctuation is modeled as a smooth quantum phase transition governed by a dynamic hyperbolic tangent manifold (γ → 1.0). Analytical chain-rule differentiation mirrors the numerical operations graph, offering an elegant framework to resolve runtime singular divergences and preserve energy-momentum conservation naturally.
 
 ### 2. Intermediate Regime: Macroscopic Galactic Kinematics (SPARC Catalog)
-*   **Universality Invariance:** Spontaneous convergence of the universal gauge coupling $(c_{\text{univ}} = 0.229612)$ and baryon phase modulus (δ = 0.007297).
-*   **Statistical Coherence:** Yields a Global Asymptotics Residual of **15.0898% (MAE)** across the SPARC catalog under a **strictly frozen parameter mode** \$`(\text{Std Dev } c_{\text{univ}} = 0.000000)`\$.
-*   **Dynamics:** Spontaneous exponential decay of the macro-viscous shielding layer collapses back onto classical Einsteinian General Relativity (GR) metrics $(1.00000\dots)$ at the galactic outskirts, eliminating mass degeneracy in low-mass regimes (e.g., 0.0000% error tracking for dwarf galaxy DDO154).
+*   **Universality Invariance:** Spontaneous convergence of the universal gauge coupling & $c_{\text{univ}} = 0.229612$ ) and baryon phase modulus (δ = 0.007297).
+*   **Statistical Coherence:** Yields a Global Asymptotics Residual of **15.0898% (MAE)** across the SPARC catalog under a **strictly frozen parameter mode** & $\text{Std Dev } c_{\text{univ}} = 0.000000$ )
+*   **Dynamics:** Spontaneous exponential decay of the macro-viscous shielding layer allows the framework to smoothly converge back onto classical Einsteinian General Relativity (GR) metrics & $1.00000\dots$ ) at the galactic outskirts, relaxing apparent mass anomalies in low-mass regimes (e.g., near-zero error tracking for the heavily studied dwarf galaxy DDO154).
 
 ### 3. Cosmological Macro-Scale: Large Scale Structure (LSS) & CMB Predictions
-*   **Supernovae Distance Modulus:** Achieves a Global Residual Error of **0.1577% (MAE)** against the **Pantheon+ Supernovae Dataset**, self-deriving an optimal Hubble constant of H₀ = 67.8055 km/s/Mpc.
-*   **CMB Power Spectrum High-Order Target:** Out-of-the-box forecasting establishes the high-order acoustic peaks (e.g., l₄ peak prediction aligning within 4.3556% of the *Planck* consensus), validating the unified horizon propagation model across the macro-expansion timeline.
+*   **Supernovae Distance Modulus:** Achieves a Global Residual Error of **0.1577% (MAE)** against the **Pantheon+ Supernovae Dataset**, self-deriving an optimal Hubble constant baseline of H₀ = 67.8055 km/s/Mpc.
+*   **CMB Power Spectrum High-Order Target:** *A priori* forecasting projects the high-order acoustic peaks (e.g., the l₄ peak prediction aligning within 4.3556% of the *Planck* consensus), supporting the validity of the unified horizon propagation model across the macro-expansion timeline.
+
 
 ---
 
@@ -59,13 +60,17 @@ The mathematical integrity of the TDT core physics engine has been rigorously va
 The rigorous mathematical derivations, geometric hypotheses, and physical justifications undergirding TDT cosmology are systematically laid out across five interconnected documentation phases:
 
 0. **[Phase 00: Base Layer Foundation and Dynamic Retrospection](docs/00_dynamic_time_density.md)**
-   * *Core Mechanism:* Derives the fundamental space-time interaction index $\gamma = \frac{1 + \alpha \ln 2}{2\pi} \approx 0.159960$ from the geometric area ratio between microscopic Shannon entropy boundaries and continuous loop manifolds. Establishes the static center boundary condition $(\hat{H} \to 1/2)$ at the $a \to 0$ primordial limits.
+    * *Core Mechanism:* Formulates the fundamental space-time interaction index $\gamma = \frac{1 + \alpha \ln 2}{2\pi} \approx 0.159960$ from the geometric area ratio between microscopic Shannon entropy boundaries and continuous loop manifolds. This framework establishes the static center boundary condition $(\hat{H} \to 1/2)$ at the $a \to 0$ primordial limits.
+
 1. **[Phase 01: 2D Laplacian Geometry and \(\sqrt{n}\) Scaling Resistance](docs/01_spatial_scaling.md)**
-   * *Core Mechanism:* Solves the 2D radial wave equation over a quantized holographic boundary. Deploys McMahon's Asymptotic Expansion for Bessel function roots to rigorously prove that macroscopic spatial gradient tension maps strictly onto the square root of the modal index $(\sqrt{n})$.
+    * *Core Mechanism:* Evaluates the 2D radial wave equation over a quantized holographic boundary. By deploying McMahon's Asymptotic Expansion for Bessel function roots, this layer outlines how the macroscopic spatial gradient tension can be shown to scale as a function of the square root of the modal index $(\sqrt{n})$.
+
 2. **[Phase 02: The Master CMB Bridging Formula and Spectral Predictions](docs/02_cmb_bridging.md)**
-   * *Core Mechanism:* Self-derives the universal baryon viscous phase-shift parameter \$`\delta_{\text{phase}} = \frac{2\pi\gamma - 1}{\ln 2} \approx 0.007297`\$ strictly *a priori* from fundamental constants $(\alpha, \pi, \ln 2)$, eliminating the legacy empirical value of `0.039513`. Integrates high-order acoustic peak mapping aligned with discrete imaginary Riemann nodes $(\Omega_n)$, validating the universal propagation horizon.
+   * *Core Mechanism:* Proposes an *a priori* derivation of the universal baryon viscous phase-shift parameter $\delta_{\text{phase}} = \frac{2\pi\gamma - 1}{\ln 2} \approx 0.007297$ from fundamental constants and $\alpha, \pi, \ln 2$ ) , offering an alternative to the legacy empirical value of `0.039513`. This layer integrates high-order acoustic peak mapping aligned with discrete imaginary Riemann nodes & $\Omega_n$ ) , supporting the consistency of the universal propagation horizon model.
+
 3. **[Phase 03: Galactic Dynamics and Cosmic Web Debye Shielding](docs/03_galaxy_dynamics.md)**
-   * *Core Mechanism:* Resolves Vera Rubin's flat galactic rotation curves across the SPARC catalog under a strictly frozen parameter limit \$`(\text{Std Dev } c_{\text{univ}} = 0.000000)`\$. Implements a localized density-gradient phase switch governed by a Tracy-Widom galaxy suppression manifold to completely eliminate historical over-correction deficits across macro intergalactic filaments without post-hoc offsets.
+   * *Core Mechanism:* Evaluates Vera Rubin's flat galactic rotation curves across the SPARC catalog under a strictly frozen parameter limit & $\text{Std Dev } c_{\text{univ}} = 0.000000$ ) . This layer implements a localized density-gradient phase switch governed by a Tracy-Widom galaxy suppression manifold to smooth historical over-correction deficits across macro intergalactic filaments without relying on post-hoc offsets.
+
 4. **[Phase 04: Universal LSS Expansion & Singularity Dissolution](docs/04_lss_blackhole_universe.md)**
    * *Core Mechanism:* Models large-scale structure evolution and event horizon penetration as a dynamic quantum phase transition. Validates interior covariant conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0)$ under absolute compression by letting the interaction index freeze to unity $(\gamma \to 1.0)$ via a smooth hyperbolic tangent operator, matching the Pantheon+ Supernovae trajectory at a global **0.1577% residual error** and dissolving numeric singularities into a stationary classical baseline.
 
