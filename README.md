@@ -123,75 +123,37 @@ New Scale (a)  Res. Tension (Trr)  White Hole Jet (S)  Emergent Baryon (ρ_b)
      ALL MACRO-REGIMES CONVERGED ON THE ZETA CRITICAL BOUND
 ================================================================================
 ```
+---
 
---작업중--
+test_reduction.py
+
 ```text
-==================================================
-      TDT Vectorized Physics Verification         
-==================================================
-Topological Interaction Index (γ): 0.159960
-Baryon Phase Shift Constant (δ) : 0.039513
-
- CMB High-Order Peak Predictions & Planck Data Alignment:
-  Peak l_1 -> Predict: 219.92 | Planck Obs: 220.0 | Error: 0.0351%
-  Peak l_2 -> Predict: 541.09 | Planck Obs: 541.0 | Error: 0.0158%
-  Peak l_3 -> Predict: 792.10 | Planck Obs: 800.0 | Error: 0.9874%
-  Peak l_4 -> Predict: 1134.16 | Planck Obs: 1120.0 | Error: 1.2640%
-  Peak l_5 -> Predict: 1412.21 | Planck Obs: 1420.0 | Error: 0.5482%
-==================================================
 ================================================================================
-      TDT THEORY UNIFIED COSMOLOGICAL SIMULATION MATRIX (PART 1)
+      TDT THEORY ASYMPTOTIC GR REDUCTION SIMULATION MATRIX      
 ================================================================================
-Peak l_1         14.134725         219.92              
-Peak l_2         21.022040         541.09              
-Peak l_3         25.010858         792.10              
-Peak l_4         30.424876         1134.16             
-Peak l_5         32.935062         1412.21             
--> Calculated TDT Peak l_2/l_1 Ratio : 2.460343
-[PART 2: GALACTIC ROTATION CURVE FLATNESS (SPARC PROFILE)]
-Radius (kpc)   v_baryon (km/s)     v_tension (km/s)    v_total_amended     
----------------------------------------------------------------------------
-1.0            208.5               31.2                217.1               
-5.0            185.1               31.7                189.6               
-30.0           81.8                32.3                87.9                
-================================================================================
-[PART 3: COSMIC WEB FILAMENT LINEAR TENSION PROFILE]
-Distance (Mpc) Scale Factor (a)    Time Density (ρ)    Linear Tension (λ_Web)   
+[PART 1: ASYMPTOTIC FLATNESS LIMIT (T_mu_nu -> 0)]
+ ➔ Total Energy Source Bare     : 1.42468e+05
+ ➔ Classical GR Target Boundary : 1.42468e+05
+ ➔ Reduction Verification Result: VERIFIED
 --------------------------------------------------------------------------------
-0.1            1.0069              0.99890             4.5496                   
-1.0            1.0634              0.99021             8.6854                   
-3.1            1.1617              0.97631             1.2046                   
-6.1            1.2467              0.96535             0.0571                   
-10.2           1.3045              0.95837             0.0009                   
-15.0           1.3326              0.95511             0.0000                   
-
-================================================================================
-
-[PART 4: BLACK HOLE COMPLEX IONIZATION & WHITE HOLE REBIRTH MAP]
-New Scale (a)  Res. Tension (Trr)  White Hole Jet (S)  Emergent Baryon (ρ_b)    
+[PART 2: HAMILTONIAN PHASE STASIS AT SINGULARITY LIMIT (a -> 0)]
+Anchor Index (n)    Real Part (Re)           Imaginary Part (Im)      
+----------------------------------------------------------------------
+Anchor n=1            0.5000                   0.0000                   
+Anchor n=2            0.5000                   0.0000                   
+Anchor n=3            0.5000                   0.0000                   
+Anchor n=4            0.5000                   0.0000                   
+Anchor n=5            0.5000                   0.0000                   
+ ➔ Hamiltonian Stasis Result   : VERIFIED
 --------------------------------------------------------------------------------
-0.001          8.3085 * i          26.2840             2.6284E+10               
-0.010          12.0083 * i         37.9885             3.7988E+07               
-0.100          17.3557 * i         54.9050             5.4905E+04               
-0.500          22.4517 * i         71.0263             5.6821E+02               
-1.000          1.0000 * i          79.3546             7.9000E-03               
+[PART 3: QUANTUM-TO-CLASSICAL BARYON TRANSITION (r -> inf)]
+ ➔ Extreme Halo Radius (r)     : 100.0 kpc
+ ➔ Viscous Decay Factor         : 3.90469e-13
+ ➔ Amended Viscous Correction   : 1.0000000000
+ ➔ Viscous Shield Extinct Result: VERIFIED
 ================================================================================
-     TDT COSMOLOGICAL UNIFIED GRADIENT SIMULATION COMPLETE
-     ALL MACRO-REGIMES CONVERGED ON THE ZETA CRITICAL BOUND
-================================================================================
-
-================================================================================
-      TDT NUMERICAL CONSERVATION UNIT TESTS EXECUTION
-================================================================================
-[RUNNING] Verification 01: Interior Covariant Conservation...
--> PASSED: Covariant divergence is exactly 0.0 (Energy-Momentum Conserved)
-
-[RUNNING] Verification 02: Einstein GR Reduction Limit (a -> 1)...
--> PASSED: Real part = 0.5000 (Expected: 0.5)
--> PASSED: Imag part = 14.1347 (Expected: 14.1347)
-
-[RUNNING] Verification 03: Baryon Phase Shift Invariant Bounds...
--> PASSED: Invariant delta_phase is solidly 0.039513
+     TDT ASYMPTOTIC GR REDUCTION GRADIENT SIMULATION COMPLETE
+     ALL CONVERGENCES CONFIRMED ON CLASSICAL EINSTEINIAN BOUNDARY
 ================================================================================
 ```
 ---
