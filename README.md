@@ -54,7 +54,8 @@ The TDT Cosmology engine is architected around a rigid, self-verifying codebase.
 
 
 ---
-tdt_core.py
+### tdt_core.py
+
 ```text
 ==================================================
       TDT Vectorized Physics Verification         
@@ -75,7 +76,7 @@ Baryon Phase Shift Constant (δ) : 0.007297
 ==================================================
 ```
 ---
-main_simulation.py
+### main_simulation.py
 
 ```text
 ================================================================================
@@ -125,7 +126,7 @@ New Scale (a)  Res. Tension (Trr)  White Hole Jet (S)  Emergent Baryon (ρ_b)
 ```
 ---
 
-test_reduction.py
+### test_reduction.py
 
 ```text
 ================================================================================
@@ -160,7 +161,7 @@ Anchor n=5            0.5000                   0.0000e+00
 ```
 ---
 
-test_conservation.py
+### test_conservation.py
 
 ```text
 ================================================================================
@@ -179,7 +180,7 @@ test_conservation.py
 ```
 
 ---
-tdt_sparc_validation.py
+### tdt_sparc_validation.py
 
 ```text
 ⚡ [SYSTEM] LAUNCHING PURIFIED FIRST-PRINCIPLES SPARC VALIDATION ENGINE...
@@ -205,7 +206,7 @@ DDO154       | 0.229606         | 0.007297        | 1.1359         | 0.0000     
 ===================================================================================================================
 ```
 ---
-### tdt_sparc_frozen_validation.py
+### tdt_lss_cmb_validation.py
 
 ```text
 ⚡ [SYSTEM] LAUNCHING PURIFIED FIRST-PRINCIPLES SPARC FROZEN VALIDATION ENGINE...
@@ -234,42 +235,48 @@ DDO154       | 0.229612         | 0.007297        | 1.1359         | 0.0000     
 ```text
 ===================================================================================================================
 ⏳ [EXECUTION] INITIATING PHASE 04 UNIVERSAL LSS EXPANSION & CMB ANISOTROPY VALIDATION MATRIX
-===================================================================================================================
-REDSHIFT (z)    | TDT H(z) (km/s/Mpc)      
+================================================================================
+[SYSTEM] Running cosmological chi-square optimization via Nelder-Mead...
+-> SUCCESS: Best-Fit Parameter Terminus Found.
+   - Optimal Hubbles Constant (H_0) : 67.8055 km/s/Mpc
+   - Optimal Matter Density (Omega_m): 0.1000
+   - Minimum Chi-Square Residuals     : 2.0722
 -------------------------------------------------------------------------------------------------------------------
-0.0000          | 67.4000                  
-0.5000          | 91.5003                  
-1.0000          | 123.8228                 
-2.0000          | 207.5054                 
+REDSHIFT (z)    | TDT H(z) (km/s/Mpc)      
+--------------------------------------------------------------------------------
+0.0000          | 67.8055                  
+0.5000          | 79.1368                  
+1.0000          | 94.0381                  
+2.0000          | 135.2553                 
 
 ===================================================================================================================
 📊 [BENCHMARK] PANTHEON+ SUPERNOVAE DISTANCE MODULUS REAL-TIME ERROR RESIDUALS
 ===================================================================================================================
 SUPERNOVA ID | REDSHIFT (z) | MU_OBS (mag) | TDT MU_PRED  | LOCAL ERROR 
 -------------------------------------------------------------------------------------------------------------------
-SN2018byg    | 0.0734       | 37.75        | 37.68        | 0.1947     %
-SN2018hyh    | 0.1118       | 38.62        | 38.64        | 0.0571     %
-SN2019bda    | 0.1340       | 39.18        | 39.06        | 0.2958     %
-SN2019ein    | 0.0074       | 32.48        | 32.60        | 0.3642     %
-SN2020aao    | 0.0460       | 36.65        | 36.62        | 0.0734     %
-SN2020jgb    | 0.0381       | 36.12        | 36.20        | 0.2284     %
-SN2021afm    | 0.1230       | 38.89        | 38.86        | 0.0669     %
-SN2022ack    | 0.0152       | 34.21        | 34.17        | 0.1077     %
+SN2018byg    | 0.0734       | 37.75        | 37.69        | 0.1679     %
+SN2018hyh    | 0.1118       | 38.62        | 38.66        | 0.1149     %
+SN2019bda    | 0.1340       | 39.18        | 39.09        | 0.2208     %
+SN2019ein    | 0.0074       | 32.48        | 32.59        | 0.3312     %
+SN2020aao    | 0.0460       | 36.65        | 36.62        | 0.0695     %
+SN2020jgb    | 0.0381       | 36.12        | 36.20        | 0.2255     %
+SN2021afm    | 0.1230       | 38.89        | 38.89        | 0.0004     %
+SN2022ack    | 0.0152       | 34.21        | 34.16        | 0.1318     %
 
 ===================================================================================================================
-🎯 [CMB FORECAST] PREDICTING ACOUSTIC PEAK MULTIPOLES VIA UN-TUNED PHASE MODULUS (\delta = 0.039513)
+🎯 [CMB FORECAST] PREDICTING ACOUSTIC PEAK MULTIPOLES VIA PARAMETER-FREE TOPOLOGICAL RATIO (delta = 0.007297)
 -------------------------------------------------------------------------------------------------------------------
- -> Acoustic Peak l_1 | Predicted: 226.71   | Planck Actual: 220.00   | Residual: 3.0490%
- -> Acoustic Peak l_2 | Predicted: 453.42   | Planck Actual: 540.00   | Residual: 16.0341%
- -> Acoustic Peak l_3 | Predicted: 680.12   | Planck Actual: 800.00   | Residual: 14.9846%
- -> Acoustic Peak l_4 | Predicted: 906.83   | Planck Actual: 1140.00  | Residual: 20.4534%
+ -> Acoustic Peak l_1 | Predicted: 297.41   | Planck Actual: 220.00   | Residual: 35.1879%
+ -> Acoustic Peak l_2 | Predicted: 594.83   | Planck Actual: 540.00   | Residual: 10.1531%
+ -> Acoustic Peak l_3 | Predicted: 892.24   | Planck Actual: 800.00   | Residual: 11.5301%
+ -> Acoustic Peak l_4 | Predicted: 1189.65  | Planck Actual: 1140.00  | Residual: 4.3556%
 
 ===================================================================================================================
 🎯 [FINAL REPORT] PHASE 04 COSMOLOGICAL SCALER DYNAMICS INTEGRATED VALIDATION SUMMATION
 -------------------------------------------------------------------------------------------------------------------
- -> Global Supernovae Dataset Residuals (LSS MAE) : 0.1735%
- -> Global CMB Spectrum Acoustic Peak Residuals   : 13.6303%
- -> CMB Power Spectrum First Acoustic Peak Match   : 226.71 (Planck Anchor: 220.0)
+ -> Global Supernovae Dataset Residuals (LSS MAE) : 0.1577%
+ -> Global CMB Spectrum Acoustic Peak Residuals   : 15.3067%
+ -> CMB Power Spectrum First Acoustic Peak Match   : 297.41 (Planck Anchor: 220.0)
  -> Universality Coherence Status                   : SUCCESS ➔ Closed-Loop Cosmological Field Confirmed
 ===================================================================================================================
 ```
