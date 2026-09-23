@@ -1,6 +1,6 @@
 
 import numpy as np
-#from tdt_core import TDTCore
+from tdt_core import TDTCore
 
 def debye_damping_factor(core: TDTCore, r: float | np.ndarray, scale_type: str = "galaxy") -> float | np.ndarray:
     """
@@ -181,10 +181,8 @@ def execute_tdt_simulation_part1(core: TDTCore):
         print(f"{r:<15.1f}{a:<20.4f}{rho:<20.5f}{lambda_amended:<25.4f}")
         
     print("\n" + "=" * 80 + "\n")
-
-
     # =========================================================================
-    # PART 4: Black Hole Phase Inversion & White Hole Emergence Matrix (Phase 04)
+    # PART 4: Black Hole Phase Inversion & White Hole Emergence Matrix (Phase 04 - 복소 위상 대통합본)
     # =========================================================================
     print("[PART 4: BLACK HOLE COMPLEX IONIZATION & WHITE HOLE REBIRTH MAP]")
     print(f"{'New Scale (a)':<15}{'Res. Tension (Trr)':<20}{'White Hole Jet (S)':<20}{'Emergent Baryon (ρ_b)':<25}")
@@ -200,27 +198,40 @@ def execute_tdt_simulation_part1(core: TDTCore):
         # 1. 마스터 코어 내부에 완전히 검증된 순정 시간 밀도 희석 함수 연동
         rho_time_new = core.calculate_time_density(a_new)
         
-        # 2. [임의 가중치 kappa_white(0.125) 100% 소거 및 차원 정합]
+        # 2. [임의 가중치 kappa_white(0.125) 소거 및 차원 정합]
         # test1.py의 미시 가산 변위단에서 시스템 붕괴를 틀어쥐던 '무차원 작용량 면적 텐서' 결합
-        # 공식: 기저 면적 텐서 = α * δ_phase * 2π (약 0.0018)
+        # 공식: 기저 면적 텐서 = α * δ_phase * 2π
         action_area_tensor = core.alpha * core.delta_phase * 2.0 * core.pi
         
         # 윅 회전(Wick Rotation)을 통한 제1원리 제트 방출 압력 스케일 변환
-        # 가상의 조정값 대신 기저 물리 작용량과 엔트로피 기저(ln2)의 대칭 비율로 분출 세기를 제어
-        universality_white_coupling = action_area_tensor / core.ln2  # 임의 상수 없는 정방향 유도치
+        universality_white_coupling = action_area_tensor / core.ln2
         jet_pressure = universality_white_coupling * (omega_3_lock / (rho_time_new * core.delta_phase))
         
-        # 3. 공간 팽창에 따른 중입자 밀도 생성 및 감쇠비 추적
-        # [하드코딩 0.0079 소거]: 성숙 우주 평탄 invariance 경계 조건(a=1.0) 도출 시에도
-        # 임의의 숫자 대신 우주 위상 결합 상수(c_univ)와 미세구조상수(alpha)의 대적 성분 비율로 자동 사영
+        # 3. 공간 팽창에 따른 중입자 밀도 생성 및 감쇠비 추적 (하드코딩 0.0079 소거)
         if a_new < 1.0:
             baryon_density = jet_pressure * (a_new ** -3)
         else:
-            baryon_density = core.c_univ * core.alpha * core.delta_phase  # 순수 제1원리 환원치 (약 0.00006)
+            baryon_density = core.c_univ * core.alpha * core.delta_phase
         
-        # 4. 출력 뷰 포맷 교정: 허수 단위 i가 가독성 있게 인쇄되도록 보정
-        residual_value = omega_3_lock / rho_time_new
-        residual_tension_str = f"{residual_value:.4f} * i" if a_new < 1.0 else "1.0000 * i"
+        # 4. [복소 위상 전이 수식 주입]: 문자열 후보정을 전면 차단하고 실제 복소 매니폴드 동역학 전사
+        # 기저 물리 연산치에 윅 회전 해제 기하학 텐서(exp(i * pi/2 * (1 - a^γ)))를 물리적으로 결합
+        phase_transition_angle = (core.pi / 2.0) * (1.0 - (a_new ** core.gamma))
+        phase_tensor = np.exp(1j * phase_transition_angle)
+        
+        # 순수 잔류 텐션 복소 물리량 산출
+        residual_base = omega_3_lock / rho_time_new
+        complex_tension = residual_base * 1j * phase_tensor  # 복소수 좌표계 전이 기동
+        
+        # 5. [수치 소독 포맷터]: 부동소수점 오차 마진(1e-10)을 적용하여 실수부와 허수부를 분리 인쇄
+        if abs(complex_tension.imag) < 1e-10:
+            # 현재 우주(a=1.0)에 완전 안착하여 순수 실수 성분으로 격리되었을 때
+            residual_tension_str = f"{complex_tension.real:.4f}"
+        elif abs(complex_tension.real) < 1e-10:
+            # 극초기 싱귤래리티 융합 및 순수 허수축 바인딩 시점
+            residual_tension_str = f"{complex_tension.imag:.4f} * i"
+        else:
+            # 상전이 과도기(실수부와 허수부의 에너지가 유기적으로 출렁이며 교환되는 구간)
+            residual_tension_str = f"{complex_tension.real:.4f} + {complex_tension.imag:.4f} * i"
         
         print(f"{a_new:<15.3f}{residual_tension_str:<20}{jet_pressure:<20.4f}{baryon_density:<25.4E}")
         
