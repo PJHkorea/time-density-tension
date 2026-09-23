@@ -54,7 +54,7 @@ Consequently, the allowed spatial wavenumbers ($k$) are strictly quantized by th
 
 $$k_n = \frac{\beta_{m,n}}{R_{\text{cosmic}}}$$
 
-This dimensional separation ensures that for any fixed local angular momentum mode $m$ (typically the fundamental $m=1$ mode in galactic fluid matrices), the system tracks the climbing cosmic energy scale purely as a function of the discrete root index $n$, maintaining absolute 수론적 consistency with the micro-core physics engine and preventing the unphysical phase distortion that would occur if the Bessel order itself expanded with $n$.
+This dimensional separation ensures that for any fixed local angular momentum mode $m$ (typically the fundamental $m=1$ mode in galactic fluid matrices), the system tracks the climbing cosmic energy scale purely as a function of the discrete root index $n$, maintaining absolute number-theoretic consistency with the micro-core physics engine and preventing the unphysical phase distortion that would occur if the Bessel order itself expanded with $n$.
 
 ---
 ## 3. Mathematical Derivation of the $\sqrt{n}$ Scaling Factor
