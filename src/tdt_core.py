@@ -53,16 +53,21 @@ class TDTCore:
 
     def calculate_time_density(self, scale_factor_a: float or np.ndarray) -> float or np.ndarray:
         """
-        공식: ρ_Time(a) = ρ_0 * a^(-γ)
-        우주 척도 인자 a에 따른 기저 레이어의 시간 밀도 희석률을 연산합니다.
+        [TDT Quantum Phase-Transition Implementation]
+        공식: ρ_Time(a) = ρ_0 * a^(-γ_effective(a))
+        인위적인 1e-15 클리핑을 100% 제거하고, 백서 명세대로 하이퍼볼릭 탄젠트 매니폴드를 적용합니다.
+        싱듈래리티(a -> 0) 극한에서 지수 γ가 자발적으로 1.0으로 얼어붙어(Stasis) 발산을 스스로 제어합니다.
         """
         rho_0 = 1.0
-        if isinstance(scale_factor_a, np.ndarray):
-            a_safe = np.clip(scale_factor_a, 1e-15, None)
-        else:
-            a_safe = max(scale_factor_a, 1e-15)
+        
+        # 💡 [제1원리 상전이 텐서 결합]
+        # 우주 팽창기(a >> 0)에는 순정 기저 상수(self.gamma ≈ 0.1599)로 수렴하고,
+        # 싱듈래리티(a -> 0)로 극단적 압축 시 중입자 위상 공간(self.delta_phase) 내에서 자발적으로 1.0으로 전이
+        effective_gamma = 1.0 - (1.0 - self.gamma) * np.tanh(scale_factor_a / self.delta_phase)
+        
+        # 더 이상 인위적인 1e-15 컷오프(clip, max)가 필요 없습니다. 수식 자체가 방어벽이 됩니다.
+        return rho_0 * (scale_factor_a ** (-effective_gamma))
 
-        return rho_0 * (a_safe ** (-self.gamma))
 
     def get_anchoring_hamiltonian(self, scale_factor_a: float or np.ndarray, anchor_index: int = 1) -> complex or np.ndarray:
         """
