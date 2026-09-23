@@ -4,7 +4,8 @@ The cosmological model proposed in this study fundamentally departs from the sta
 
 The complex Hamiltonian matrix ($\hat{H}_{\text{Anchor}}$) introduced in this process does not violate the physical laws of energy reality. Rather, it constitutes a **complex phase-space mapping** explicitly designed to prevent divergence in the early universe. Its actual physical reality is precisely **phase-locked** onto the real axis of the Riemann zeta critical line ($\text{Re}(s) = 1/2$), thereby maintaining a state of perfect equilibrium.
 
-Furthermore, the combinations of dimensionless constants embedded in this model are not arbitrarily fine-tuned *a posteriori*. Instead, they undergo an $np \tanh$ phase transition at the cosmic extreme state ($a \to 0$), establishing a first-principles-based geometric computational structure. This structure flawlessly satisfies both the **covariant conservation law** ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$) and the **12-decimal-place identity** ($\delta_{\text{phase}} \equiv \alpha$) within floating-point error margins.
+Furthermore, the combinations of dimensionless constants embedded in this model are not arbitrarily fine-tuned *a posteriori*. Instead, they undergo an $np \tanh$ phase transition at the cosmic extreme state ($a \to 0$), establishing a first-principles-based geometric computational structure. This structure flawlessly satisfies both the **covariant conservation law** ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$) and the **12-decimal-place identity** ($\delta_{\text{phase}} \equiv \alpha$) within floating-point error margins. providing the exact time-density function ($\rho_{\text{Time}}(a)$) needed to derive downstream spatial scaling rules.
+
 
 
 ---
