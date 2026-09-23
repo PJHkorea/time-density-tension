@@ -54,7 +54,7 @@ The TDT Cosmology engine is architected around a rigid, self-verifying codebase.
 
 
 ---
-
+tdt_core.py
 ```text
 ==================================================
       TDT Vectorized Physics Verification         
@@ -63,69 +63,68 @@ Topological Interaction Index (γ): 0.159960
 Baryon Phase Shift Constant (δ) : 0.039513
 
  CMB High-Order Peak Predictions & Planck Data Alignment:
-  Peak l_1 -> Predict: 219.92 | Planck Obs: 220.0 | Error: 0.0351%
-  Peak l_2 -> Predict: 541.09 | Planck Obs: 541.0 | Error: 0.0158%
-  Peak l_3 -> Predict: 792.10 | Planck Obs: 800.0 | Error: 0.9874%
-  Peak l_4 -> Predict: 1134.16 | Planck Obs: 1120.0 | Error: 1.2640%
-  Peak l_5 -> Predict: 1412.21 | Planck Obs: 1420.0 | Error: 0.5482%
+  Peak l_1 -> Predict: 216.85 | Planck Obs: 220.0 | Error: 1.4302%
+  Peak l_2 -> Predict: 497.90 | Planck Obs: 541.0 | Error: 7.9661% ➔ [Time Elasticity Lag]
+  Peak l_3 -> Predict: 788.32 | Planck Obs: 800.0 | Error: 1.4595%
+  Peak l_4 -> Predict: 1136.32 | Planck Obs: 1120.0 | Error: 1.4573%
+  Peak l_5 -> Predict: 1432.91 | Planck Obs: 1420.0 | Error: 0.9090%
+--------------------------------------------------
+ ➔ Planck Obs Ensemble Mean : 820.20
+ ➔ TDT Predict Ensemble Mean: 814.46
+ ➔ Global Asymptotics Residuals (MAE): 2.6444%
 ==================================================
+```
+---
+main_simulation.py
+
+```text
 ================================================================================
       TDT THEORY UNIFIED COSMOLOGICAL SIMULATION MATRIX (PART 1)
 ================================================================================
-Peak l_1         14.134725         219.92              
-Peak l_2         21.022040         541.09              
-Peak l_3         25.010858         792.10              
-Peak l_4         30.424876         1134.16             
-Peak l_5         32.935062         1412.21             
--> Calculated TDT Peak l_2/l_1 Ratio : 2.460343
+ CMB High-Order Peak Predictions & Planck Data Alignment:
+  Peak l_1         14.134725         216.85     | Obs: 220.0  | Error: 1.4302%
+  Peak l_2         21.022040         497.90     | Obs: 541.0  | Error: 7.9661% ➔ [Time Elasticity Lag]
+  Peak l_3         25.010858         788.32     | Obs: 800.0  | Error: 1.4595%
+  Peak l_4         30.424876         1136.32    | Obs: 1120.0 | Error: 1.4573%
+  Peak l_5         32.935062         1432.91    | Obs: 1420.0 | Error: 0.9090%
+--------------------------------------------------------------------------------
+ ➔ Calculated TDT Peak l_2/l_1 Ratio        : 2.296036
+ ➔ Global CMB Asymptotics Residuals (MAE)  : 2.6444%
+==========================================================
 [PART 2: GALACTIC ROTATION CURVE FLATNESS (SPARC PROFILE)]
 Radius (kpc)   v_baryon (km/s)     v_tension (km/s)    v_total_amended     
 ---------------------------------------------------------------------------
-1.0            208.5               31.2                217.1               
-5.0            185.1               31.7                189.6               
-30.0           81.8                32.3                87.9                
+1.0            208.5               3.2                 214.7               
+5.0            185.1               2.5                 186.9               
+30.0           81.8                0.0                 81.8                
 ================================================================================
 [PART 3: COSMIC WEB FILAMENT LINEAR TENSION PROFILE]
 Distance (Mpc) Scale Factor (a)    Time Density (ρ)    Linear Tension (λ_Web)   
 --------------------------------------------------------------------------------
-0.1            1.0069              0.99890             4.5496                   
-1.0            1.0634              0.99021             8.6854                   
-3.1            1.1617              0.97631             1.2046                   
-6.1            1.2467              0.96535             0.0571                   
-10.2           1.3045              0.95837             0.0009                   
-15.0           1.3326              0.95511             0.0000                   
+0.1            1.0078              0.99876             4.5496                   
+1.0            1.0707              0.98914             0.5234                   
+3.1            1.1754              0.97448             0.0767                   
+6.1            1.2595              0.96376             0.0037                   
+10.2           1.3113              0.95757             0.0001                   
+15.0           1.3334              0.95502             0.0000                   
 
 ================================================================================
 
 [PART 4: BLACK HOLE COMPLEX IONIZATION & WHITE HOLE REBIRTH MAP]
 New Scale (a)  Res. Tension (Trr)  White Hole Jet (S)  Emergent Baryon (ρ_b)    
 --------------------------------------------------------------------------------
-0.001          8.3085 * i          26.2840             2.6284E+10               
-0.010          12.0083 * i         37.9885             3.7988E+07               
-0.100          17.3557 * i         54.9050             5.4905E+04               
-0.500          22.4517 * i         71.0263             5.6821E+02               
-1.000          1.0000 * i          79.3546             7.9000E-03               
+0.001          -7.2091 + 4.1304 * i0.5496              5.4959E+08               
+0.010          -8.7702 + 8.2026 * i0.7943              7.9433E+05               
+0.100          -8.0756 + 15.3625 * i1.1481              1.1481E+03               
+0.500          -3.6845 + 22.1473 * i1.4851              1.1881E+01               
+1.000          25.0843 * i         1.6593              6.6206E-05               
 ================================================================================
      TDT COSMOLOGICAL UNIFIED GRADIENT SIMULATION COMPLETE
      ALL MACRO-REGIMES CONVERGED ON THE ZETA CRITICAL BOUND
 ================================================================================
 ```
----
-```text
-==================================================
-      TDT Vectorized Physics Verification         
-==================================================
-Topological Interaction Index (γ): 0.159960
-Baryon Phase Shift Constant (δ) : 0.039513
 
- CMB High-Order Peak Predictions & Planck Data Alignment:
-  Peak l_1 -> Predict: 219.92 | Planck Obs: 220.0 | Error: 0.0351%
-  Peak l_2 -> Predict: 541.09 | Planck Obs: 541.0 | Error: 0.0158%
-  Peak l_3 -> Predict: 792.10 | Planck Obs: 800.0 | Error: 0.9874%
-  Peak l_4 -> Predict: 1134.16 | Planck Obs: 1120.0 | Error: 1.2640%
-  Peak l_5 -> Predict: 1412.21 | Planck Obs: 1420.0 | Error: 0.5482%
-```
----
+--작업중--
 ```text
 ==================================================
       TDT Vectorized Physics Verification         
