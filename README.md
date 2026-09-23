@@ -261,8 +261,7 @@ DDO154       | 0.229606         | 0.007297        | 1.1359         | 0.0000     
 ===================================================================================================================
 ```
 ---
-### tdt_lss_cmb_validation.py
-> Macro Perspective - Cosmological Holographic Projection
+
 ```text
 ⚡ [SYSTEM] LAUNCHING PURIFIED FIRST-PRINCIPLES SPARC FROZEN VALIDATION ENGINE...
 CAMB         | 0.229612         | 0.007297        | 0.1000         | 8.8285      %
@@ -287,6 +286,9 @@ DDO154       | 0.229612         | 0.007297        | 1.1359         | 0.0000     
 ===================================================================================================================
 ```
 ---
+
+### tdt_lss_cmb_validation.py
+> Macro Perspective - Cosmological Holographic Projection
 ```text
 ===================================================================================================================
 ⏳ [EXECUTION] INITIATING PHASE 04 UNIVERSAL LSS EXPANSION & CMB ANISOTROPY VALIDATION MATRIX
