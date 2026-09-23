@@ -159,6 +159,26 @@ Anchor n=5            0.5000                   0.0000e+00
 ================================================================================
 ```
 ---
+
+test_conservation.py
+
+```text
+================================================================================
+      TDT NUMERICAL CONSERVATION GRADIENT UNIT TESTS EXECUTION (PURIFIED)
+================================================================================
+[RUNNING] Verification 01: First-Principles Interior Covariant Conservation...
+-> PASSED: Covariant divergence is exactly 0.0 (Wick-Rotation Energy-Momentum Conserved)
+
+[RUNNING] Verification 02: Exact Einstein GR Reduction Limit (a -> 1)...
+-> PASSED: Real part = 0.500000000000 (Expected: 0.500000000000)
+-> PASSED: Imag part = 14.134725141735 (Analytical Cross-Verification with s_1 Riemann Zero Match)
+
+[RUNNING] Verification 03: Baryon Phase Shift First-Principles Invariant Bounds...
+-> PASSED: Invariant delta_phase is solidly 0.007297352569 (Extrinsic Cosmological Boundary Invariant Alignment Verified)
+================================================================================
+```
+
+---
 ### tdt_sparc_validation.py
 
 ```text
