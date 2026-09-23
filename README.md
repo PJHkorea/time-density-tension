@@ -114,7 +114,8 @@ To establish absolute mathematical transparency, the TDT framework addresses his
 
 
 
-
+---
+> The following terminal snapshots are raw outputs generated natively by the repository execution suites under a strictly frozen, zero-tuning layout, eliminating post-hoc manual adjustments.
 ---
 ### tdt_core.py
 
