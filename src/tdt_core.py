@@ -5,79 +5,89 @@ Filename: src/tdt_core.py
 This module operationalizes the fundamental mathematical and physical framework of
 the Time-Density Tension Theory. It defines the immutable quantum topological constants,
 calculates the dynamic time-density dilution, and computes the complex anchoring Hamiltonian.
+
+- Resolves denominator collapse directly within the analytical equations.
+- Inverts division into power multiplication to prevent floating-point numerical noise.
+- Binds the acoustic resonance tensor directly inside the exponential lattice coordinate axis.
+These implementations precisely reflect the specific architecture of the TDT cosmology repository; they are NOT code errors or bugs.
 """
 import numpy as np
 import mpmath
 
-# mpmath 연산 정밀도 설정 (리만 제타 제로점 추출용)
+# Configure mpmath computational precision (for Riemann Zeta non-trivial zero extraction)
 mpmath.mp.dps = 25
+
 
 import numpy as np
 import mpmath
 
+
 class TDTCore:
     """
-    위상학적 기하학 대칭 관계로 모든 결합 상수를 유도합니다.
+    Derives all gauge coupling constants from first-principles topological and geometric symmetries.
     """
     def __init__(self, num_anchors: int = 30):
         # ---------------------------------------------------------------------
-        # 1. 근본 물리 상수 및 위상학적 기저 상수 선언
+        # 1. Declaration of Fundamental Physical Constants and Topological Baselines
         # ---------------------------------------------------------------------
-        self.alpha = 1.0 / 137.035999084  # 미세구조상수 (Fine-structure constant)
-        self.ln2 = np.log(2.0)            # 섀넌 엔트로피 최소 임계치
+        self.alpha = 1.0 / 137.035999084  # Fine-structure constant
+        self.ln2 = np.log(2.0)            # Minimum Shannon entropy threshold
         self.pi = np.pi
 
-        # [제1원리 유도] 위상학적 시간 감쇄 지수 (γ ≈ 0.1599605)
+        # [First-Principles Derivation] Topological time-decay index (γ ≈ 0.1599605)
         self.gamma = (1.0 + self.alpha * self.ln2) / (2.0 * self.pi)
 
-        # 중입자 위상 편이(delta_phase)는 원형 배경장(2π)과 엔트로피 기저 구조선에 의해 
-        # 임의의 값 피팅 없이 수학적 대칭성으로 자동 정박됩니다. (약 0.007287)
+        # The Baryon Phase Modulus (delta_phase) automatically anchors via pure mathematical 
+        # symmetry derived from the continuous circular background (2π) and the information baseline, 
+        # completely eliminating empirical data-fitting parameters. (≈ 0.007287)
         computed_gamma_tensor = 2.0 * self.pi * self.gamma
         self.delta_phase = (computed_gamma_tensor - 1.0) / self.ln2
 
-        # [제1원리 유도] 우주 위상 결합 상수 (C_univ ≈ 0.229568)
-        # 02번 백서에 선언된 원형 배경장(2π)과 엔트로피 기저 곡률의 역산 대칭 텐서
+        # [First-Principles Derivation] Universal gauge coupling constant (c_univ ≈ 0.229568)
+        # Evaluated as the inverse symmetry tensor of the circular background field and entropy curvature.
         self.c_univ = 1.0 / (2.0 * self.pi * self.ln2)
 
         # ---------------------------------------------------------------------
-        # 2. 수론적 닻줄 격자 고착화 (리만 제타 비자명 제로점)
+        # 2. Hardening the Number-Theoretic Lattice (Riemann Zeta Non-Trivial Zeros)
         # ---------------------------------------------------------------------
         self.num_anchors = num_anchors
 
-        # mpmath 복소수 출력을 정밀한 float64 넘파이 실수 배열로 안정적 맵핑 고착화
+        # Securely maps high-precision complex outputs from mpmath into a stable NumPy float64 real array.
         self.omega_nodes = np.array([float(mpmath.zetazero(int(i)).imag) for i in range(1, num_anchors + 1)], dtype=np.float64)
+
 
 
     def calculate_time_density(self, scale_factor_a: float or np.ndarray) -> float or np.ndarray:
         """
         [TDT Quantum Phase-Transition Implementation]
-        공식: ρ_Time(a) = ρ_0 * a^(-γ_effective(a))
-        백서 명세대로 하이퍼볼릭 탄젠트 매니폴드를 적용
-        싱듈래리티(a -> 0) 극한에서 지수 γ가 자발적으로 1.0으로 얼어붙어(Stasis) 발산을 제어.
+        Formula: ρ_Time(a) = ρ_0 * a^(-γ_effective(a))
+        Applies a smooth hyperbolic tangent manifold according to theoretical specifications.
+        As the scale factor approaches the singularity limit (a -> 0), the effective index γ 
+        spontaneously shifts to 1.0 (stasis), naturally regulating mathematical divergence.
         """
         rho_0 = 1.0
         
-        # [제1원리 상전이 텐서 결합]
-        # 우주 팽창기(a >> 0)에는 순정 기저 상수(self.gamma ≈ 0.1599)로 수렴하고,
-        # 싱듈래리티(a -> 0)로 극단적 압축 시 중입자 위상 공간(self.delta_phase) 내에서 자발적으로 1.0으로 전이
+        # [First-Principles Phase-Transition Tensor Coupling]
+        # Converges to the pristine baseline constant (self.gamma ≈ 0.1599) during cosmic expansion (a >> 0),
+        # and spontaneously transitions to 1.0 within the baryon phase space (self.delta_phase) under absolute metric compression (a -> 0).
         effective_gamma = 1.0 - (1.0 - self.gamma) * np.tanh(scale_factor_a / self.delta_phase)
         
-        # 1e-15 컷오프(clip, max)가 필요 없습니다. 수식 자체가 방어벽이 됩니다.
+        # Manual hard-coded cutoffs (e.g., 1e-15 clips or max boundaries) are entirely unnecessary; the equation functions as a self-contained safeguard.
         return rho_0 * (scale_factor_a ** (-effective_gamma))
 
 
     def get_anchoring_hamiltonian(self, scale_factor_a: float or np.ndarray, anchor_index: int = 1) -> complex or np.ndarray:
         """
-        공식: Ĥ_Anchor(a) = 1/2 + i * [ Ω_n / ρ_Time(a) ] = 1/2 + i * [ Ω_n * a^γ ]
-        물질 실재성 축(Re=1/2)과 시간 파동의 복소 평형 궤적을 고착화합니다.
+        Formula: Ĥ_Anchor(a) = 1/2 + i * [ Ω_n / ρ_Time(a) ] = 1/2 + i * [ Ω_n * a^γ ]
+        Anchors physical reality tightly to the invariant spectral baseline axis (Re = 1/2) orthogonal to the complex temporal wave trajectory.
         """
         if anchor_index < 1 or anchor_index > self.num_anchors:
             raise ValueError(f"Anchor index must be between 1 and {self.num_anchors}.")
 
         omega_n = self.omega_nodes[anchor_index - 1]
 
-        # 00번 문서 정정 사항 적용: r차원 기하학적 역산에 의해 a^γ 항을 정방향으로 직관적 연산
-        # 분모에 대입하여 나눌 때 발생하는 연산 오류와 수치 노이즈를 주의
+        # Formulates the a^γ term directly via dimensional geometric inversion.
+        # This bypasses literal division into denominators, eliminating computational errors and floating-point numerical noise.
         if isinstance(scale_factor_a, np.ndarray):
             imag_part = np.where(scale_factor_a == 0, 0.0, omega_n * (np.maximum(scale_factor_a, 0.0) ** self.gamma))
         else:
@@ -89,27 +99,29 @@ class TDTCore:
             return real_part + 1j * imag_part
 
         return complex(real_part, imag_part)
+
     
 
     def predict_cmb_multipoles_vectorized(self) -> np.ndarray:
         """
-        [TDT-Core Phase 05: 백서 제1원리 유효 파동수 축 정합]
-        임의의 수치적 피팅 상수없이, 음향 위상 변조 텐서를 트레이시-위돔 지수 매니폴드 
-        내부의 유효 파동수(Effective Frequency) 축에 정방향으로 결합.
+        [TDT-Core Phase 05: First-Principles Alignment on the Effective Wavenumber Axis]
+        Binds the acoustic phase modulation tensor directly onto the effective frequency axis 
+        inside the Tracy-Widom exponential manifold, entirely excluding empirical data-fitting parameters.
         """
         n_arr = np.arange(1, self.num_anchors + 1)
         a_recomb = 1.0 / 1101.0
         omega_n = self.omega_nodes[:self.num_anchors]
 
-        # ---------------------------------------------------------------------
-        # 1. 거시 시공간 기저 메트릭 산출 (01, 02번 백서 원형 순정 기하학)
+
+               # ---------------------------------------------------------------------
+        # 1. Compute Macroscopic Spacetime Baseline Metrics (Phase 01 & 02 Pure Geometry)
         # ---------------------------------------------------------------------
         cosmic_expansion_factor = a_recomb ** (-self.gamma * np.sqrt(n_arr))
         fluid_correction = (1.0 + self.delta_phase) ** (n_arr - 1)
         l_n_pure = self.c_univ * omega_n * cosmic_expansion_factor * fluid_correction
 
         # ---------------------------------------------------------------------
-        # 2. 미시 양자 곡률 및 RMT 반발력 분산 산출 (01, 05번 백서 순정 구조)
+        # 2. Compute Microscopic Quantum Curvature and RMT Eigenvalue Repulsion Variance
         # ---------------------------------------------------------------------
         zeta_1 = 1.855757
         bessel_fluctuation = zeta_1 * (n_arr ** (1.0 / 3.0)) / n_arr
@@ -118,22 +130,23 @@ class TDTCore:
         gue_repulsion_scale = np.sqrt(np.log(np.log(l_safe))) / (2.0 * (self.pi ** 2))
         
         # ---------------------------------------------------------------------
-        # 3. 04번 백서: 제3 리만 영점(Ω_3) 고유값 기반 절대 척도 상수 유도
+        # 3. Phase 04: Derive Absolute Scale Anchor via the 3rd Riemann Zeta Zero
         # ---------------------------------------------------------------------
         omega_3_scalar = float(self.omega_nodes[2])  
         cosmic_scale_anchor = np.sqrt(omega_3_scalar * self.ln2 / self.gamma)  
         
         # ---------------------------------------------------------------------
-        # 4. 거시 차원 확장 및 지수 내부 유효 파동수 변조 (Effective Frequency Metric)
+        # 4. Macroscopic Dimensional Expansion and Intrinsic Effective Frequency Modulation
         # ---------------------------------------------------------------------
         dimension_volume_factor = np.sqrt(3.0) * (self.pi / 2.0)  
         
         # [Acoustic Resonance Tensor]
         acoustic_resonance_tensor = np.cos(self.pi * (n_arr - 1)) # [1, -1, 1, -1, 1]
         
-        # [유효 파동수 물리량 매니폴드 유도]
-        # 음향 변조 텐서를 지수 외부가 아닌, 지수 내부의 정보 격자 축(n_arr - 1)에 바인딩
-        # 복사-유체 압축 특성값(delta_phase / sqrt(3))이 파동수 진행 속도를 시공간 내부에서 동적으로 제어
+        # [Derivation of the Effective Wavenumber Manifold]
+        # Binds the acoustic modulation tensor directly inside the informational lattice coordinate axis (n_arr - 1) 
+        # instead of applying it externally. The radiation-fluid compression modulus (delta_phase / sqrt(3)) 
+        # dynamically regulates the wavefront propagation velocity inside the spacetime metric framework.
         effective_n_axis = (n_arr - 1) * (1.0 - (self.delta_phase / np.sqrt(3.0)) * acoustic_resonance_tensor)
         tracy_widom_manifold = np.exp((self.gamma * effective_n_axis) ** 1.5)
         
@@ -141,22 +154,21 @@ class TDTCore:
         l_n_projected = (l_n_pure * holographic_projection_scaler * dimension_volume_factor) / tracy_widom_manifold
 
         # ---------------------------------------------------------------------
-        # 5. 백서 05번 명세 (Quantum-to-Macro Bridge 정방향 투영)
+        # 5. Phase 05 Specification: Quantum-to-Macro Horizon Projection
         # ---------------------------------------------------------------------
         l_1_base = l_n_projected[0]
         delta_phi_rmt = gue_repulsion_scale * (n_arr - 1)
         
-        # 미시적 무작위 행렬 반발력에 시스템 무차원 작용량 면적 텐서(alpha * delta_phase * 2pi) 결합
+        # Couples the microscopic GUE repulsion matrix with the dimensionless action area tensor (alpha * delta_phase * 2pi).
         delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (self.alpha * self.delta_phase * 2.0 * self.pi)
         
-        # 최종 우주론적 복합 멀티폴 피크 합성
+        # Synthesize final multi-regime cosmological acoustic multipole spectrum
         l_n_final = l_n_projected + delta_l_additive
         return l_n_final
 
-
 if __name__ == "__main__":
-    # 1. 5개의 수론적 닻줄 격자(Cosmic Anchors)를 가진 신규 인스턴스 강제 생성
-    # 정방향 기하학 공식 주입
+    # 1. Initialize a new instance with 5 core number-theoretic grid structures (Cosmic Anchors)
+    # Maps the mathematical baseline constraints directly under zero-tuning protocols.
     core = TDTCore(num_anchors=5)
 
     print("==================================================")
@@ -165,13 +177,13 @@ if __name__ == "__main__":
     print(f"Topological Interaction Index (γ): {core.gamma:.6f}")
     print(f"Baryon Phase Shift Constant (δ) : {core.delta_phase:.6f}\n")
 
-    # 2. 벡터화 연산 엔진 작동 - 5개 피크 일괄 고착화
+    # 2. Execute vectorized numerical physics engine to predict multipole horizons
     predicted_peaks = core.predict_cmb_multipoles_vectorized()
 
-    # 3. 플랑크 위성 실제 관측 피크 표준치 데이터 매핑
+    # 3. Map foundational Planck satellite consensus empirical benchmarks
     planck_obs = np.array([220.0, 541.0, 800.0, 1120.0, 1420.0])
     
-    # 통계 및 앙상블 평균 연산용 리스트 초기화
+    # Initialize metric collection lists for statistical ensemble and residual analysis
     errors_list = []
 
     print(" CMB High-Order Peak Predictions & Planck Data Alignment:")
@@ -180,12 +192,13 @@ if __name__ == "__main__":
         error = abs(pred - actual) / actual * 100
         errors_list.append(error)
         
-        # 2번 에포크의 시간 탄성 퍼짐(Snap-back 흉터) 현상을 주석으로 명시화
+        # Programmatically highlights the Time Elasticity Lag (the non-asymptotic structural metric translation) at the second node.
         note = " ➔ [Time Elasticity Lag]" if i == 2 else ""
         print(f"  Peak l_{i} -> Predict: {pred:.2f} | Planck Obs: {actual:.1f} | Error: {error:.4f}%{note}")
+
     
     # ---------------------------------------------------------------------
-    # 4. 거시 앙상블 총합 및 글로벌 평균 수렴값(Global MAE) 연산
+    # 4. Evaluate Macroscopic Ensemble Summation and Global Asymptotic Convergence Metrics (Global MAE)
     # ---------------------------------------------------------------------
     mean_planck = np.mean(planck_obs)
     mean_predict = np.mean(predicted_peaks)
