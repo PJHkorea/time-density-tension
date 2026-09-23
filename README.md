@@ -29,20 +29,24 @@ The mathematical integrity of the TDT core physics engine has been rigorously va
 
 The rigorous mathematical derivations, geometric hypotheses, and physical justifications undergirding TDT cosmology are systematically laid out across five interconnected documentation phases:
 
-1. **[Phase 00: Base Layer Foundation and Dynamic Retrospection](docs/00_dynamic_time_density.md)**
+0. **[Phase 00: Base Layer Foundation and Dynamic Retrospection](docs/00_dynamic_time_density.md)**
    * *Core Mechanism:* Derives the fundamental space-time interaction index $\gamma = \frac{1 + \alpha \ln 2}{2\pi} \approx 0.159960$ from the geometric area ratio between microscopic Shannon entropy boundaries and continuous loop manifolds. Establishes the static center boundary condition $(\hat{H} \to 1/2)$ at the $a \to 0$ primordial limits.
-2. **[Phase 01: 2D Laplacian Geometry and \(\sqrt{n}\) Scaling Resistance](docs/01_spatial_scaling.md)**
+1. **[Phase 01: 2D Laplacian Geometry and \(\sqrt{n}\) Scaling Resistance](docs/01_spatial_scaling.md)**
    * *Core Mechanism:* Solves the 2D radial wave equation over a quantized holographic boundary. Deploys McMahon's Asymptotic Expansion for Bessel function roots to rigorously prove that macroscopic spatial gradient tension maps strictly onto the square root of the modal index $(\sqrt{n})$.
-3. **[Phase 02: The Master CMB Bridging Formula and Spectral Predictions](docs/02_cmb_bridging.md)**
+2. **[Phase 02: The Master CMB Bridging Formula and Spectral Predictions](docs/02_cmb_bridging.md)**
    * *Core Mechanism:* Self-derives the universal baryon viscous phase-shift parameter \$`\delta_{\text{phase}} = \frac{2\pi\gamma - 1}{\ln 2} \approx 0.007297`\$ strictly *a priori* from fundamental constants $(\alpha, \pi, \ln 2)$, eliminating the legacy empirical value of `0.039513`. Integrates high-order acoustic peak mapping aligned with discrete imaginary Riemann nodes $(\Omega_n)$, validating the universal propagation horizon.
-4. **[Phase 03: Galactic Dynamics and Cosmic Web Debye Shielding](docs/03_galaxy_dynamics.md)**
+3. **[Phase 03: Galactic Dynamics and Cosmic Web Debye Shielding](docs/03_galaxy_dynamics.md)**
    * *Core Mechanism:* Resolves Vera Rubin's flat galactic rotation curves across the SPARC catalog under a strictly frozen parameter limit \$`(\text{Std Dev } c_{\text{univ}} = 0.000000)`\$. Implements a localized density-gradient phase switch governed by a Tracy-Widom galaxy suppression manifold to completely eliminate historical over-correction deficits across macro intergalactic filaments without post-hoc offsets.
-5. **[Phase 04: Universal LSS Expansion & Singularity Dissolution](docs/04_lss_blackhole_universe.md)**
+4. **[Phase 04: Universal LSS Expansion & Singularity Dissolution](docs/04_lss_blackhole_universe.md)**
    * *Core Mechanism:* Models large-scale structure evolution and event horizon penetration as a dynamic quantum phase transition. Validates interior covariant conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0)$ under absolute compression by letting the interaction index freeze to unity $(\gamma \to 1.0)$ via a smooth hyperbolic tangent operator, matching the Pantheon+ Supernovae trajectory at a global **0.1577% residual error** and dissolving numeric singularities into a stationary classical baseline.
+
+5. **[Phase 05: RMT Eigenvalue Repulsion & Tracy-Widom Phase Shifts](docs/05_tracy_widom_repulsion.md)**
+   * *Core Mechanism:* Formalizes high-frequency microscopic spectral grid corrections using Gaussian Unitary Ensemble (GUE) statistics and Selberg’s CLT variant. Spontaneously captures the multi-pole observation deviations under a completely parameter-free framework, deriving the famous 10.7275% second-peak (l_2) "Time Elasticity Snap-back Lag" not as an arbitrary empirical error, but as a rigid geometric structural scar of early cosmic expansion.
 
 6. **[Phase 06: QFT Vacuum Fluctuations & Electro-Topological Phase Resonance](docs/06_qft_vacuum_resonance.md)**
    * *Core Mechanism:* Establishes the microscopic quantum field-theoretic foundation of the TDT medium. Derives the non-divergent scalar Zeta Potential Field ($\Phi_{\text{Zeta}}$) where the vacuum expectation value (VEV) is governed strictly by the Frobenius trace of the anchoring complex Hamiltonian, effectively stabilizing ultraviolet divergences into a finite geometric stasis floor without empirical cutoffs. 
    * *Epistemological Impact:* Reformulates the baryon phase displacement ($\delta_{\text{phase}} \equiv \alpha \approx 0.007297$) as a gauge-invariant Cosmological Berry Phase accumulated over a macroscopic Topological Insulator framework. By locking microscopic QGP Dirac operator eigenvalues directly onto macroscopic SDSS cosmic web filaments under the Montgomery-Odlyzko law, this phase permanently achieves **100% Closed-Loop Cosmological Field Closure**—eradicating the dark sector requirements entirely.
+
 
 ---
 
