@@ -1,3 +1,11 @@
+# 🌌 Time-Density Tension (TDT) Cosmology
+
+**Time-Density Tension (TDT) Cosmology** is a novel complex spacetime geometric framework that establishes an exact, non-linear topological bridge between the non-trivial zeros of the Riemann Zeta Function $(\Omega_n)$ and the acoustic oscillation multipole peaks $(l_n)$ observed in the Cosmic Microwave Background (CMB).
+
+By treating the fabric of spacetime as a dynamic, quantum-informational elastic lattice, the TDT framework provides a self-consistent alternative to interpret primordial cosmic perturbations, flat galactic rotation curves, macro-scale cosmic filaments, and black hole singularity dissolution **without relying on ad-hoc Dark Matter particles or Dark Energy fields**. This approach suggests that the evolutionary timeline of the universe can be bound under a single, parameter-free structural invariant driven solely by base-layer tension and baryonic fluid viscosity, opening a new predictive horizon grounded in pure topological symmetries.
+
+---
+
 ## Quick Architecture Guide
 
 Instead of the particle physics approaches of standard cosmology ($\Lambda$CDM), this repository operates a first-principles geometric engine that performs an **inverse projection & Inverse Projection)** of 2D number-theoretic invariants into higher dimensions. Please consider the following architectural characteristics during code review and simulation analysis:
@@ -24,14 +32,6 @@ When tracking the mathematical equations from the phase documents & Phase 00–0
 3. **Tracy-Widom Non-Linear Damping Alignment**
    *   **The Analytic Equation:** High-frequency phase spectral ripples converge asymptotically due to GUE eigenvalue repulsion.
    *   **The Python Translation:** The `tracy_widom_manifold` uses an exponential operator bound onto the information lattice axis (`effective_n_axis`). To counteract the massive scaling amplification from the spatial expansion matrix, this manifold dynamically acts in the denominator of `l_n_projected`. The interaction between the expanding power law and the exponential damping is a rigorous representation of the finite boundary stasis, ensuring the high-order spectrum smoothly maps onto the Planck anchors without arbitrary hard-coded parameter cutoffs.
-
----
-
-# 🌌 Time-Density Tension (TDT) Cosmology
-
-**Time-Density Tension (TDT) Cosmology** is a novel complex spacetime geometric framework that establishes an exact, non-linear topological bridge between the non-trivial zeros of the Riemann Zeta Function $(\Omega_n)$ and the acoustic oscillation multipole peaks $(l_n)$ observed in the Cosmic Microwave Background (CMB).
-
-By treating the fabric of spacetime as a dynamic, quantum-informational elastic lattice, the TDT framework provides a self-consistent alternative to interpret primordial cosmic perturbations, flat galactic rotation curves, macro-scale cosmic filaments, and black hole singularity dissolution **without relying on ad-hoc Dark Matter particles or Dark Energy fields**. This approach suggests that the evolutionary timeline of the universe can be bound under a single, parameter-free structural invariant driven solely by base-layer tension and baryonic fluid viscosity, opening a new predictive horizon grounded in pure topological symmetries.
 
 ---
 
@@ -72,10 +72,10 @@ The rigorous mathematical derivations, geometric hypotheses, and physical justif
    * *Core Mechanism:* Evaluates Vera Rubin's flat galactic rotation curves across the SPARC catalog under a strictly frozen parameter limit & $\text{Std Dev } c_{\text{univ}} = 0.000000$ ) . This layer implements a localized density-gradient phase switch governed by a Tracy-Widom galaxy suppression manifold to smooth historical over-correction deficits across macro intergalactic filaments without relying on post-hoc offsets.
 
 4. **[Phase 04: Universal LSS Expansion & Singularity Dissolution](docs/04_lss_blackhole_universe.md)**
-   * *Core Mechanism:* Models large-scale structure evolution and event horizon penetration as a dynamic quantum phase transition. Validates interior covariant conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0)$ under absolute compression by letting the interaction index freeze to unity $(\gamma \to 1.0)$ via a smooth hyperbolic tangent operator, matching the Pantheon+ Supernovae trajectory at a global **0.1577% residual error** and dissolving numeric singularities into a stationary classical baseline.
+   * *Core Mechanism:* Models large-scale structure evolution and event horizon penetration as a dynamic quantum phase transition. This layer validates interior covariant conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0)$ under absolute compression by letting the interaction index freeze to unity $(\gamma \to 1.0)$ via a smooth hyperbolic tangent operator, matching the Pantheon+ Supernovae trajectory at a global **0.1577% residual error** and relaxing numeric singularities onto a stationary classical baseline.
 
 5. **[Phase 05: RMT Eigenvalue Repulsion & Tracy-Widom Phase Shifts](docs/05_tracy_widom_repulsion.md)**
-   * *Core Mechanism:* Formalizes high-frequency microscopic spectral grid corrections using Gaussian Unitary Ensemble (GUE) statistics and Selberg’s CLT variant. Spontaneously captures the multi-pole observation deviations under a completely parameter-free framework, deriving the famous 10.7275% second-peak (l_2) "Time Elasticity Snap-back Lag" not as an arbitrary empirical error, but as a rigid geometric structural scar of early cosmic expansion.
+   * *Core Mechanism:* Formalizes high-frequency microscopic spectral grid corrections using Gaussian Unitary Ensemble (GUE) statistics and Selberg’s CLT variant. This framework evaluates multi-pole observational deviations under a parameter-free layout, identifying the ~10.72% second-peak ($l_2$) deviation not as an arbitrary empirical discrepancy, but as a structural signature—the "Time Elasticity Snap-back Lag"—emerging from early cosmic expansion phase transitions.
 
 6. **[Phase 06: QFT Vacuum Fluctuations & Electro-Topological Phase Resonance](docs/06_qft_vacuum_resonance.md)**
    * *Core Mechanism**: Establishes a microscopic, quantum-theoretic baseline to interpret the TDT medium as a non-divergent scalar Zeta Potential Field $\Phi_{\text{Zeta}}$ . By framing the vacuum expectation value & VEV) as a function of the Frobenius trace of the complex Hamiltonian, this architecture suggests how a geometric regularization boundary could be enforced over the 2D concentric polar lattice. This framework opens a pathway to map quantum-level fluctuations natively onto discrete eigenvalues, offering a robust structural explanation to prevent floating-point runaways in the Master Simulation Engine without ad-hoc empirical cutoffs.
@@ -85,19 +85,17 @@ The rigorous mathematical derivations, geometric hypotheses, and physical justif
 
 
 ---
-
 ## ⚖️ Theoretical Epistemology & Methodological Rigor
 
-To establish absolute mathematical transparency, the TDT framework addresses historical critiques regarding phenomenological bounds through rigorous first-principles derivations, completely eliminating post-hoc parameter adjustments.
+To establish absolute mathematical transparency, the TDT framework addresses historical critiques regarding phenomenological bounds through rigorous first-principles derivations, systematically minimizing the necessity for post-hoc parameter adjustments.
 
-### 1. Eradication of Phenomenological Galactic Scaling
-*   **The Historical Critique:** Early prototype formulations utilized explicit empirical scales within the viscous shielding layer e.g., $r_{\text{debye}} = 12.5\text{ kpc}$ , resembling a standard data-fitting posture against the SPARC catalog.
-*   **The First-Principles Resolution:** The legacy empirical constants and arbitrary offsets have been entirely extirpated (0% fitting). In the current deployment (`tdt_sparc_frozen_validation.py`), the spatial damping and boundary propagation velocities are governed strictly by the **Tracy-Widom galaxy suppression manifold** bound onto pure mathematical invariant s$(c_{\text{univ}}, \Omega_1, \gamma)$.
- The universal field locks into an absolute frozen state $(\text{Std Dev } c_{\text{univ}} = 0.000000)$, demonstrating that macro-scale galactic kinematics emerge *a priori* from the underlying universal topological backbone without borrowing scale metrics from observation.
+### 1. Departure from Phenomenological Galactic Scaling
+*   **The Historical Critique:** Early prototype formulations utilized explicit empirical scales within the viscous shielding layer & e.g., $r_{\text{debye}} = 12.5\text{ kpc}$ ), resembling a standard data-fitting posture against the SPARC catalog.
+*   **The First-Principles Resolution:** The legacy empirical constants and arbitrary offsets have been replaced under a zero-tuning architecture (0% fitting). In the current deployment (`tdt_sparc_frozen_validation.py`), the spatial damping and boundary propagation velocities are governed strictly by the **Tracy-Widom galaxy suppression manifold** bound onto pure mathematical invariants& $c_{\text{univ}}, \Omega_1, \gamma$ ). The universal field converges into a strictly frozen state & $\text{Std Dev } c_{\text{univ}} = 0.000000$ ), showing that macro-scale galactic kinematics can be modeled to emerge *a priori* from the underlying topological backbone without borrowing scale metrics from observation.
 
-### 2. Geometric Spontaneous Phase Transition $(\gamma \to 1.0)$
+### 2. Geometric Spontaneous Phase Transition & $\gamma \to 1.0$ )
 *   **The Historical Critique:** Forcing the interaction index to unity inside singular regions to enforce covariant conservation appeared to be a manual numerical stabilization trick to bypass runtime singularity traps.
-*   **The Analytical Resolution:** Artificial boundary overrides, `if` condition branchings, and numeric clipping mechanisms (e.g., `np.clip` safeguards) have been completely dismantled. The stasis boundary maps onto a **Quantum Phase Transition to a Fixed Point** derived via an exact, continuous hyperbolic tangent $(\tanh)$ operator embedded within the complex anchoring Hamiltonian. At the asymptotic limit of absolute metric compression $(a \to 10^{-12})$, the timeline fluctuation freezes naturally. The interaction index locks into the Einsteinian baseline $(1.0)$ as an analytical requirement of the manifold's Leibniz differentiation chain-rule, ensuring total covariant divergence conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0)$ dynamically rather than algorithmically.
+*   **The Analytical Resolution:** Artificial boundary overrides, `if` condition branchings, and numeric clipping mechanisms (e.g., `np.clip` safeguards) have been systematically resolved. The stasis boundary maps onto a **Quantum Phase Transition to a Fixed Point** derived via an exact, continuous hyperbolic tangent& $\tanh$ ) operator embedded within the complex anchoring Hamiltonian. At the asymptotic limit of absolute metric compression & $a \to 10^{-12}$ ), the timeline fluctuation stabilizes naturally. The interaction index locks into the Einsteinian baseline & $1.0$ ) as an analytical requirement of the manifold's Leibniz differentiation chain-rule, ensuring interior covariant divergence conservation & $\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$ ) dynamically rather than algorithmically.
 
 
 
@@ -343,5 +341,3 @@ SN2022ack    | 0.0152       | 34.21        | 34.16        | 0.1318     %
  -> Universality Coherence Status                   : SUCCESS ➔ Closed-Loop Cosmological Field Confirmed
 ===================================================================================================================
 ```
----
-*Developed under the collaboration of Human Conscious Input and Machine Mathematical Reflection.*
