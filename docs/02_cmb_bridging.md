@@ -127,5 +127,3 @@ Using the purified, parameters-free `src/tdt_core.py` engine under a strictly fr
 | **Peak $l_5$** | 32.935062 | 3rd Compression | **1245.34** | High-precision target for advanced foreground-stripping observational arrays |
 
 
----
-*Developed under the collaboration of Human Conscious Input and Machine Mathematical Reflection.*
