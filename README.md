@@ -129,31 +129,33 @@ test_reduction.py
 
 ```text
 ================================================================================
-      TDT THEORY ASYMPTOTIC GR REDUCTION SIMULATION MATRIX      
+  TDT THEORY ASYMPTOTIC GR REDUCTION GRADIENT TUNED SIMULATION ENGINE   
 ================================================================================
-[PART 1: ASYMPTOTIC FLATNESS LIMIT (T_mu_nu -> 0)]
- ➔ Total Energy Source Bare     : 1.42468e+05
- ➔ Classical GR Target Boundary : 1.42468e+05
- ➔ Reduction Verification Result: VERIFIED
+[PART 1: ASYMPTOTIC FLATNESS LIMIT (a -> inf)]
+ ➔ Expansion Path Scan (a)     : 1.0e+02, 1.0e+04, 1.0e+06, 1.0e+08, 1.0e+10
+ ➔ Diluted Time Density Grid    : 4.7872e-01, 2.2917e-01, 1.0971e-01, 5.2519e-02, 2.5142e-02
+ ➔ Terminal Dark Energy State   : 2.51420e-02
+ ➔ Reduction Verification Result: VERIFIED (Cosmological Constant Λ Dynamically Converged)
 --------------------------------------------------------------------------------
 [PART 2: HAMILTONIAN PHASE STASIS AT SINGULARITY LIMIT (a -> 0)]
-Anchor Index (n)    Real Part (Re)           Imaginary Part (Im)      
+Anchor Index (n)    Singular Re (a->0)       Singular Im (a->0)       
 ----------------------------------------------------------------------
-Anchor n=1            0.5000                   0.0000                   
-Anchor n=2            0.5000                   0.0000                   
-Anchor n=3            0.5000                   0.0000                   
-Anchor n=4            0.5000                   0.0000                   
-Anchor n=5            0.5000                   0.0000                   
+Anchor n=1            0.5000                   0.0000e+00               
+Anchor n=2            0.5000                   0.0000e+00               
+Anchor n=3            0.5000                   0.0000e+00               
+Anchor n=4            0.5000                   0.0000e+00               
+Anchor n=5            0.5000                   0.0000e+00               
  ➔ Hamiltonian Stasis Result   : VERIFIED
 --------------------------------------------------------------------------------
 [PART 3: QUANTUM-TO-CLASSICAL BARYON TRANSITION (r -> inf)]
- ➔ Extreme Halo Radius (r)     : 100.0 kpc
- ➔ Viscous Decay Factor         : 3.90469e-13
- ➔ Amended Viscous Correction   : 1.0000000000
+ ➔ Space Metric Radius Scan (r) : 0.1 kpc, 3.5 kpc, 15.0 kpc, 100.0 kpc, 1000.0 kpc
+ ➔ Viscous Decay Factor Grid    : 9.71833e-01, 3.67879e-01, 1.37638e-02, 3.90469e-13, 8.23877e-125
+ ➔ Amended Viscous Corrections  : 1.0384000324, 1.0145360204, 1.0005438485, 1.0000000000, 1.0000000000
+ ➔ Critical Extinction Radius r*: 100.0 kpc (Quantum Escape & Classical Gravity Transition Point)
  ➔ Viscous Shield Extinct Result: VERIFIED
 ================================================================================
      TDT ASYMPTOTIC GR REDUCTION GRADIENT SIMULATION COMPLETE
-     ALL CONVERGENCES CONFIRMED ON CLASSICAL EINSTEINIAN BOUNDARY
+     ALL CONVERGENCES CONFIRMED ON DYNAMIC EINSTEINIAN BOUNDARY
 ================================================================================
 ```
 ---
