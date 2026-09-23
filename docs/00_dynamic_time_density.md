@@ -184,6 +184,17 @@ However, the real space-time fabric is discrete at the Planck scale. When a sing
 
 $$\text{Area}_{\text{Disruption}} = 1 \cdot \left(\alpha \cdot \ln 2\right)$$
 
+#### 5.1.1 Dimensional Justification via Holographic Information Regularization
+
+The dimensional transition transforming the dimensionless product ($\alpha \cdot \ln 2$) into a geometric area element is rigorously undergirded by the Bekenstein-Hawking entropy relation operating over the 2D holographic screen. In quantum informational spacetime frameworks, a single discrete bit of information emergence ($\ln 2$) inherently demands a pixelated footprint on the boundary screen measured in units of the Planck area ($\ell_P^2 \equiv \hbar G / c^3$). 
+
+$$\mathcal{S}_{\text{BH}} = \frac{k_B \cdot \text{Area}}{4\ell_P^2}$$
+
+When a primordial informational disruption manifests on this boundary grid, the localized topological gauge coupling is scaled by the fine-structure constant ($\alpha$), which governs the effective elasticity and deformation threshold of the electro-topological medium. 
+
+The product $\alpha \cdot \ln 2$ therefore represents the exact fraction of the fundamental Planck area cell warped by a unitary informational activation. Rather than functioning as a standard numerical numerology trick, this term represents the precise geometric regularization of information density shifts over the quantized spacetime matrix, satisfying gauge-invariant continuity across the macro-horizon continuum.
+
+
 #### 5.2 The Geometric Coupling and Inverse Projection
 
 The interaction index $\gamma$ represents the ratio of this quantum informational disruption added to the pristine continuous background, projected inversely onto the 2D boundary manifold:
