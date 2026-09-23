@@ -31,7 +31,7 @@ def execute_tdt_gr_reduction_simulation_tuned(core):
     print(f" ➔ Reduction Verification Result: {status_p1} (우주상수 Λ 동적 수렴 완료)")
     print("-" * 80)
     
-    # -------------------------------------------------------------------------
+      # -------------------------------------------------------------------------
     # [PART 2: 특이점 압축 한계점에서의 최종 해밀토니안 위상 정박 검증]
     # -------------------------------------------------------------------------
     print("[PART 2: HAMILTONIAN PHASE STASIS AT SINGULARITY LIMIT (a -> 0)]")
@@ -60,10 +60,7 @@ def execute_tdt_gr_reduction_simulation_tuned(core):
             
     status_p2 = "VERIFIED" if p2_passed else "FAILED"
     print(f" ➔ Hamiltonian Stasis Result   : {status_p2}")
-    print("=" * 80)
-    print("      TDT ASYMPTOTIC GR REDUCTION GRADIENT SIMULATION COMPLETE")
-    print("      ALL CONVERGENCES CONFIRMED ON DYNAMIC EINSTEINIAN BOUNDARY")
-    print("=" * 80)
+    print("-" * 80) # 💡 파트 간 구분을 위해 깔끔하게 실선으로 대체했습니다.
 
     # -------------------------------------------------------------------------
     # [PART 3: 은하 외곽 및 코스믹 웹 경계면에서의 유체 점성 소멸 검증 (r -> inf)]
@@ -96,23 +93,18 @@ def execute_tdt_gr_reduction_simulation_tuned(core):
     print(f" ➔ Critical Extinction Radius r*: {critical_extinction_r:.1f} kpc (양자 탈출 및 고전 중력 전환점)")
     print(f" ➔ Viscous Shield Extinct Result: {status_p3}")
     
+    # 💡 모든 검증 파트(1, 2, 3)가 끝나는 최하단에 메인 대통합 엔딩 마크를 단 한 번만 선언합니다.
     print("=" * 80)
     print("     TDT ASYMPTOTIC GR REDUCTION GRADIENT SIMULATION COMPLETE")
     print("     ALL CONVERGENCES CONFIRMED ON DYNAMIC EINSTEINIAN BOUNDARY")
     print("=" * 80)
 
 # =============================================================================
-# 코랩(Colab) 셀 단독 실행 및 과거 메모리 누수 원천 차단을 위한 마스터 트리거 포탈
+# 🚀 코어 엔진 인스턴스화 및 런타임 다이렉트 구동 포탈
 # =============================================================================
 if __name__ == "__main__":
-    try:
-        # 1. 상단 셀에 선언된 수론적 물리 엔진 인스턴스 신규 고착화 로드
-        # (기존 노트북 커널에 남아있을지 모를 오염된 메모리를 밀어버리고 순정 기하학 주입)
-        core_engine = TDTCore(num_anchors=30)
-        
-        # 2. 고도화된 GR 점근적 환원성 시뮬레이션 매트릭스 전격 가동
-        execute_tdt_gr_reduction_simulation(core_engine)
-        
-    except NameError as e:
-        print("\n[⚠️ ENGINE CRITICAL ERROR] 코랩 세션에 'TDTCore' 클래스가 정의되지 않았습니다.")
-        print("➔ 해결 방법: 상단 셀의 TDTCore 소스코드를 먼저 실행(Shift+Enter)한 뒤 이 셀을 다시 구동해 주세요.\n")
+    # 1. 30개의 수론적 앵커 노드를 가진 깨끗한 마스터 엔진 생성
+    core_engine = TDTCore(num_anchors=30)
+    
+    # 2. 오타가 교정된 튜닝 버전의 시뮬레이션 매트릭스 전격 가동
+    execute_tdt_gr_reduction_simulation_tuned(core_engine)
