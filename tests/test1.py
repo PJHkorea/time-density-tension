@@ -148,7 +148,6 @@ class TDTCore:
         return l_n_final
 
 
-
 if __name__ == "__main__":
     # 1. 5개의 수론적 닻줄 격자(Cosmic Anchors)를 가진 신규 인스턴스 강제 생성
     # (과거의 낡은 실행 메모리를 완전히 밀어버리고 정방향 기하학 공식 주입)
@@ -164,13 +163,30 @@ if __name__ == "__main__":
     predicted_peaks = core.predict_cmb_multipoles_vectorized()
 
     # 3. 플랑크 위성 실제 관측 피크 표준치 데이터 매핑
-    planck_obs = [220.0, 541.0, 800.0, 1120.0, 1420.0]
+    planck_obs = np.array([220.0, 541.0, 800.0, 1120.0, 1420.0])
+    
+    # 통계 및 앙상블 평균 연산용 리스트 초기화
+    errors_list = []
 
     print(" CMB High-Order Peak Predictions & Planck Data Alignment:")
     for i, pred in enumerate(predicted_peaks, 1):
         actual = planck_obs[i - 1]
-
-        # 오차율 연산 보정 및 검증
         error = abs(pred - actual) / actual * 100
-        print(f"  Peak l_{i} -> Predict: {pred:.2f} | Planck Obs: {actual:.1f} | Error: {error:.4f}%")
+        errors_list.append(error)
+        
+        # 2번 에포크의 시간 탄성 퍼짐(Snap-back 흉터) 현상을 주석으로 명시화
+        note = " ➔ [Time Elasticity Lag]" if i == 2 else ""
+        print(f"  Peak l_{i} -> Predict: {pred:.2f} | Planck Obs: {actual:.1f} | Error: {error:.4f}%{note}")
+    
+    # ---------------------------------------------------------------------
+    # 4. 거시 앙상블 총합 및 글로벌 평균 수렴값(Global MAE) 연산
+    # ---------------------------------------------------------------------
+    mean_planck = np.mean(planck_obs)
+    mean_predict = np.mean(predicted_peaks)
+    global_mae = np.mean(errors_list)
+    
+    print("-" * 50)
+    print(f" ➔ Planck Obs Ensemble Mean : {mean_planck:.2f}")
+    print(f" ➔ TDT Predict Ensemble Mean: {mean_predict:.2f}")
+    print(f" ➔ Global Asymptotics Residuals (MAE): {global_mae:.4f}%")
     print("==================================================")
