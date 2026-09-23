@@ -113,8 +113,8 @@ Distance (Mpc) Scale Factor (a)    Time Density (ρ)    Linear Tension (λ_Web)
 [PART 4: BLACK HOLE COMPLEX IONIZATION & WHITE HOLE REBIRTH MAP]
 New Scale (a)  Res. Tension (Trr)  White Hole Jet (S)  Emergent Baryon (ρ_b)    
 --------------------------------------------------------------------------------
-0.001          -7.2091 + 4.1304 * i0.5496              5.4959E+08               
-0.010          -8.7702 + 8.2026 * i0.7943              7.9433E+05               
+0.001          -0.0480 + 0.0275 * i0.0037              3.6570E+06               
+0.010          -5.4871 + 5.1320 * i0.4970              4.9697E+05               
 0.100          -8.0756 + 15.3625 * i1.1481              1.1481E+03               
 0.500          -3.6845 + 22.1473 * i1.4851              1.1881E+01               
 1.000          25.0843 * i         1.6593              1.2227E-05               
