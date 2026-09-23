@@ -63,7 +63,7 @@ def execute_tdt_gr_reduction_simulation(core):
     print("     ALL CONVERGENCES CONFIRMED ON CLASSICAL EINSTEINIAN BOUNDARY")
     print("=" * 80)
 
-# 코랩 셀 단독 실행을 위한 마스터 트리거 포탈
+
 if __name__ == "__main__":
     # 상단 셀에 정의된 TDTCore 클래스로부터 인스턴스 정방향 로드
     core_engine = TDTCore(num_anchors=30)
