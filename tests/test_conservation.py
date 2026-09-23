@@ -100,7 +100,7 @@ def test_baryon_phase_shift_bounds(tdt_engine):
 # =============================================================================
 def main():
     """TDT Unified Cosmological Tracking and Unit Test Integration Portal"""
-    # 30개의 수론적 닻줄 격자를 장착한 청정 마스터 코어 엔진 강제 로드
+    # Force load the purified master core engine armed with 30 prime-number anchor lattices.
     core_engine = TDTCore(num_anchors=30)
     
     print("\n" + "=" * 80)
@@ -111,7 +111,7 @@ def main():
     print("[RUNNING] Verification 01: First-Principles Interior Covariant Conservation...")
     try:
         test_interior_covariant_conservation(core_engine)
-        print("-> PASSED: Covariant divergence is exactly 0.0 (Wick-Rotation Energy-Momentum Conserved 자발적 증명 완료)")
+        print("-> PASSED: Covariant divergence is exactly 0.0 (Wick-Rotation Energy-Momentum Conserved)")
     except AssertionError as e:
         print(f"-> ❌ FAILED in Part 1: {e}")
     
@@ -121,7 +121,7 @@ def main():
         test_einstein_gr_reduction_limit(core_engine)
         h_present = core_engine.get_anchoring_hamiltonian(1.0, anchor_index=1)
         print(f"-> PASSED: Real part = {h_present.real:.12f} (Expected: 0.500000000000)")
-        print(f"-> PASSED: Imag part = {h_present.imag:.12f} (외부 리만 제타 제로점 s_1 교차 검증 일치 완료)")
+        print(f"-> PASSED: Imag part = {h_present.imag:.12f} (Analytical Cross-Verification with s_1 Riemann Zero Match)")
     except AssertionError as e:
         print(f"-> ❌ FAILED in Part 2: {e}")
         
@@ -129,7 +129,7 @@ def main():
     print("\n[RUNNING] Verification 03: Baryon Phase Shift First-Principles Invariant Bounds...")
     try:
         test_baryon_phase_shift_bounds(core_engine)
-        print(f"-> PASSED: Invariant delta_phase is solidly {core_engine.delta_phase:.12f} (외적 우주론 기저 대칭 불변량 일치 확인)")
+        print(f"-> PASSED: Invariant delta_phase is solidly {core_engine.delta_phase:.12f} (Extrinsic Cosmological Boundary Invariant Alignment Verified)")
     except AssertionError as e:
         print(f"-> ❌ FAILED in Part 3: {e}")
         
