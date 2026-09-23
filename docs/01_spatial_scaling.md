@@ -162,7 +162,7 @@ $$
 $$
 
 
-Where the primary structural factor \(\mu\) scales linearly with the su론적 grid index:
+Where the primary structural factor \(\mu\) scales linearly with the number-theoretic grid index:
 
 $$
 \mu = \left(n + \frac{m}{2} - \frac{1}{4}\right)\pi \propto \pi \cdot n
