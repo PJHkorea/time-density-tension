@@ -8,6 +8,7 @@ The cylindrical Bessel differential equation and McMahon's asymptotic expansion 
 Furthermore, the subtle non-asymptotic phase shifts emerging in the low-dimensional lattice ($n = 1, 2$) regime are neither numerical computation errors nor leakage. Instead, they represent an "analytic scar"—a physical imprint left by the slippage of the spacetime lattice during the phase transition of the early universe. Without any artificial parameter fitting, this structure achieves a flawless logical integration via a continuous hyperbolic tangent manifold operation (`src/tdt_core.py`), preserving the covariant conservation law ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$)
  strictly within floating-point error margins.
 
+---
 
 # 01. Spatial Scaling Laws and Laplacian Field Derivation
 
