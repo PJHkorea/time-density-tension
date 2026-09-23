@@ -110,36 +110,53 @@ The structural transition visualized above is programmatically enforced via the 
 
 1. **The Singularity Limit ($a \rightarrow 0$):**
    As the spatial bulk compresses toward zero-scale, the continuous hyperbolic tangent operator drives $\gamma_{\text{effective}}(a) \rightarrow 1.0$. Consequently, the complex anchoring Hamiltonian locks its real part into the absolute mathematical boundary floor:
-   $$\lim_{a \to 0} \text{Re}\left(\hat{H}_{\text{Anchor}}\right) = 0.500000000000$$
+   
+$$
+\lim_{a \to 0} \text{Re}\left(\hat{H}_{\text{Anchor}}\right) = 0.500000000000
+$$
+
    This quantum freezing effect prevents the分母 from collapsing to zero, freezing timeline fluctuations and ensuring that energy-momentum is perfectly conserved ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$) at the birth of the universe.
 
-2. **The Current Universe Baseline ($a \rightarrow 1$):**
+1. **The Current Universe Baseline ($a \rightarrow 1$):**
    At the present epoch boundary, the system operates in a balanced complex state where matter and temporal fields maintain stable macro-coherence. The complex anchoring Hamiltonian seamlessly aligns with the discrete imaginary nodes of the non-trivial Riemann zeros:
-   $$\hat{H}_{\text{Anchor}}(1) = \frac{1}{2} + i \cdot \Omega_{\text{Time}}^{(1)}$$
+   
+$$
+\hat{H}_{\text{Anchor}}(1) = \frac{1}{2} + i \cdot \Omega_{\text{Time}}^{(1)}
+$$
+   
    This analytical convergence bridges pure number theory directly onto classical Einsteinian General Relativity metrics without data-fitting.
 
-3. **The Asymptotic Flatness Limit ($a \rightarrow \infty$):**
+4. **The Asymptotic Flatness Limit ($a \rightarrow \infty$):**
    As the universe undergoes indefinite expansion, the temporal fluid dilution reaches its terminal geometric asymptote. Rather than diverging into an unphysical Big Rip or vanishing entirely to zero, the time-density stabilizes at a fixed non-zero boundary:
    $$\lim_{a \to \infty} \rho_{\text{Time}}(a) = 0.0251420$$
    This residual topological background tension functions precisely as the observed cosmological constant ($\Lambda$), self-regulating the accelerated macro-expansion timeline through pure geometric asymptotics.
 
 #### Case A: The Primordial Singularity Bound (\(a(t) \to 0\))
-As we track the universe backward to the primordial singular limits, the spatial bulk contracts toward a zero-volume boundary. Rather than allowing the temporal fluid density in the denominator to compress infinitely and trigger unphysical runtimes, the micro-core engine activates the dynamic phase transition where \(\gamma_{\text{effective}}(a) \to 1.0\).
+As we track the universe backward to the primordial singular limits, the spatial bulk contracts toward a zero-volume boundary. Rather than allowing the temporal fluid density in the denominator to compress infinitely and trigger unphysical runtimes, the micro-core engine activates the dynamic phase transition where $\gamma_{\text{effective}}(a) \to 1.0$ .
 
-\[\lim_{a \to 0} \hat{H}_{\text{Anchor}}(a) = 0.500000000000 + i \cdot \left[ \text{Stasis Terminus} \right]\]
+$$
+\lim_{a \to 0} \hat{H}_{\text{Anchor}}(a) = 0.500000000000 + i \cdot \left[ \text{Stasis Terminus} \right]
+$$
 
-*   **Physical Meaning:** At the absolute singular origin, the quantum fluctuation of the timeline freezes dynamically. The complex anchoring Hamiltonian locks into a perfectly stationary baseline of \(0.5\) along the real axis (**Hamiltonian Phase Stasis**). The universe at \(a=0\) is bounded by a rigid mathematical floor where the Leibniz differentiation chain-rule automatically absorbs structural deformations, preserving zero-sum interior covariant conservation (\(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0\)) without invoking arbitrary numeric clipping.
 
-#### Case B: The Asymptotic Flatness Bound (\(a(t) \to \infty\))
+*   **Physical Meaning:** At the absolute singular origin, the quantum fluctuation of the timeline freezes dynamically. The complex anchoring Hamiltonian locks into a perfectly stationary baseline of $0.5$ along the real axis (**Hamiltonian Phase Stasis**). The universe at $a=0$ is bounded by a rigid mathematical floor where the Leibniz differentiation chain-rule automatically absorbs structural deformations, preserving zero-sum interior covariant conservation $(\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0)$ without invoking arbitrary numeric clipping.
+
+#### Case B: The Asymptotic Flatness Bound $(a(t) \to \infty)$
 As the spatial coordinates undergo indefinite expansion, the non-linear holographic dilution of the temporal fluid approaches its terminal geometric asymptote. Rather than plunging into absolute vacuum zero and triggering an unphysical divergence, the time-density stabilizes at a fixed non-zero baseline:
 
-\[\lim_{a \to \infty} \rho_{\text{Time}}(a) = 0.0251420\]
+$$
+\lim_{a \to \infty} \rho_{\text{Time}}(a) = 0.0251420
+$$
 
 Consequently, the complex anchoring Hamiltonian reaches a stable, stationary point of mathematical convergence:
 
-\[\lim_{a \rightarrow \infty }\hat{H}_{\text{Anchor}}(a) = \frac{1}{2} + i \cdot \left( \frac{\Omega_{\text{Time}}^{(n)}}{0.025142} \right)\]
 
-*   **Physical Meaning:** The universal background tension does not decay into infinity, completely ruling out the legacy "TDT Big Rip" hypothesis. Spacetime preserves its structural elasticity at infinite macro-scales. The residual topological background energy density acts precisely as a self-regulating Cosmological Constant (\(\Lambda\)), stabilizing the accelerated macro-expansion timeline onto a clean, stationary classical Einsteinian baseline.
+$$
+\lim_{a \rightarrow \infty }\hat{H}_{\text{Anchor}}(a) = \frac{1}{2} + i \cdot \left( \frac{\Omega_{\text{Time}}^{(n)}}{0.025142} \right)
+$$
+
+
+*   **Physical Meaning:** The universal background tension does not decay into infinity, completely ruling out the legacy "TDT Big Rip" hypothesis. Spacetime preserves its structural elasticity at infinite macro-scales. The residual topological background energy density acts precisely as a self-regulating Cosmological Constant $(\Lambda)$ , stabilizing the accelerated macro-expansion timeline onto a clean, stationary classical Einsteinian baseline.
 
 ---
 
@@ -147,14 +164,15 @@ Consequently, the complex anchoring Hamiltonian reaches a stable, stationary poi
 
 The unified, parameters-free dynamic time-density equations established in this foundational phase provide the rigid mathematical boundary conditions for all downstream functional modules across this repository:
 
-*   **Spatial Scaling (`01_spatial_scaling.md`):** Governs how the 2D radial wave equation over the quantized holographic boundary responds to the \(\rho_{\text{Time}}(a)\) field to derive the discrete \(\sqrt{n}\) modal scaling resistance.
-*   **Galactic Dynamics (`03_galaxy_dynamics.md` / `tdt_sparc_frozen_validation.py`):** Pipes the immutable topological interaction invariants derived herein directly into the Tracy-Widom galaxy suppression manifold, demonstrating near-zero variance (\(\text{Std } c_{\text{univ}} = 0.000000\)) and verifying a global Intermediate MAE of 15.0898% under a strictly frozen parameter state.
+*   **Spatial Scaling (`01_spatial_scaling.md`):** Governs how the 2D radial wave equation over the quantized holographic boundary responds to the $\rho_{\text{Time}}(a)$ field to derive the discrete $\sqrt{n}$
+ modal scaling resistance.
+*   **Galactic Dynamics (`03_galaxy_dynamics.md` / `tdt_sparc_frozen_validation.py`):** Pipes the immutable topological interaction invariants derived herein directly into the Tracy-Widom galaxy suppression manifold, demonstrating near-zero variance $(\text{Std } c_{\text{univ}} = 0.000000)$ and verifying a global Intermediate MAE of 15.0898% under a strictly frozen parameter state.
 *   **Cosmological Scaler Dynamics (`tdt_lss_validation.py`):** Projects the expansion timeline natively against the Pantheon+ Supernovae dataset, achieving a global residual error of 0.1577% (MAE) and cementing the closed-loop cosmological coherence of the framework.
 
 
 ### 5. Topological Derivation and Geometric Hypothesis of the Interaction Index ($\gamma$)
 
-A critical question arises: *Why does the space-time interaction index $\gamma$ take the specific geometric form of $\frac{1}{2\pi}(1 + \alpha \ln 2)$?* TDT theory proposes that this is not an empirical data-fitted constant, but a rigid topological area ratio governing the projection of quantum information from a higher-dimensional bulk onto the 2D holographic cosmic base layer.
+A critical question arises: Why does the space-time interaction index $\gamma$ take the specific geometric form of $\frac{1}{2\pi}(1 + \alpha \ln 2)$? TDT theory proposes that this is not an empirical data-fitted constant, but a rigid topological area ratio governing the projection of quantum information from a higher-dimensional bulk onto the 2D holographic cosmic base layer.
 
 #### 5.1 The Area Ratio Hypothesis on the 2D Holographic Boundary
 
