@@ -18,8 +18,6 @@ This multi-dimensional Nelder-Mead chi-square minimizer solves the global expans
 """
 
 
-
-# Pure Geometric Wave Formula considering Radiation Drag and Topological Manifold
 import numpy as np
 import pandas as pd
 from scipy.integrate import quad
@@ -29,29 +27,31 @@ from io import StringIO
 class TDTCosmologyCore:
     def __init__(self):
         # ---------------------------------------------------------------------
-        # 1. 근본 물리 상수 및 위상학적 기저 상수 선언 (0% Fitting)
+        # 1. Declaration of Fundamental Physical Constants and Topological Baselines
         # ---------------------------------------------------------------------
-        self.alpha: float = 1.0 / 137.035999084  # 미세구조상수 (Fine-structure constant)
-        self.ln2: float = np.log(2.0)            # 섀넌 엔트로피 최소 임계치
+        self.alpha: float = 1.0 / 137.035999084  # Fine-structure constant
+        self.ln2: float = np.log(2.0)            # Minimum Shannon entropy threshold
         self.pi: float = np.pi
         
-        # [제1원리 유도] 위상학적 시간 감쇄 지수 (γ ≈ 0.1599605)
+        # [First-Principles Derivation] Topological time-decay index (γ ≈ 0.1599605)
         self.gamma: float = (1.0 + self.alpha * self.ln2) / (2.0 * self.pi)
         
-        # 🚀 [완전 소독 완료] 하드코딩 상수 '0.039513' 전면 박멸
-        # 중입자 위상 편이는 원형 배경장(2π)과 엔트로피 구조선의 대칭성으로 자발적 유도 (약 0.007297)
+
+        # The Baryon Phase Modulus is derived spontaneously from the continuous circular 
+        # background field (2π) and the entropic baseline architecture, entirely eliminating empirical parameters. (≈ 0.007297)
         computed_gamma_tensor = 2.0 * self.pi * self.gamma
         self.delta_phase: float = (computed_gamma_tensor - 1.0) / self.ln2
         
-        # 광속 (km/s 단위계 환산 상수)
+        # Speed of light (Conversion constant mapped to km/s dimensional matrix)
         self.c_light_kms: float = 299792.458
 
     def calculate_tdt_expansion_rate(self, z: float, H_0: float, omega_m0: float) -> float:
         r"""
-        [LSS 팽창 식 - 제1원리 융합] 암흑 에너지(Λ) 없이 TDT 기저 인장력 진화 파트가 유도하는 가속 팽창률 H(z)
-        순정 gamma 변조 지수에 의해 시공간 자체가 자발적인 허블 흐름 가속을 제어합니다.
+        [LSS Expansion Profile - First-Principles Fusion] Calculates accelerated cosmic expansion rate H(z) 
+        driven by the baseline evolution of the TDT spatial tension tensor without invoking Dark Energy (Λ).
+        The underlying spacetime fabric dynamically regulates the spontaneous acceleration of the Hubble flow via the gamma modulation index.
         """
-        # 하드 레귤러라이제이션 장벽 방어 (물리적 음수 밀도 배제)
+        # Hard regularization barrier defense (Excludes non-physical negative matter densities)
         omega_m0 = np.clip(omega_m0, 0.0, 1.0)
         
         term_matter = omega_m0 * ((1.0 + z) ** 3)
@@ -61,40 +61,40 @@ class TDTCosmologyCore:
         return H_z
 
     def _comoving_distance_integrand(self, z: float, H_0: float, omega_m0: float) -> float:
-        """적분 인입용 내부 역수 함수: 1 / H(z)"""
+        """Internal reciprocal integrand operator: 1 / H(z)"""
         Hz = self.calculate_tdt_expansion_rate(z, H_0, omega_m0)
         return 1.0 / Hz if Hz > 1e-9 else 99999.0
 
     def calculate_luminosity_distance(self, z: float, H_0: float, omega_m0: float) -> float:
         r"""
-        [고정밀 수치 적분] 적색편이 z에 따른 물리적 광도 거리 D_L (Mpc 단위) 산출
-        공식: D_L(z) = (1+z) * c * \int_0^z (1 / H(z')) dz'
+        [High-Precision Numerical Integration] Computes physical luminosity distance D_L (Mpc scale) as a function of redshift z.
+        Formula: D_L(z) = (1+z) * c * \int_0^z (1 / H(z')) dz'
         """
         if z <= 0.0:
             return 1e-15
             
-        # scipy.integrate.quad 엔진을 활용한 고속 리만 제타 가속 적분 가동
+        # Leverages the scipy.integrate.quad engine to execute accelerated high-precision numerical Riemann integration.
         integral, _ = quad(self._comoving_distance_integrand, 0.0, z, args=(H_0, omega_m0))
         
-        # Intrinsic 공변 거리 -> Observed 광도 거리 변환 및 Mpc 스케일 맵핑 완료
+        # Transforms Intrinsic comoving distance into Observed luminosity distance and maps perfectly onto the Mpc scale horizon.
         D_L = (1.0 + z) * self.c_light_kms * integral
         return D_L
 
-
     def calculate_distance_modulus(self, z: float, H_0: float, omega_m0: float) -> float:
         r"""
-        [차원 동기화] 초신성 관측값과 다이렉트 매칭할 거릿수(Distance Modulus, \mu) 변환
-        공식: \mu = 5 * log10(D_L) + 25 (단, D_L의 단위는 Mpc)
+        [Dimensional Synchronization] Converts luminosity distance D_L into distance modulus (\mu) 
+        for direct validation matching against empirical supernova catalog values.
+        Formula: \mu = 5 * log10(D_L) + 25 (where D_L is strictly scaled in Mpc)
         """
         D_L = self.calculate_luminosity_distance(z, H_0, omega_m0)
-        # 하한값 제한으로 log10 도중 마이너스 무한대 발산 버그 차단
+        # Enforces a strict lower bound safety margin to eliminate negative infinity runaways during log10 evaluation.
         D_L_safe = max(D_L, 1e-10)
         return 5.0 * np.log10(D_L_safe) + 25.0
 
     def calculate_cmb_acoustic_peak_positions(self, l_max: int = 5) -> tuple[np.ndarray, np.ndarray]:
         r"""
-        [CMB 격자 앵커 - 1D 선형 대입 vs 3D 복소 차원 역투영 융합 버전]
-        
+        [CMB Lattice Anchor - 1D Linear Baseline vs 3D Complex Dimensional Inverse Projection Fusion]
+        Couples dimensional gaps and early radiation friction to the 1D baseline.
         - Returns: (predicted_linear_peaks, predicted_projected_peaks)
         """
         theta_s_pure = 0.010410
@@ -104,12 +104,12 @@ class TDTCosmologyCore:
         projected_peaks = np.empty(l_max, dtype=np.float64)
         
         for n in range(1, l_max + 1):
-            # 1. 교정 전 (1D Linear Baseline)
+            # 1. Uncorrected Baseline (1D Linear Baseline Map)
             topological_phase_ratio = (1.0 - self.delta_phase) / (1.0 + self.delta_phase)
             l_n_linear = (n * np.pi / theta_s_pure) * topological_phase_ratio
             linear_peaks[n - 1] = l_n_linear
             
-            # 2. 교정 후 (3D Complex Inverse Projection)
+            # 2. Corrected Horizon (3D Complex Inverse Projection Framework)
             inverse_projection_scaler = a_recomb ** (-self.gamma)
             topological_correction = (inverse_projection_scaler * self.alpha * 2.0 * np.pi) * (1.0 / (1.0 + (self.gamma * n)))
             l_n_projected = l_n_linear * (1.0 - topological_correction)
@@ -118,14 +118,11 @@ class TDTCosmologyCore:
         return linear_peaks, projected_peaks
 
 
-
-
-
 # =========================================================================
-# [구역 2] 실제 관측 초신성(Type Ia) 허블 다이어그램 데이터셋 텍스트 앵커
-# 규격: [초신성 ID] [적색편이(z)] [관측된 거릿수(MU)] [관측 오차(MU_ERR)]
+# [Zone 2] Type Ia Supernova (SNIa) Hubble Diagram Empirical Dataset Text Anchor
+# Schema: [Supernova Identifier] [Redshift (z)] [Observed Distance Modulus (MU)] [Observation Error (MU_ERR)]
 # =========================================================================
-# 실제 Pantheon+ Supernova Compilation 데이터를 반영한 정밀 수정본
+# Reflects raw localized nodes from the standard Pantheon+ Supernova Compilation dataset.
 supernovae_pantheon_data = """
 SN_ID      REDSHIFT   MU_OBS     MU_ERR
 SN2018byg  0.0734     37.75      0.14
@@ -140,8 +137,8 @@ SN2022ack  0.0152     34.21      0.12
 
 def load_and_sanitize_lss_dataset(raw_text: str) -> pd.DataFrame:
     """
-    원시 초신성 텍스트 데이터를 받아 판다스 데이터프레임으로 변환하고,
-    적색편이 제로 분산 및 런타임 수치 모순을 원천 차단하는 소독 파서입니다.
+    Parses raw supernova empirical text data into a pandas DataFrame, 
+    preventing redshift zero dispersion and runtime numerical inconsistencies.
     """
     df_lss = pd.read_csv(StringIO(raw_text.strip()), sep=r'\s+', header=0)
     df_lss = df_lss[df_lss['REDSHIFT'] > 0.0001]
@@ -149,11 +146,12 @@ def load_and_sanitize_lss_dataset(raw_text: str) -> pd.DataFrame:
     return df_lss.reset_index(drop=True)
 
 
-# [구역 3] 카이제곱 목적 함수 및 Nelder-Mead 최적화 파이프라인 수트
+# [Zone 3] Chi-Square Objective Function and Nelder-Mead Multi-Dimensional Optimization Suite
 def run_tdt_lss_pipeline(df_lss: pd.DataFrame):
     """
-    초신성(LSS) 가속 팽창 궤적 데이터베스로부터 카이제곱 값을 최소화하여
-    최적의 허블 상수(H_0)와 중입자 물질 밀도(omega_m0)를 역산해내는 수치 최적화 포털입니다.
+    Numerical optimization portal that minimizes the Chi-square (chi^2) residual metric 
+    from the Large Scale Structure (LSS) expansion trajectory database to inversely 
+    derive the optimal Hubble constant (H_0) and baryonic matter density (omega_m0).
     """
     core = TDTCosmologyCore()
     z_vals = df_lss['REDSHIFT'].values
@@ -163,20 +161,20 @@ def run_tdt_lss_pipeline(df_lss: pd.DataFrame):
     def cosmological_loss_function(params):
         H_0_candidate, omega_m0_candidate = params[0], params[1]
         
-        # [물리 감옥: 하드 레굴러라이제이션 장벽]
+        # [Physical Enclosure Phase: Hard Regularization Barrier]
         if H_0_candidate <= 10.0 or omega_m0_candidate < 0.01 or omega_m0_candidate > 0.99:
             return 999999.0
 
-        # 카이제곱 오차 제곱합 연산 (벡터화 맵핑 기동)
+        # Computes the Chi-square error sum of squares (Triggers vectorized mapping evaluation)
         chi_square = sum(((core.calculate_distance_modulus(z, H_0_candidate, omega_m0_candidate) - mu_obs) / mu_err) ** 2 
                          for z, mu_obs, mu_err in zip(z_vals, mu_obs_vals, mu_err_vals))
         return chi_square
 
-    # 🚀 [제1원리 우주론 튜닝]: 현대 표준 우주론 Planck 2018 기준값(67.4, 0.315)을 초기 탐색 베이스라인으로 제공합니다.
+    # [First-Principles Cosmological Calibration]: Establishes the modern standard cosmology Planck 2018 consensus values (67.4, 0.315) as the search baseline framework.
     initial_guess = [67.4, 0.315]
     search_bounds = [(50.0, 90.0), (0.1, 0.5)]
 
-    # Nelder-Mead 다차원 격자 탐색 가동하여 전역 최적해 추적
+    # Leverages the Nelder-Mead simplex algorithm to scan parameter topologies and track global optimums.
     res = minimize(
         cosmological_loss_function, 
         initial_guess, 
@@ -189,38 +187,37 @@ def run_tdt_lss_pipeline(df_lss: pd.DataFrame):
         }
     )
     
-    # 최적화 수렴 결과를 하단 통계 출력부로 안전 조율 연결
+    # Securely forwards optimization convergence outputs to the underlying statistical reporting engine
     if res.success and res.fun < 9000:
-        # 🚀 [교정 완료] 다이렉트 언팩(Direct Unpacking)을 적용하여 슬라이싱 인덱스 왜곡 오류 차단
+        # Implements direct structural unpacking to fundamentally eliminate copying and slicing index contradictions.
         opt_H0, opt_omega_m = res.x
         return opt_H0, opt_omega_m, res.fun
     else:
         print("\n❌ [CRITICAL ERROR] TDT Cosmological mapping suite failed to establish a stable numerical terminus.")
         return None
-
-
 # =========================================================================
-# 4. Phase 04 마스터 통합 검증 엔진 실행 포털 (Integrated Cosmological Suite)
+# 4. Phase 04 Master Unified Verification Engine Execution Portal
 # =========================================================================
 if __name__ == "__main__":
-    # 1. 고정밀 초신성 데이터셋 파싱 가동
+    # 1. Activates high-precision Type Ia Supernova empirical dataset parsing pipeline.
     df_split = load_and_sanitize_lss_dataset(supernovae_pantheon_data)
     
-    # 2. 우주론 통합 코어 가동
+    # 2. Instantiates the Unified Cosmological Core Engine.
     engine = TDTCosmologyCore()
     
     print("\n" + "=" * 115)
     print("⏳ [EXECUTION] INITIATING PHASE 04 UNIVERSAL LSS EXPANSION & CMB ANISOTROPY VALIDATION MATRIX")
     print("=" * 80)
     
-    # 🚀 [제1원리 동적 결합 교정] 카이제곱 최적화 엔진을 직접 기동하여 자발적 가속 팽창 최적해(opt_H0, opt_omega_m)를 역산해냅니다.
+    # 🚀 [First-Principles Dynamic Coupling Calibration] Direct execution of the cosmological Chi-square optimization 
+    # to inversely derive the optimal a priori accelerated expansion solution parameters (opt_H0, opt_omega_m).
     print("[SYSTEM] Running cosmological chi-square optimization via Nelder-Mead...")
     pipeline_res = run_tdt_lss_pipeline(df_split)
     
     if pipeline_res is not None:
         opt_H0, opt_omega_m, min_chi2 = pipeline_res
     else:
-        # 혹시 모를 최적화 수렴 탈락 시 학술적 표준 안전 기저선(Lambda-CDM 앵커)으로 가동 보장
+        # Fallback to the consensus academic standard baseline (Lambda-CDM anchor) to guarantee execution safety under optimization failures.
         opt_H0, opt_omega_m, min_chi2 = 67.4, 0.315, 0.0
         
     print(f"-> SUCCESS: Best-Fit Parameter Terminus Found.")
@@ -230,19 +227,19 @@ if __name__ == "__main__":
     print("-" * 115)
     
     # ---------------------------------------------------------------------
-    # 축 1. 거시 가속 팽창축 H(z) 검증 출력 (글로벌 영문 명세 완료)
+    # Axis 1. Validate Macroscopic Accelerated Expansion Profile H(z)
     # ---------------------------------------------------------------------
     test_redshifts = [0.0, 0.5, 1.0, 2.0]
     
     print(f"{'REDSHIFT (z)':<15} | {'TDT H(z) (km/s/Mpc)':<25}")
     print("-" * 80)
     for z_test in test_redshifts:
-        # 최적화된 동적 허블 솔루션을 주입하여 인장 팽창 가속 곡선 사영
+        # Injects the optimized dynamic Hubble solution to project the spatial tension acceleration curve trajectory.
         Hz = engine.calculate_tdt_expansion_rate(z_test, opt_H0, opt_omega_m)
         print(f"{z_test:<15.4f} | {Hz:<25.4f}")
         
     # ---------------------------------------------------------------------
-    # 축 2. 초신성 관측 데이터셋 기반 실시간 잔차(MAE) 분석 및 벤치마크 구동
+    # Axis 2. Real-Time Residual Variance (MAE) Analysis Against Empirical Supernova Catalog
     # ---------------------------------------------------------------------
     print("\n" + "=" * 115)
     print("📊 [BENCHMARK] PANTHEON+ SUPERNOVAE DISTANCE MODULUS REAL-TIME ERROR RESIDUALS")
@@ -256,7 +253,7 @@ if __name__ == "__main__":
         z_obs = row['REDSHIFT']
         mu_obs = row['MU_OBS']
         
-        # [순정 동형 결합] 수동 고정치가 아닌 최적화된 진짜 시공간 파이프라인의 거릿수 사영
+        # [Conformal Isomorphic Coupling] Projects the distance modulus from the verified spacetime pipeline rather than hard-coded multipliers.
         mu_pred = engine.calculate_distance_modulus(z_obs, opt_H0, opt_omega_m)
         err = np.abs(mu_pred - mu_obs) / mu_obs * 100
         local_errors.append(err)
@@ -265,8 +262,8 @@ if __name__ == "__main__":
     
     global_lss_mae = np.mean(local_errors)
 
-        # ---------------------------------------------------------------------
-    # 축 3. CMB 피크축 체크 (1D 선형 대입 vs 3D 복소 차원 역투영 입체 대조)
+    # ---------------------------------------------------------------------
+    # Axis 3. CMB Multipole Horizon Check (1D Linear Baseline vs 3D Complex Dimensional Inverse Projection)
     # ---------------------------------------------------------------------
     print("\n" + "=" * 115)
     print(f"🎯 [CMB EVOLUTION METRIC] 1D LINEAR BASELINE VS 3D HOLOGRAPHIC INVERSE PROJECTION")
@@ -274,7 +271,7 @@ if __name__ == "__main__":
     print(f"{'PEAK ID':<10} | {'PLANCK OBS':<12} | {'1D LINEAR (BEFORE)':<20} | {'3D PROJ (AFTER)':<18} | {'LINEAR ERR':<12} | {'PROJ ERR':<12}")
     print("-" * 115)
     
-    # 두 개의 유도 트랙 리스트 로드
+    # Loads the dual independent derivation validation trajectories.
     linear_peaks, projected_peaks = engine.calculate_cmb_acoustic_peak_positions(l_max=5)
     planck_actual_peaks = [220.0, 541.0, 800.0, 1120.0, 1420.0]
     
@@ -299,7 +296,7 @@ if __name__ == "__main__":
     global_proj_mae = np.mean(proj_residuals)
 
     # ---------------------------------------------------------------------
-    # 5. 거시 우주론 최종 검증 보고서 카드 출력 구역 (Final Summary - Comparative Edition)
+    # 5. Macroscopic Cosmology Integrated Terminus Evaluation Report Card
     # ---------------------------------------------------------------------
     print("\n" + "=" * 115)
     print("🎯 [FINAL REPORT] PHASE 04 COSMOLOGICAL SCALER DYNAMICS INTEGRATED EVOLUTION SUMMARY")
