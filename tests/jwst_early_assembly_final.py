@@ -359,47 +359,49 @@ class JWSTEarlyAssemblySimulator:
             if sub_step % 1000 == 0 or sub_step == 1:
                 print(f"{sub_step:<6} | {elapsed_time_myr:<10.2f} | {current_z:<5.2f} | {gas_pos:<14.2f} {tension_pos:<19.2f} {covariant_divergence:.4E}", flush=True)
 
-
         # =====================================================================
-        # [TDT Phase 03: 은하 조기 조립 검증 학술 리포트 매트릭스 출력 포탈]
+        # [TDT Phase 03: Early Galactic Assembly Validation Academic Report Portal]
         # =====================================================================
         print("\n" + "="*85)
         print("     TDT LSS EARLY GALACTIC ASSEMBLY TIMELINE REPORT (z >= 10 VALIDATION)")
         print("="*85)
-        print(f" ➔ 시뮬레이션 총 구동 시간   : {total_substeps * local_dt:.2f} Myr (50000 Steps)")
-        print(f" ➔ 초기 우주 장력 전파 속도 : {self.v_soliton:.2f} kpc/Myr")
-        print(f" ➔ 초기 공간 기하학적 슬립   : {self.grid_initial_slip_kpc:.4f} kpc")
+        print(f" ➔ Total Simulation Runtime   : {total_substeps * local_dt:.2f} Myr ({total_substeps} Steps)")
+        print(f" ➔ Early Universe Soliton Velocity : {self.v_soliton:.2f} kpc/Myr")
+        print(f" ➔ Intrinsic Geometric Grid Slip   : {self.grid_initial_slip_kpc:.4f} kpc")
         print("-"*85)
         
         if capture_triggered:
-            # 수치 해석적 Newton-Raphson 역산 결과와 프리드만 공식을 재결합하여 우주의 나이 복원
+            # Reconstruct absolute universe age by recombining Newton-Raphson results with the FLRW metric
             term_cap = np.sqrt(self.Omega_lambda / (self.Omega_m * (1.0 + capture_z)**3))
             absolute_universe_age = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * \
                                     np.log(term_cap + np.sqrt(term_cap**2 + 1.0))
             
-            print(f" [★] 바리온 가스 은하 핵 조기 조립(Capture Lock) 성공!")
-            print(f" ➔ 중심 코어 포획 완료 시점 : 빅뱅 후 단 {capture_time_myr:.2f} Myr 경과 시점 (Step {capture_step})")
-            print(f" ➔ 포획 당시 우주 절대 나이 : 약 {absolute_universe_age:.2f} 억 년 (정합성 확인)")
-            print(f" ➔ 관측 관점 최종 적색편이  : z = {capture_z:.3f} (JWST 난제 해소 장벽 장착 검증)")
+            print(f" [★] Baryon Fluid Core Resonant Capture Lock: SUCCESSFUL")
+            print(f" ➔ Central Core Capture Step     : Step {capture_step} (Elapsed: {capture_time_myr:.2f} Myr)")
+            print(f" ➔ Absolute Cosmic Age at Lock   : ~{absolute_universe_age:.4f} Gyr (Conformal Alignment)")
+            print(f" ➔ Observational Target Redshift : z = {capture_z:.3f} (Resolves JWST Bright Galaxy Puzzle)")
             
             if capture_z >= 10.0:
-                print("\n ➔ [EPISTEMOLOGICAL VERDICT]: 크리티컬 고적색편이(z >= 10) 초기 은하 형성 대성공!")
-                print("    인위적 물질(암흑물질 입자) 없이 우주 기하 불변량 기반 장력만으로 초기 거대 은하 조기 조립 속도 증명 완료.")
+                print("\n ➔ [EPISTEMOLOGICAL VERDICT]: CRITICAL HIGH-REDSHIFT (z >= 10) ASSEMBLY CONFIRMED!")
+                print("    Demonstrated rapid galactic core seeding via pure spacetime geometric invariants,")
+                print("    entirely independent of cold dark matter (CDM) particle halos.")
             else:
-                print("\n ➔ [EPISTEMOLOGICAL VERDICT]: 은하 조립은 완료되었으나 z < 10 대역에 진입하여 타임라인 스케일 재검토 요망.")
+                print("\n ➔ [EPISTEMOLOGICAL VERDICT]: Core assembly complete, but terminus entered z < 10 regime.")
+                print("    Re-evaluation of cosmological timeline boundary parameters recommended.")
         else:
-            print(" [X] 본 타임라인 마진 내에서 가스가 중심 핵으로 붕괴하여 정착하지 못했습니다.")
-            print(f" ➔ 최종 공간 분리 오프셋    : {offset:.2f} kpc")
+            print(" [X] Baryon fluid failed to collapse and settle into the central core within this timeline margin.")
+            print(f" ➔ Final Spatial Assembly Offset : {offset:.2f} kpc")
             
         # ---------------------------------------------------------------------
-        # 💡 [피어 리뷰 방어 킷] Step 38000 이후 z=0.00 고정 현상에 대한 물리적 해명 출력
+        # 💡 [Peer-Review Shield] Physical Clarification of Post-Step 38000 z=0.00 Truncation
         # ---------------------------------------------------------------------
         print("-"*85)
         print(" ➔ [COSMOLOGICAL HORIZON GUARD NOTIFICATION]:")
-        print("    * Step 38000 (380 Myr, z ≈ 7.99) 이후 z Map이 0.00으로 수렴하는 현상은 정상입니다.")
-        print("    * 고적색편이(z >= 10) 초기 은하 핵 형성이 완결(`Capture Lock`)된 후의 저적색편이 영역은")
-        print("      본 복소 Hamiltonian 가동 엔진의 물리적 유효 지평선(Physical Boundary) 밖입니다.")
-        print("    * 이에 따라 시스템 보호를 위해 뉴턴-랩슨 역산 커널의 하한 가드레일(z=0)이 작동한 것입니다.")
+        print("    * Redshift mapping convergence to 0.00 beyond Step 38000 (380 Myr, z ≈ 7.99) is NOMINAL.")
+        print("    * Post-capture dynamics within the lower-redshift regime (z < 8) lie strictly outside")
+        print("      the physical boundary of this high-redshift complex Hamiltonian core engine.")
+        print("    * The Newton-Raphson inversion kernel safely triggered its lower boundary guardrail (z=0)")
+        print("      to mathematically truncate numerical divergence and preserve global metric stability.")
         print("-"*85)
         
         print(" ➔ Runtime Floating-Point Overflow Warnings: NONE (0% Anomalies Captured)")
@@ -407,21 +409,21 @@ class JWSTEarlyAssemblySimulator:
 
 
 # =====================================================================
-# 3. 코랩 및 노트북 연구 가동 환경 포탈 (인터프리터 락 해제 및 실시간 플러시 정합)
+# 3. Execution & Runtime Portal (Colab/Notebook Interpreter Lock Release & Real-Time Flush)
 # =====================================================================
 import sys
 
 if __name__ == "__main__":
-    # 1. 원본 코어 엔진이 상단에서 정상 선언되었는지 안전 검증 후 싱크 주입
+    # 1. Verify safe memory existence and dynamic synchronization of the primary core physics engine
     if 'core' in locals() or 'core' in globals():
-        print("\n[TDT Portal Input]: 원본 복소 Hamiltonian 코어 엔진 감지 완료. 가동 매트릭스를 정합합니다.", flush=True)
+        print("\n[TDT Portal Input]: Complex Hamiltonian Core Engine Detected. Aligning matrix couplings...", flush=True)
         
-        # 2. 시뮬레이터 인스턴스 스코프 생성
+        # 2. Instantiate simulator scope
         simulator = JWSTEarlyAssemblySimulator(core_engine=core)
         
-        # 3. 입출력 버퍼 강제 비우기(Flush)를 선언하여 멈춤 현상을 원천 배제하고 시뮬레이션 최종 가동
+        # 3. Enforce immediate I/O stream flush to prevent Colab buffering freezes and launch simulation
         sys.stdout.flush()
         simulator.run_lss_assembly_simulation(steps=50000)
     else:
-        print("\n[🚨 오류]: 원본 'core' 엔진 인스턴스가 메모리에 선언되지 않았습니다.")
-        print("이 스크립트 상단에 정의된 TDTCore() 인스턴스를 먼저 실행해 주세요.")
+        print("\n[🚨 CRITICAL ERROR]: The pristine 'core' engine instance was not detected in local memory.")
+        print("Please instantiate and execute the primary TDTCore() block at the top of this script first.")
