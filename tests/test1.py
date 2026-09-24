@@ -159,123 +159,74 @@ class JWSTEarlyAssemblySimulator:
         # 최종 정합된 제1원리 우주 거대 구조 복원 장력 반환
         return v_tension_bare * conformal_holographic_projection
 
-
-    def run_lss_assembly_simulation(self, steps=500):
-        """
-        [TDT Core Phase 06 -> Phase 03: Conformal LSS Soliton Dynamics & RK4 Integration]
-        2D 복소 평면 본질론으로부터 자생 유도된 물리 상수 시스템을 100% 수용합니다.
-        가속도 척도 중복 연산 오류 및 시간 축 출력 뒤틀림 버그를 완전히 걷어내어,
-        암흑 물질 없이 가스와 시공간 격자의 거시적 탈동기화(질량 조기 조립)를 완벽하게 유도합니다.
-        """
-        print("=========================================================================")
-        print(" TDT LSS SOLITON DYNAMICS: FIRST-PRINCIPLES CONTINUOUS SIMULATION (RK4)")
-        print("=========================================================================\n")
-        print(f"{'Step':<8}{'Gas_Pos (kpc)':<15}{'Tension_Pos (kpc)':<20}{'Offset (kpc)':<15}{'Covariant Error':<20}")
-        print("-" * 80)
-
-        # 1. 제1원리 초기 조건 설정 (2D 위상학적 Berry Phase 슬립 반영 - 스케일 확장)
-        # JWST 초기 우주 환경 모사를 위해 출발점 마그니튜드를 -300에서 -500 kpc로 대폭 확장합니다.
-        gas_pos = -500.0
-        tension_pos = -500.0 + self.grid_initial_slip_kpc
-
-        # 방향 분리 벡터 대신 단일 고유 솔리톤 전파 속도를 양 입자의 초기 관성으로 주입합니다.
-        gas_vel = self.v_soliton
-        tension_vel = self.v_soliton
-
-        # [단위 교정] 시간 축의 해상도와 메인 적분 스텝의 싱크를 완전히 통일합니다 (dt = 0.01 Myr)
-        # 1스텝당 1만 년 단위로 고해상도 샘플링을 고정하여 오버슈팅과 출력 축 뒤틀림을 동시 해결
-        local_dt = 0.01
-        total_substeps = steps  # steps=50000 이면 총 5만스텝 가동 (500 Myr 실제 붕괴 타임라인 포섭)
-
-        c_kpc_myr = 299792.458 * self.km_s_to_kpc_myr
-
-        
-
-        # ---------------------------------------------------------------------
-        # RK4 가속도 유도 서브 함수 (2D 극좌표 텐서 물리량 실시간 환원)
-        # ---------------------------------------------------------------------
-        def get_gas_acceleration(p, v):
-            """
-            [TDT Core Phase 03: Baryon Gas Viscous Friction & Dimensional Projection]
-
-            본 함수는 중입자 가스(Baryon Gas)가 우주 거미줄 격점의 2D 정보 코어 영역으로
-            제인입(Immerse)할 때 발생하는 유체역학적 제동 가속도를 산출합니다.
-            """
-            # 0. 부동소수점 오염 및 분모 0 방지용 안전 가드레일
-            r = np.maximum(abs(p), 1e-15)
-
-            # [2D 동심원 정보 격자의 반경 방향 대칭성에 기초한 데바이 마찰 필터 로드]
-            # 앞서 LSS 스케일로 리팩토링한 필터를 사용하여 중심부 진입 시 초속 정착을 유도합니다.
-            debye_f = self.get_debye_friction(r)
-
-            # 중입자 가스의 위상학적 제동 척도 인자 계산
-            conformal_braking_scale = (self.c_univ * self.gamma) / (1.0 + self.delta_phase)
-
-            # [차원 감소 투영 계수: 2.5]
-            # 3D 구형 대칭(Spherical)으로 퍼져나가는 가스의 체적 밀도 및 충격파 전선(Shock Front)을
-            # 시뮬레이션의 1D 선형 직선 축으로 투영(Dimensional Reduction)함에 따라
-            # 뭉개진 유체 역학적 유효 단면적을 복원해 주기 위한 필연적인 기하학적 보정 상수.
-            spatial_projection_factor = 2.5
-
-            # 바리온 가스의 제동 가속도 단위를 kpc/Myr^2 축으로 완전 정합 (점성 드래그 효율 최적화)
-            friction_accel = conformal_braking_scale * debye_f * abs(v) * spatial_projection_factor
-
-            # 가스의 현재 진행 방향과 반대로 작동하도록 브레이크 벡터 부호 제어
-            direction = -1.0 if v >= 0 else 1.0
-            return direction * friction_accel
-
-
+    # ---------------------------------------------------------------------
+    # 1. 클래스(JWSTEarlyAssemblySimulator) 직속 독립 메서드 (들여쓰기 4칸)
+    # ---------------------------------------------------------------------
     def lookback_time_to_z(self, current_sim_time_myr, startup_z=15.0):
         """
         [TDT Phase 03: Analytical FLRW Metric Inversion Kernel]
-        임의의 매개변수를 배제하고 프리드만 방정식의 해석학적 우주 나이 공식의 
-        수치적 역추적(Newton-Raphson)을 통해 경과 시간(Myr)을 적색편이(z) 축으로 정밀 사영합니다.
-        
-        Parameters:
-        - current_sim_time_myr: 시뮬레이션 시작 후 경과한 물리적 시간 (Myr)
-        - startup_z: 시뮬레이션이 시작된 초기 적색편이 시점 (기본값 z = 15.0)
         """
-        # 1. 시뮬레이션 시작 지점(z_start = 15)의 우주 나이 t_start를 프리드만 해로부터 직접 산출
         term_start = np.sqrt(self.Omega_lambda / (self.Omega_m * (1.0 + startup_z)**3))
-        t_start_myr = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * \
-                      np.log(term_start + np.sqrt(term_start**2 + 1.0))
-        
-        # 2. 현재 시뮬레이션 스텝에서의 실제 우주 절대 나이 (t_cosmic)
-        t_cosmic_myr = t_start_myr + current_sim_time_myr
-        
-        # 3. 우주의 나이 t_cosmic_myr를 바탕으로 적색편이 z를 역산 (Newton-Raphson 수치 역추적)
-        # 물리적 한계점 가드레일 설치 (우주 나이가 현재 나이를 초과할 수 없음)
-        t_cosmic_safe = np.minimum(t_cosmic_myr, self.t_universe_current_myr - 1e-3)
-        
-        # 초기 추정값 설정
-        z_guess = startup_z
-        tol = 1e-7
-        max_iter = 100
+        t_start_myr = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * np.log(term_start + np.sqrt(term_start**2 + 1.0))
+        t_cosmic_safe = np.minimum(t_start_myr + current_sim_time_myr, self.t_universe_current_myr - 1e-3)
+        z_guess, tol, max_iter = startup_z, 1e-7, 100
         
         for _ in range(max_iter):
-            # 프리드만 방정식을 통한 현재 z_guess에서의 우주 나이 f(z) 계산
             term_z = np.sqrt(self.Omega_lambda / (self.Omega_m * (1.0 + z_guess)**3))
-            f_z = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * \
-                  np.log(term_z + np.sqrt(term_z**2 + 1.0))
-            
-            # 시간에 대한 z의 미分 계수(도함수) df/dz 산출
-            # dt/dz = -1 / ((1+z) * H(z))
+            f_z = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * np.log(term_z + np.sqrt(term_z**2 + 1.0))
             E_z = np.sqrt(self.Omega_m * (1.0 + z_guess)**3 + self.Omega_lambda)
             df_dz = -1.0 / ((1.0 + z_guess) * self.H0_per_myr * E_z)
-            
-            # 오차 잔차 계산 및 업데이트
             residual = f_z - t_cosmic_safe
-            if abs(residual) < tol:
-                break
-                
-            z_guess = z_guess - residual / df_dz
-            
-            # 물리적 발산 방지용 하한선 가드레일
-            if z_guess < 0.0:
-                z_guess = 0.0
-                break
+            if abs(residual) < tol: break
+            z_guess = max(0.0, z_guess - residual / df_dz)
+            if z_guess == 0.0: break
                 
         return np.maximum(z_guess, 0.0)
+
+    # ---------------------------------------------------------------------
+    # 2. 메인 시뮬레이션 가동 엔진 메서드 (들여쓰기 4칸)
+    # ---------------------------------------------------------------------
+    def run_lss_assembly_simulation(self, steps=500):
+        """
+        [TDT Core Phase 06 -> Phase 03: Conformal LSS Soliton Dynamics & RK4 Integration]
+        """
+        print("=========================================================================================")
+        print(" TDT LSS SOLITON DYNAMICS: FIRST-PRINCIPLES CONTINUOUS SIMULATION (RK4)")
+        print("=========================================================================================\n")
+        
+        print(f"{'Step':<6} | {'Time (Myr)':<10} | {'z Map':<5} | {'Gas_Pos (kpc)':<14} {'Tension_Pos (kpc)':<19} {'Covariant Error':<15}")
+        print("-" * 90)
+
+        # 제1원리 초기 조건 설정
+        gas_pos = -500.0
+        tension_pos = -500.0 + self.grid_initial_slip_kpc
+        gas_vel = self.v_soliton
+        tension_vel = self.v_soliton
+        local_dt = 0.01
+        total_substeps = steps  
+        c_kpc_myr = 299792.458 * self.km_s_to_kpc_myr
+        
+        # RK4 가속도 유도 서브 함수 (들여쓰기 8칸 진입)
+        def get_gas_acceleration(p, v):
+            r = np.maximum(abs(p), 1e-15)
+            debye_f = self.get_debye_friction(r)
+            conformal_braking_scale = (self.c_univ * self.gamma) / (1.0 + self.delta_phase)
+            return (-1.0 if v >= 0 else 1.0) * conformal_braking_scale * debye_f * abs(v) * 2.5
+
+        def get_tension_acceleration(p, v):
+            r = np.maximum(abs(p), 1e-15)
+            base_accel = self.get_tracy_widom_tension(r) * (self.alpha * self.pi) * (1.0 / self.alpha) * 0.85
+            if abs(p) > 5.0:
+                base_accel = base_accel * (1.0 + (r / self.grid_initial_slip_kpc) ** 1.8) + 0.05 * (r / self.grid_initial_slip_kpc) * abs(v)
+            return (-1.0 if p >= 0 else 1.0) * base_accel
+
+        # 데이터 적재 버퍼 초기화
+        self.time_history = []
+        self.z_history = []
+        self.gas_history = []
+        self.tension_history = []
+        capture_triggered, capture_step, capture_time_myr, capture_z = False, None, None, None
+
 
 
 
@@ -321,23 +272,24 @@ class JWSTEarlyAssemblySimulator:
         capture_time_myr = None
         capture_z = None
         
-        # 2. RK4 고해상도 수치 해석 시간 적분 루프 가동 (LSS 수축 매니폴드 진화)
-        # 상단에서 정의한 local_dt = 0.01 Myr (1만 년) 단위를 기본 시간 축으로 상속합니다.
+        # ---------------------------------------------------------------------
+        # 2. RK4 고해상도 수치 해석 시간 적분 루프 가동 (들여쓰기 8칸 완전 고정)
+        # ---------------------------------------------------------------------
         for sub_step in range(1, total_substeps + 1):
 
-            # --- 실시간 시공간 차원 매핑 및 시간 역산 연산 ---
+            # --- 실시간 우주론적 시간 역산 및 적색편이 사영 연산 ---
             elapsed_time_myr = sub_step * local_dt
             current_z = self.lookback_time_to_z(elapsed_time_myr, startup_z=15.0)
 
             # -----------------------------------------------------------------
-            # [수치해석 0점 트랩 탈출]: 가스가 포획된 이후에는 상태 벡터를 강제 구속하여
-            # 무한 재귀 연산으로 인한 CPU 동결을 차단하고 계의 정상 상태를 유도합니다.
+            # [수치해석 0점 트랩 탈출 매니폴드]: 가스가 포획된 이후에는 
+            # 불필요한 가스가속도 연산을 차단하여 CPU 락 현상을 완벽히 방어합니다.
             # -----------------------------------------------------------------
             if capture_triggered:
                 gas_vel = 0.0
                 gas_pos = 0.0
                 
-                # 가스가 멈춘 후에도 시공간 격자(Tension)의 관성 관통 역학은 RK4로 상시 적분 구동
+                # 가스가 정착한 이후에도 시공간 격자(Tension)의 조화 진동은 RK4로 무 중단 적분 구동
                 tk1 = get_tension_acceleration(tension_pos, tension_vel)
                 xk1 = tension_vel
                 tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1)
@@ -350,7 +302,7 @@ class JWSTEarlyAssemblySimulator:
                 tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
                 tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
             else:
-                # --- [포획 전]: 가스(Gas) 성분 RK4 미분 계수 도출 ---
+                # --- [포획 전]: 가스(Gas) 성분 고해상도 RK4 유도 ---
                 vk1 = get_gas_acceleration(gas_pos, gas_vel)
                 pk1 = gas_vel
                 vk2 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk1, gas_vel + 0.5 * local_dt * vk1)
@@ -363,7 +315,7 @@ class JWSTEarlyAssemblySimulator:
                 gas_vel_next = gas_vel + (local_dt / 6.0) * (vk1 + 2.0 * vk2 + 2.0 * vk3 + vk4)
                 gas_pos_next = gas_pos + (local_dt / 6.0) * (pk1 + 2.0 * pk2 + 2.0 * pk3 + pk4)
 
-                # --- [포획 전]: 시공간 격자(Tension) 성분 RK4 미분 계수 도출 ---
+                # --- [포획 전]: 시공간 격자(Tension) 성분 고해상도 RK4 유도 ---
                 tk1 = get_tension_acceleration(tension_pos, tension_vel)
                 xk1 = tension_vel
                 tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1)
@@ -376,7 +328,7 @@ class JWSTEarlyAssemblySimulator:
                 tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
                 tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
 
-                # [최종 교정] 바리온 가스 조기 포획 트리거 조건문 판정
+                # [최종 트리거 판정]: 가스가 중심 핵 5.0 kpc 경계로 낙하 정착하는 순간 낚아챔
                 if (gas_pos < 0.0 and gas_pos_next >= -1.0) or (abs(gas_pos_next) <= 5.0):
                     capture_triggered = True
                     capture_step = sub_step
@@ -388,23 +340,23 @@ class JWSTEarlyAssemblySimulator:
                     gas_vel = gas_vel_next
                     gas_pos = gas_pos_next
 
-            # 상태 벡터 최종 진화 반영
+            # 시공간 격자 상태 벡터 진화 반영
             tension_vel = tension_vel_next
             tension_pos = tension_pos_next
 
-            # 데이터 버퍼에 이력 저장 (향후 고해상도 그래픽 시각화용)
+            # 향후 고해상도 시각화를 위한 동적 데이터 누적
             self.time_history.append(elapsed_time_myr)
             self.z_history.append(current_z)
             self.gas_history.append(gas_pos)
             self.tension_history.append(tension_pos)
 
-            _c_kpc_myr = 299792.458 * self.km_s_to_kpc_myr
+            # 무차원 공변 잔차 계산
             offset = abs(tension_pos - gas_pos)
-            covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (_c_kpc_myr ** 2)
+            covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (c_kpc_myr ** 2)
 
-            # 💡 [실시간 강제 플러시 정합]: flush=True 적용으로 출력 버퍼 홀딩을 완전히 분쇄합니다.
+            # [정합 완료]: 앞서 고친 상단 헤더의 가로 컬럼폭폭(<6, <10, <5)과 실시간 로그 간격을 1:1 완벽 대치 사영
             if sub_step % 1000 == 0 or sub_step == 1:
-                print(f"Step: {sub_step:<6} | Time: {elapsed_time_myr:<7.2f} Myr | z: {current_z:<5.2f} | Gas: {gas_pos:<14.2f} Tension: {tension_pos:<19.2f} Error: {covariant_divergence:.4E}", flush=True)
+                print(f"{sub_step:<6} | {elapsed_time_myr:<10.2f} | {current_z:<5.2f} | {gas_pos:<14.2f} {tension_pos:<19.2f} {covariant_divergence:.4E}", flush=True)
 
 
         # =====================================================================
@@ -461,5 +413,3 @@ if __name__ == "__main__":
     else:
         print("\n[🚨 오류]: 원본 'core' 엔진 인스턴스가 메모리에 선언되지 않았습니다.")
         print("이 스크립트 상단에 정의된 TDTCore() 인스턴스를 먼저 실행해 주세요.")
-
-
