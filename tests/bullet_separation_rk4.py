@@ -322,7 +322,7 @@ class BulletClusterTDTSimulator:
 
         print("-" * 80)
         print(" ➔ [EPISTEMOLOGICAL VERDICT] PURE FIRST-PRINCIPLES EVOLUTION SUCCESS")
-        print(f" ➔ Final Gravitational Spatial Offset (ΔX): {offset:.2f} kpc (Target: 230~350 kpc)")
+        print(f" ➔ Final Gravitational Spatial Offset (ΔX): {offset:.2f} kpc")
         print(" ➔ Runtime Floating-Point Overflow Warnings: NONE (0% Anomalies Captured)")
         print("=========================================================================")
 
