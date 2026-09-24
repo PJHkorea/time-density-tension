@@ -183,7 +183,7 @@ class BulletClusterTDTSimulator:
             # 3D 구형 대칭(Spherical)으로 퍼져나가는 가스의 체적 밀도 및 충격파 전선(Shock Front)을
             # 시뮬레이션의 1D 선형 직선 축으로 투영(Dimensional Reduction)함에 따라
             # 뭉개진 유체 역학적 유효 단면적을 복원해 주기 위한 필연적인 기하학적 보정 상수.
-            spatial_projection_factor = 2.5
+            spatial_projection_factor = np.sqrt(2.0 * self.pi) # ≈ 2.5066
             
             # 바리온 가스의 제동 가속도 단위를 kpc/Myr^2 축으로 완전 정합 (점성 드래그 효율 최적화)
             friction_accel = conformal_braking_scale * debye_f * abs(v) * spatial_projection_factor
@@ -220,7 +220,7 @@ class BulletClusterTDTSimulator:
             # 2D 정보 평면의 등방성 장력이 3D 단위 구(Unit Sphere) 표면으로 가해질 때, 
             # 특정 선형 운동 축으로 유효하게 정사영(Orthogonal Projection)되는 기하학적 평균 단면적 비율.
             # 이론적 극한인 np.sqrt(3)/2 (≈ 0.866) 대역을 이산 수치해석 오차에 맞춰 정밀 고정한 구조 상수.
-            holographic_projection_loss = 0.85 
+            holographic_projection_loss = np.sqrt(3.0) / 2.0 # ≈ 0.8660
             
             # 미세구조 상수 연선((alpha * pi) * (1/alpha))을 관통하여 거시 3D 스케일러로 가속도 단위를 완전 정합.
             base_accel = v_tw_tension * (self.alpha * self.pi) * (1.0 / self.alpha) * holographic_projection_loss
