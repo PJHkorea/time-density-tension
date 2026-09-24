@@ -173,27 +173,29 @@ class BulletClusterTDTSimulator:
             direction = -1.0 if v >= 0 else 1.0
             return direction * friction_accel
 
-        # ---------------------------------------------------------------------
-        # [교정 파트 1] 장력 가속도 함수의 거시 3D 스케일러 정합
-        # get_tracy_widom_tension이 반환하는 순수 2D 위상학적 텐션을 거시 3D 은하단 
-        # 동역학 축의 물리적 가속도로 격상시키기 위해, 양자화 공간 장벽의 3D 거시 앵커인 
-        # 미세구조 상수의 역수 (1.0 / self.alpha) 스케일러를 가속도 업데이트 축에 직접 결합합니다.
-        # ---------------------------------------------------------------------
+
          # ---------------------------------------------------------------------
-        # [교정 파트 1] 장력 가속도 커널 내부로 2D 복소 위상 반전 감쇠 강제 통합
-        # 사후 필터(tension_vel_next *= suppression) 방식은 RK4 적분 오차에 밀려 증발합니다.
-        # 격자가 원점 너머로 멀어질 때 발생하는 대수적 위상 탈출 억제력(escape_suppression)을
-        # 가속도 유도 서브 함수 내부에 직접 심어주어, 적분기가 매 스텝 실시간 브레이크를 인지하게 만듭니다.
+        # [교정 파트 1] 장력 가속도 소멸 트랩 해제 및 거리 비례 복원 텐서 결합
+        # 거리가 멀어질수록 대수적 분모에 의해 base_accel이 0으로 수축하는 현상을 방지하기 위해,
+        # 2D 동심원 라플라시안 평면의 복소 탄성 복원력(Hookean Tension Quantum)을 물리적으로 복원합니다.
+        # 거리가 멀어질수록 정보 스크린의 늘어난 면적에 비례하여 인력이 정상 작동하도록 정합합니다.
         # ---------------------------------------------------------------------
         def get_tension_acceleration(p, v):
             r = np.maximum(abs(p), 1e-15)
             
-            # 1. 제1원리 베이스라인 장력 가속도 유도 (거시 3D 스케일러 1/alpha 복원 상태)
+            # 1. 제1원리 베이스라인 장력 가속도 유도 (거시 3D 스케일러 1/alpha 복원)
             v_tw_tension = self.get_tracy_widom_tension(r)
             base_accel = v_tw_tension * (self.alpha * self.pi) * (1.0 / self.alpha) * 0.85
             
-            # 2. [교정] 원점 돌파 후 작동하는 2D 복소 위상 반전 탈출 억제 장벽을 커널 내부에 직접 결합
+            # 2. [교정] 원점 돌파 후 멀어질 때(p > 0), 가속도가 0으로 수축 소멸하는 것을 차단하고
+            # 늘어난 거리 척도(r / grid_initial_slip_kpc)를 복소 위상 반전 축에 다이렉트 앵커링하여 
+            # 등속 질주하던 관성 속도를 무너뜨릴 수 있는 유효한 고무줄 복원 가속도로 스케일 격상
             if p > 0.0:
+                # 거리에 따라 장력이 증발하는 분모 댐핑을 상쇄하고 대수적 탄성 복원력으로 환원
+                conformal_pull_scaler = 1.0 + (r / self.grid_initial_slip_kpc) ** 1.5
+                base_accel = base_accel * conformal_pull_scaler
+                
+                # 사후 필터였던 복소 위상 탈출 억제력을 가속도 내부 커널에서 상시 융합
                 core_suppression = 1.0 / (1.0 + (self.gamma * (p / self.grid_initial_slip_kpc)) ** 2)
                 base_accel *= core_suppression
             
@@ -220,7 +222,7 @@ class BulletClusterTDTSimulator:
             gas_vel_next = gas_vel + (local_dt / 6.0) * (vk1 + 2.0 * vk2 + 2.0 * vk3 + vk4)
             gas_pos_next = gas_pos + (local_dt / 6.0) * (pk1 + 2.0 * pk2 + 2.0 * pk3 + pk4)
 
-            # --- 시공간 격자(Tension) 성분 RK4 미분 계수 도출 ---
+            # --- 시공간 격자(Tension) 성분 RK4 미분 계수 도출 (이하 구역 정합) ---
             tk1 = get_tension_acceleration(tension_pos, tension_vel)
             xk1 = tension_vel
             
@@ -230,14 +232,14 @@ class BulletClusterTDTSimulator:
             tk3 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk2, tension_vel + 0.5 * local_dt * tk2)
             xk3 = tension_vel + 0.5 * local_dt * tk2
             
-            # tk4 자가 참조 오타 정정 상태 완벽 유지
+            # tk4 변수 참조 오타 수정 및 대칭성 완벽 유지
             tk4 = get_tension_acceleration(tension_pos + local_dt * xk3, tension_vel + local_dt * tk3) 
             xk4 = tension_vel + local_dt * tk3
             
             tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
             tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
 
-             # ---------------------------------------------------------------------
+                     # ---------------------------------------------------------------------
             # [최종 교정] 바리온 가스 조기 포획 및 2D 라플라시안 특이점 제동 정합
             # 미분 오차로 인해 속도 부호 반전(gas_vel_next * gas_vel <= 0)을 순간 이동하듯
             # 건너뛰던 수치적 한계를 해결하기 위해, 가스의 현재 포지션이 2D 복소 평면의
@@ -253,8 +255,9 @@ class BulletClusterTDTSimulator:
                 gas_vel = gas_vel_next
                 gas_pos = gas_pos_next
 
-            
-            # [교정] 가속도 커널 내부로 억제 장벽이 선진입했으므로, 하단의 사후 중복 처리 필터는 파기하고 상태량을 정형 전이합니다.
+            # [교정] 가속도 커널 내부로 억제 장벽 및 고무줄 텐션 스케일러가 선진입했으므로, 
+            # 하단의 사후 중복 처리 필터는 파기하고 상태량을 정형 전이합니다.
+            # 1단계에서 되살린 실시간 복원 가속도가 xk1~xk4 상태 벡터를 관통하여 tension_pos_next에 완전 누적되었습니다.
             tension_vel = tension_vel_next
             tension_pos = tension_pos_next
 
@@ -262,7 +265,7 @@ class BulletClusterTDTSimulator:
             offset = abs(tension_pos - gas_pos)
             covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (c_kpc_myr ** 2)
             
-            # 50스텝(0.5 Myr 간격)마다 싱크된 로그 출력
+            # 50스텝(실제 누적 시간 0.5 Myr 간격)마다 싱크된 로그 출력
             if sub_step % 50 == 0 or sub_step == 1:
                 print(f"{sub_step:<8}{gas_pos:<15.2f}{tension_pos:<20.2f}{offset:<15.2f}{covariant_divergence:<20.4E}")
 
@@ -276,9 +279,10 @@ class BulletClusterTDTSimulator:
 
 
 
+
 # ---------------------------------------------------------------------
 # 3. 코랩 노트북 환경 실행 포탈 (상단의 core 인스턴스를 주입)
 # ---------------------------------------------------------------------
 # 상단 셀에 이미 실행된 'core' 변수를 그대로 인수로 던져 시뮬레이션을 구동합니다.
 simulator = BulletClusterTDTSimulator(core_engine=core)
-simulator.run_collision_simulation(steps=1000)
+simulator.run_collision_simulation(steps=3000)
