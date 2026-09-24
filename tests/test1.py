@@ -389,13 +389,17 @@ class JWSTEarlyAssemblySimulator:
             self.gas_history.append(gas_pos)
             self.tension_history.append(tension_pos)
 
-            # 오프셋 및 무차원 공변 잔차 계산
+            # -----------------------------------------------------------------
+            # [교정 반영]: 스코프 참조 에러를 원천 차단하기 위해 
+            # 로컬 상수를 안전하게 재매핑하여 무차원 공변 잔차를 계산합니다.
+            # -----------------------------------------------------------------
+            _c_kpc_myr = 299792.458 * self.km_s_to_kpc_myr
             offset = abs(tension_pos - gas_pos)
-            covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (c_kpc_myr ** 2)
+            covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (_c_kpc_myr ** 2)
 
-            # [교정 완료] 스텝 로그 출력 시 물리적 '경과 시간'과 프리드만 역산 '적색편이(z)'를 함께 동기화 사영
+            # [정렬 교정]: 첫 줄 헤더 컬럼폭에 맞추어 콘솔 텍스트 밀림 현상을 칼같이 보정했습니다.
             if sub_step % 1000 == 0 or sub_step == 1:
-                print(f"Step: {sub_step:<6} | Time: {elapsed_time_myr:<7.2f} Myr | z: {current_z:<5.2f} | Gas: {gas_pos:<7.2f} kpc | Tension: {tension_pos:<8.2f} kpc | Error: {covariant_divergence:.4E}")
+                print(f"Step: {sub_step:<6} | Time: {elapsed_time_myr:<7.2f} Myr | z: {current_z:<5.2f} | Gas: {gas_pos:<14.2f} Tension: {tension_pos:<19.2f} Error: {covariant_divergence:.4E}")
 
         # =====================================================================
         # [TDT Phase 03: 은하 조기 조립 검증 학술 리포트 매트릭스 출력 포탈]
@@ -426,7 +430,7 @@ class JWSTEarlyAssemblySimulator:
                 print("\n ➔ [EPISTEMOLOGICAL VERDICT]: 은하 조립은 완료되었으나 z < 10 대역에 진입하여 타임라인 스케일 재검토 요망.")
         else:
             print(" [X] 본 타임라인 마진 내에서 가스가 중심 핵으로 붕괴하여 정착하지 못했습니다.")
-            print(" ➔ 최종 공간 분리 오프셋    : {offset:.2f} kpc")
+            print(f" ➔ 최종 공간 분리 오프셋    : {offset:.2f} kpc")
             
         print(" ➔ Runtime Floating-Point Overflow Warnings: NONE (0% Anomalies Captured)")
         print("=========================================================================\n")
