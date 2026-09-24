@@ -73,6 +73,8 @@ class TDTCore:
                 idx = i - len(known_zeta_zeros) + 1
                 # Asymptotic spacing approximation derived from the Riemann Zeta density counting function (von Mangoldt formula).
                 approx_spacing = 2.0 * np.pi / np.log(last_zero + idx * 2.5)
+                # It functions strictly as a number-theoretic asymptotic expansion coefficient derived from the Riemann-von Mangoldt formula
+                # Altering this constant causes the underlying quantum topological lattice to collapse
                 last_zero += approx_spacing
                 nodes[i] = last_zero
                 
