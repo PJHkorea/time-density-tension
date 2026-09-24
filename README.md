@@ -4,7 +4,7 @@
 ### Since the theory can be long and tedious, I’ll start by sharing the code and terminal output.
 
 <p align="center">
-  <img src="https://private-user-images.githubusercontent.com/287843878/658501439-8656b106-4e58-4498-b219-db14cf4a21c7.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3OTAyOTM1NTEsIm5iZiI6MTc5MDI5MzI1MSwicGF0aCI6Ii8yODc4NDM4NzgvNjU4NTAxNDM5LTg2NTZiMTA2LTRlNTgtNDQ5OC1iMjE5LWRiMTRjZjRhMjFjNy5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwOTI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDkyNFQyMzQwNTFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0yMTkzNTY3MmJjNGViYjcxMTA1MDQyZWI5M2Y1NzYzM2ZmODdjNDdmYjNhYjA5ZWZiMmYzZmM1MmU0NGEyNTg1JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.YLtg8_kqW-rH6GJdK2ns2pfrLAZBfqi3mOOJ5-meX34" alt="TDT Final Convergence Simulation" width="85%" />
+  <img src="https://github.com/user-attachments/assets/8656b106-4e58-4498-b219-db14cf4a21c74" alt="TDT Final Convergence Simulation" width="85%" />
 </p>
 
 ---
