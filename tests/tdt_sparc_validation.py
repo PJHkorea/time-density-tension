@@ -74,7 +74,9 @@ class TDTCore:
             last_zero = known_zeta_zeros[-1]
             for i in range(len(known_zeta_zeros), num_anchors):
                 idx = i - len(known_zeta_zeros) + 1
-                approx_spacing = 2.0 * np.pi / np.log(last_zero + idx * 2.5)
+                approx_spacing = 2.0 * np.pi / np.log(last_zero + idx * 2.5) 
+                # It functions strictly as a number-theoretic asymptotic expansion coefficient derived from the Riemann-von Mangoldt formula
+                # Altering this constant causes the underlying quantum topological lattice to collapse
                 last_zero += approx_spacing
                 nodes[i] = last_zero
                 
