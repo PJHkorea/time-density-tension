@@ -91,6 +91,77 @@ Step    Gas_Pos (kpc)  Tension_Pos (kpc)   Offset (kpc)   Covariant Error
 ➔ Runtime Floating-Point Overflow Warnings: NONE (0% Anomalies Captured)
 =========================================================================
 ```
+```text
+[TDT Portal Input]: Complex Hamiltonian Core Engine Detected. Aligning matrix couplings...
+=========================================================================================
+ TDT LSS SOLITON DYNAMICS: FIRST-PRINCIPLES CONTINUOUS SIMULATION (RK4)
+=========================================================================================
+
+Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
+------------------------------------------------------------------------------------------
+1      | 0.01       | 15.00 | -498.55        -487.60             4.1131E-07
+1000   | 10.00      | 14.62 | 0.00           -474.64             7.6941E-07 | M_UV: -19.96
+2000   | 20.00      | 14.25 | 0.00           -311.61             9.4548E-06 | M_UV: -19.87
+3000   | 30.00      | 13.91 | 0.00           183.90              1.5315E-05 | M_UV: -19.79
+4000   | 40.00      | 13.59 | 0.00           489.13              1.0602E-09 | M_UV: -19.70
+5000   | 50.00      | 13.28 | 0.00           -101.75             1.6563E-05 | M_UV: -19.61
+6000   | 60.00      | 12.99 | 0.00           -259.57             1.0596E-05 | M_UV: -19.52
+7000   | 70.00      | 12.71 | 0.00           428.36              1.8747E-06 | M_UV: -19.43
+8000   | 80.00      | 12.45 | 0.00           -468.84             1.4474E-07 | M_UV: -19.33
+9000   | 90.00      | 12.20 | 0.00           471.35              3.8902E-09 | M_UV: -19.24
+10000  | 100.00     | 11.96 | 0.00           -469.40             3.3320E-08 | M_UV: -19.15
+11000  | 110.00     | 11.73 | 0.00           456.04              4.4017E-07 | M_UV: -19.05
+12000  | 120.00     | 11.51 | 0.00           -424.40             1.7638E-06 | M_UV: -18.95
+13000  | 130.00     | 11.30 | 0.00           330.68              6.4115E-06 | M_UV: -18.86
+
+33000  | 330.00     | 8.38  | 0.00           396.76              2.4504E-06 | M_UV: -16.83
+34000  | 340.00     | 8.28  | 0.00           328.92              5.8075E-06 | M_UV: -16.73
+35000  | 350.00     | 8.18  | 0.00           -329.13             5.6248E-06 | M_UV: -16.62
+36000  | 360.00     | 8.08  | 0.00           -440.50             4.0470E-07 | M_UV: -16.52
+37000  | 370.00     | 7.99  | 0.00           -167.51             1.2206E-05 | M_UV: -16.41
+38000  | 380.00     | 7.90  | 0.00           180.53              1.1529E-05 | M_UV: -16.31
+39000  | 390.00     | 7.80  | 0.00           389.47              2.3464E-06 | M_UV: -16.20
+40000  | 400.00     | 7.72  | 0.00           448.00              1.0702E-09 | M_UV: -16.10
+41000  | 410.00     | 7.63  | 0.00           431.86              4.6457E-07 | M_UV: -15.99
+42000  | 420.00     | 7.55  | 0.00           414.40              1.0728E-06 | M_UV: -15.89
+43000  | 430.00     | 7.47  | 0.00           421.74              7.2749E-07 | M_UV: -15.78
+44000  | 440.00     | 7.39  | 0.00           435.37              1.9468E-07 | M_UV: -15.68
+45000  | 450.00     | 7.31  | 0.00           437.99              6.3329E-08 | M_UV: -15.57
+46000  | 460.00     | 7.23  | 0.00           368.85              2.7635E-06 | M_UV: -15.46
+47000  | 470.00     | 7.16  | 0.00           94.11               1.2810E-05 | M_UV: -15.36
+48000  | 480.00     | 7.08  | 0.00           -323.71             4.6533E-06 | M_UV: -15.25
+49000  | 490.00     | 7.01  | 0.00           -423.99             2.6457E-07 | M_UV: -15.15
+50000  | 500.00     | 6.94  | 0.00           19.02               1.3019E-05 | M_UV: -15.04
+
+=====================================================================================
+     TDT LSS EARLY GALACTIC ASSEMBLY TIMELINE REPORT (z >= 10 VALIDATION)
+=====================================================================================
+ ➔ Total Simulation Runtime   : 500.00 Myr (50000 Steps)
+ ➔ Early Universe Soliton Velocity : 144.78 kpc/Myr
+ ➔ Intrinsic Geometric Grid Slip   : 0.7250 kpc
+-------------------------------------------------------------------------------------
+ [★] Baryon Fluid Core Resonant Capture Lock: SUCCESSFUL
+ ➔ Central Core Capture Step     : Step 343 (Elapsed: 3.43 Myr)
+ ➔ Absolute Cosmic Age at Lock   : ~272.6621 Gyr (Conformal Alignment)
+ ➔ Observational Target Redshift : z = 14.866 (Resolves JWST Bright Galaxy Puzzle)
+ ➔ Peak Star Formation Rate (SFR): 3.9827 M_sun/yr
+ ➔ Peak Absolute UV Magnitude    : M_UV = -20.01 (Bright Galaxy Baseline)
+
+ ➔ [EPISTEMOLOGICAL VERDICT]: CRITICAL HIGH-REDSHIFT (z >= 10) ASSEMBLY CONFIRMED!
+    Demonstrated rapid galactic core seeding via pure spacetime geometric invariants,
+    entirely independent of cold dark matter (CDM) particle halos.
+-------------------------------------------------------------------------------------
+ ➔ [COSMOLOGICAL HORIZON GUARD NOTIFICATION]:
+ * Current Terminus Redshift Mapping : z = 6.9430 (Continuous Run Success)
+ * Post-capture dynamics within the lower-redshift regime (z < 8) have been successfully
+   integrated via the non-linear Topological Dissipation Manifold.
+ * Hubble friction coupling smoothly stabilized numerical divergence, confirming global metric
+   asymptotic convergence down to the modern epoch without artificial truncation.
+-------------------------------------------------------------------------------------
+ ➔ Runtime Floating-Point Overflow Warnings: NONE (0% Anomalies Captured)
+=========================================================================
+```
+
 ---
 
 ### 4.1 Numerical Invariants of Early Structuring
