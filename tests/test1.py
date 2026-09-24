@@ -284,10 +284,30 @@ class JWSTEarlyAssemblySimulator:
         # 원점을 관통하여 오른쪽에 있을 때(p > 0)는 중심 수축 축의 반대인 (-1.0) 복원 브레이크를
         # 가하도록 동적 상대 좌표 부호 필터를 완전 정합합니다.
         # ---------------------------------------------------------------------
-               # =====================================================================
+        # (기존 코드의 get_gas_acceleration 함수 리턴문 바로 아래에 붙여넣기 하세요)
+        # ---------------------------------------------------------------------
+        # [복원 완료] 2D 복소 평면 라플라시안 복원 장력 커널
+        # ---------------------------------------------------------------------
+        def get_tension_acceleration(p, v):
+            """
+            [TDT Core Phase 01/05 -> Phase 03: 2D Laplacian Grid Inversion to LSS Soliton Tension]
+            """
+            r = np.maximum(abs(p), 1e-15)
+            v_tw_tension = self.get_tracy_widom_tension(r)
+            holographic_projection_loss = 0.85 
+            base_accel = v_tw_tension * (self.alpha * self.pi) * (1.0 / self.alpha) * holographic_projection_loss
+            
+            if abs(p) > 5.0:
+                conformal_pull_scaler = 1.0 + (r / self.grid_initial_slip_kpc) ** 1.8
+                base_accel = base_accel * conformal_pull_scaler
+                base_accel += 0.05 * (r / self.grid_initial_slip_kpc) * abs(v)
+            
+            pull_direction = -1.0 if p >= 0 else 1.0
+            return pull_direction * base_accel
+
+        # =====================================================================
         # [TDT Phase 03 Expansion: 동적 타임라인 및 적색편이 이력 데이터 버퍼 선언]
         # =====================================================================
-        # 실시간 매핑 및 시각화를 위해 상태 이력을 추적할 버퍼를 선언합니다.
         self.time_history = []
         self.z_history = []
         self.gas_history = []
@@ -298,6 +318,9 @@ class JWSTEarlyAssemblySimulator:
         capture_step = None
         capture_time_myr = None
         capture_z = None
+        
+        # (이후 기존의 for sub_step in range(1, total_substeps + 1): 루프로 자연스럽게 이어집니다)
+
 
         # 2. RK4 고해상도 수치 해석 시간 적분 루프 가동 (LSS 수축 매니폴드 진화)
         # 상단에서 정의한 local_dt = 0.01 Myr (1만 년) 단위를 기본 시간 축으로 상속합니다.
