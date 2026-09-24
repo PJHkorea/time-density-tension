@@ -248,7 +248,7 @@ class JWSTEarlyAssemblySimulator:
             """
             r = np.maximum(abs(p), 1e-15)
             v_tw_tension = self.get_tracy_widom_tension(r)
-            holographic_projection_loss = 0.85 
+            holographic_projection_loss = np.sqrt(3.0) / 2.0 # 0.85 대신 np.sqrt(3.0) / 2.0 처리
             base_accel = v_tw_tension * (self.alpha * self.pi) * (1.0 / self.alpha) * holographic_projection_loss
             
             if abs(p) > 5.0:
