@@ -2,9 +2,15 @@
 
 
 ### Since the theory can be long and tedious, I’ll start by sharing the code and terminal output.
+
+<p align="center">
+  <img src="https://private-user-images.githubusercontent.com/287843878/658473098-20d7e2b4-2444-400a-a28b-7b3db43b9557.png?jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3OTAyODkyMzEsIm5iZiI6MTc5MDI4ODkzMSwicGF0aCI6Ii8yODc4NDM4NzgvNjU4NDczMDk4LTIwZDdlMmI0LTI0NDQtNDAwYS1hMjhiLTdiM2RiNDNiOTU1Ny5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjYwOTI0JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI2MDkyNFQyMjI4NTFaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT0zMjYzZWVlNmQ3ZWNjNzdmNDA1ZTkxYWFjMTM0YzY4M2MzOTliZDQ5MDgxMjZmOTRiMTk1NjhkNzg0MzAzOWI4JlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZyZXNwb25zZS1jb250ZW50LXR5cGU9aW1hZ2UlMkZwbmcifQ.V8zldCJr5jYMidxguBNQlWiGaMn3EWsYzRO3vGXxxW8" alt="TDT Final Convergence Simulation" width="85%" />
+</p>
+
 ---
 
 > The following terminal snapshots are raw outputs generated natively by the repository execution suites under a strictly frozen, zero-tuning layout, eliminating post-hoc manual adjustments.
+---
 ---
 ### tdt_core.py 
 
@@ -417,6 +423,8 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 
 
 ```
+
+
 ---
 
 ## 4 Case-by-Case Peak Numerical Trajectories and Physical Causality Structures
