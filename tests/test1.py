@@ -269,57 +269,7 @@ class JWSTEarlyAssemblySimulator:
 
 
 
-        # ---------------------------------------------------------------------
-        # [최종 완결형] 2D 복소 평면 라플라시안 복원 장력 부호(Sign) 매트릭스 정합 (LSS 고정)
-        # 절대 좌표와 진행 속도의 차원 충돌로 발생하던 거꾸로 질주 버그가 완벽히 종식된 상태를 유지합니다.
-        # 격자가 원점 격점보다 왼쪽에 있을 때(p < 0)는 어트랙터 노드 방향인 (+1.0) 인력을 부여하고,
-        # 원점을 관통하여 오른쪽에 있을 때(p > 0)는 중심 수축 축의 반대인 (-1.0) 복원 브레이크를
-        # 가하도록 동적 상대 좌표 부호 필터를 완전 정합합니다.
-        # ---------------------------------------------------------------------
-        # [복원 및 고도화 완료] z < 8 영역 소산 매니폴드가 결합된 2D 라플라시안 복원 장력 커널
-        # ---------------------------------------------------------------------
-        def get_tension_acceleration(p, v, current_z=15.0):
-            """
-            [TDT Core Phase 01/05 -> Phase 03: 2D Laplacian Grid Inversion to LSS Soliton Tension]
-            저적색편이 대역 진입 시 허블 흐름과의 상호작용을 통한 격자 에너지 소산 항이 추가되었습니다.
-            """
-            r = np.maximum(abs(p), 1e-15)
-            v_tw_tension = self.get_tracy_widom_tension(r)
-            holographic_projection_loss = np.sqrt(3.0) / 2.0  # 0.85 대신 기하학적 종종횡비 처리 유지
-            base_accel = v_tw_tension * (self.alpha * self.pi) * (1.0 / self.alpha) * holographic_projection_loss
-
-            if abs(p) > 5.0:
-                conformal_pull_scaler = 1.0 + (r / self.grid_initial_slip_kpc) ** 1.8
-                base_accel = base_accel * conformal_pull_scaler
-                base_accel += 0.05 * (r / self.grid_initial_slip_kpc) * abs(v)
-
-            pull_direction = -1.0 if p >= 0 else 1.0
-            total_accel = pull_direction * base_accel
-
-            # z < 8 대역에서 에너지를 거시 우주로 방출하는 고차 하이퍼볼릭 감쇠 스위치
-            damping_switch = 0.5 * (1.0 - np.tanh((current_z - 8.0) / 1.5))
-            hubble_friction = 2.0 * self.H0_per_myr * v
-
-            return total_accel - (damping_switch * hubble_friction)
-
-        # =====================================================================
-        # [TDT Phase 03 Expansion: 동적 타임라인 및 적색편이 이력 데이터 버퍼 선언]
-        # =====================================================================
-        self.time_history = []
-        self.z_history = []
-        self.gas_history = []
-        self.tension_history = []
-
-        # [고도화]: 2번 광도 모델 연동용 실시간 별 형성률 및 광도 이력 버퍼 추가
-        self.sfr_history = []
-        self.luminosity_history = []
-
-        # 바리온 가스 포획 트리거 및 골든 타임라인 기록용 상태 변수
-        capture_triggered = False
-        capture_step = None
-        capture_time_myr = None
-        capture_z = None
-
+        
         # ---------------------------------------------------------------------
         # 2. RK4 고해상도 수치 해석 시간 적분 루프 가동 (들여쓰기 8칸 완전 고정)
         # ---------------------------------------------------------------------
