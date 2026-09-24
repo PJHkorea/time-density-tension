@@ -159,6 +159,7 @@ class JWSTEarlyAssemblySimulator:
         # 최종 정합된 제1원리 우주 거대 구조 복원 장력 반환
         return v_tension_bare * conformal_holographic_projection
 
+
     def run_lss_assembly_simulation(self, steps=500):
         """
         [TDT Core Phase 06 -> Phase 03: Conformal LSS Soliton Dynamics & RK4 Integration]
@@ -222,6 +223,7 @@ class JWSTEarlyAssemblySimulator:
             # 가스의 현재 진행 방향과 반대로 작동하도록 브레이크 벡터 부호 제어
             direction = -1.0 if v >= 0 else 1.0
             return direction * friction_accel
+
 
     def lookback_time_to_z(self, current_sim_time_myr, startup_z=15.0):
         """
@@ -319,67 +321,74 @@ class JWSTEarlyAssemblySimulator:
         capture_time_myr = None
         capture_z = None
         
-        # (이후 기존의 for sub_step in range(1, total_substeps + 1): 루프로 자연스럽게 이어집니다)
-
-
         # 2. RK4 고해상도 수치 해석 시간 적분 루프 가동 (LSS 수축 매니폴드 진화)
         # 상단에서 정의한 local_dt = 0.01 Myr (1만 년) 단위를 기본 시간 축으로 상속합니다.
         for sub_step in range(1, total_substeps + 1):
-
-            # --- 가스(Gas) 성분 RK4 미분 계수 도출 ---
-            vk1 = get_gas_acceleration(gas_pos, gas_vel)
-            pk1 = gas_vel
-
-            vk2 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk1, gas_vel + 0.5 * local_dt * vk1)
-            pk2 = gas_vel + 0.5 * local_dt * vk1
-
-            vk3 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk2, gas_vel + 0.5 * local_dt * vk2)
-            pk3 = gas_vel + 0.5 * local_dt * vk2
-
-            vk4 = get_gas_acceleration(gas_pos + local_dt * pk3, gas_vel + local_dt * vk3)
-            pk4 = gas_vel + local_dt * vk3
-
-            gas_vel_next = gas_vel + (local_dt / 6.0) * (vk1 + 2.0 * vk2 + 2.0 * vk3 + vk4)
-            gas_pos_next = gas_pos + (local_dt / 6.0) * (pk1 + 2.0 * pk2 + 2.0 * pk3 + pk4)
-
-            # --- 시공간 격자(Tension) 성분 RK4 미분 계수 도출 ---
-            tk1 = get_tension_acceleration(tension_pos, tension_vel)
-            xk1 = tension_vel
-
-            tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1)
-            xk2 = tension_vel + 0.5 * local_dt * tk1
-
-            tk3 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk2, tension_vel + 0.5 * local_dt * tk2)
-            xk3 = tension_vel + 0.5 * local_dt * tk2
-
-            tk4 = get_tension_acceleration(tension_pos + local_dt * xk3, tension_vel + local_dt * tk3)
-            xk4 = tension_vel + local_dt * tk3
-
-            tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
-            tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
 
             # --- 실시간 시공간 차원 매핑 및 시간 역산 연산 ---
             elapsed_time_myr = sub_step * local_dt
             current_z = self.lookback_time_to_z(elapsed_time_myr, startup_z=15.0)
 
-            # [최종 교정] 바리온 가스 조기 포획 및 2D 라플라시안 특이점 제동 정합
-            if (gas_pos < 0.0 and gas_pos_next >= -1.0) or (abs(gas_pos_next) <= 5.0):
+            # -----------------------------------------------------------------
+            # [수치해석 0점 트랩 탈출]: 가스가 포획된 이후에는 상태 벡터를 강제 구속하여
+            # 무한 재귀 연산으로 인한 CPU 동결을 차단하고 계의 정상 상태를 유도합니다.
+            # -----------------------------------------------------------------
+            if capture_triggered:
                 gas_vel = 0.0
-                gas_pos = np.clip(gas_pos_next, 0.0, 5.0)
+                gas_pos = 0.0
                 
-                # -----------------------------------------------------------------
-                # [TDT 골든 타임라인 저격 트리거 매트릭스]
-                # 가스가 5.0 kpc 코어 내부로 최초 진입하여 정착하는 역사적인 순간을 영구 포착합니다.
-                # -----------------------------------------------------------------
-                if not capture_triggered:
+                # 가스가 멈춘 후에도 시공간 격자(Tension)의 관성 관통 역학은 RK4로 상시 적분 구동
+                tk1 = get_tension_acceleration(tension_pos, tension_vel)
+                xk1 = tension_vel
+                tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1)
+                xk2 = tension_vel + 0.5 * local_dt * tk1
+                tk3 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk2, tension_vel + 0.5 * local_dt * tk2)
+                xk3 = tension_vel + 0.5 * local_dt * tk2
+                tk4 = get_tension_acceleration(tension_pos + local_dt * xk3, tension_vel + local_dt * tk3)
+                xk4 = tension_vel + local_dt * tk3
+
+                tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
+                tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
+            else:
+                # --- [포획 전]: 가스(Gas) 성분 RK4 미분 계수 도출 ---
+                vk1 = get_gas_acceleration(gas_pos, gas_vel)
+                pk1 = gas_vel
+                vk2 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk1, gas_vel + 0.5 * local_dt * vk1)
+                pk2 = gas_vel + 0.5 * local_dt * vk1
+                vk3 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk2, gas_vel + 0.5 * local_dt * vk2)
+                pk3 = gas_vel + 0.5 * local_dt * vk2
+                vk4 = get_gas_acceleration(gas_pos + local_dt * pk3, gas_vel + local_dt * vk3)
+                pk4 = gas_vel + local_dt * vk3
+
+                gas_vel_next = gas_vel + (local_dt / 6.0) * (vk1 + 2.0 * vk2 + 2.0 * vk3 + vk4)
+                gas_pos_next = gas_pos + (local_dt / 6.0) * (pk1 + 2.0 * pk2 + 2.0 * pk3 + pk4)
+
+                # --- [포획 전]: 시공간 격자(Tension) 성분 RK4 미분 계수 도출 ---
+                tk1 = get_tension_acceleration(tension_pos, tension_vel)
+                xk1 = tension_vel
+                tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1)
+                xk2 = tension_vel + 0.5 * local_dt * tk1
+                tk3 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk2, tension_vel + 0.5 * local_dt * tk2)
+                xk3 = tension_vel + 0.5 * local_dt * tk2
+                tk4 = get_tension_acceleration(tension_pos + local_dt * xk3, tension_vel + local_dt * tk3)
+                xk4 = tension_vel + local_dt * tk3
+
+                tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
+                tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
+
+                # [최종 교정] 바리온 가스 조기 포획 트리거 조건문 판정
+                if (gas_pos < 0.0 and gas_pos_next >= -1.0) or (abs(gas_pos_next) <= 5.0):
                     capture_triggered = True
                     capture_step = sub_step
                     capture_time_myr = elapsed_time_myr
                     capture_z = current_z
-            else:
-                gas_vel = gas_vel_next
-                gas_pos = gas_pos_next
+                    gas_vel = 0.0
+                    gas_pos = 0.0
+                else:
+                    gas_vel = gas_vel_next
+                    gas_pos = gas_pos_next
 
+            # 상태 벡터 최종 진화 반영
             tension_vel = tension_vel_next
             tension_pos = tension_pos_next
 
@@ -389,17 +398,14 @@ class JWSTEarlyAssemblySimulator:
             self.gas_history.append(gas_pos)
             self.tension_history.append(tension_pos)
 
-            # -----------------------------------------------------------------
-            # [교정 반영]: 스코프 참조 에러를 원천 차단하기 위해 
-            # 로컬 상수를 안전하게 재매핑하여 무차원 공변 잔차를 계산합니다.
-            # -----------------------------------------------------------------
             _c_kpc_myr = 299792.458 * self.km_s_to_kpc_myr
             offset = abs(tension_pos - gas_pos)
             covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (_c_kpc_myr ** 2)
 
-            # [정렬 교정]: 첫 줄 헤더 컬럼폭에 맞추어 콘솔 텍스트 밀림 현상을 칼같이 보정했습니다.
+            # 💡 [실시간 강제 플러시 정합]: flush=True 적용으로 출력 버퍼 홀딩을 완전히 분쇄합니다.
             if sub_step % 1000 == 0 or sub_step == 1:
-                print(f"Step: {sub_step:<6} | Time: {elapsed_time_myr:<7.2f} Myr | z: {current_z:<5.2f} | Gas: {gas_pos:<14.2f} Tension: {tension_pos:<19.2f} Error: {covariant_divergence:.4E}")
+                print(f"Step: {sub_step:<6} | Time: {elapsed_time_myr:<7.2f} Myr | z: {current_z:<5.2f} | Gas: {gas_pos:<14.2f} Tension: {tension_pos:<19.2f} Error: {covariant_divergence:.4E}", flush=True)
+
 
         # =====================================================================
         # [TDT Phase 03: 은하 조기 조립 검증 학술 리포트 매트릭스 출력 포탈]
@@ -436,10 +442,24 @@ class JWSTEarlyAssemblySimulator:
         print("=========================================================================\n")
 
 
-# ---------------------------------------------------------------------
-# 3. 코랩 및 노트북 연구 가동 환경 포탈 (리팩토링 클래스명 전형 매핑)
-# ---------------------------------------------------------------------
-# 메인 코어 엔진 인스턴스(core)를 주입하여 초기 우주 조기 조립 시뮬레이션을 최종 가동합니다.
-simulator = JWSTEarlyAssemblySimulator(core_engine=core)
-simulator.run_lss_assembly_simulation(steps=50000)
+# =====================================================================
+# 3. 코랩 및 노트북 연구 가동 환경 포탈 (인터프리터 락 해제 및 실시간 플러시 정합)
+# =====================================================================
+import sys
+
+if __name__ == "__main__":
+    # 1. 원본 코어 엔진이 상단에서 정상 선언되었는지 안전 검증 후 싱크 주입
+    if 'core' in locals() or 'core' in globals():
+        print("\n[TDT Portal Input]: 원본 복소 Hamiltonian 코어 엔진 감지 완료. 가동 매트릭스를 정합합니다.", flush=True)
+        
+        # 2. 시뮬레이터 인스턴스 스코프 생성
+        simulator = JWSTEarlyAssemblySimulator(core_engine=core)
+        
+        # 3. 입출력 버퍼 강제 비우기(Flush)를 선언하여 멈춤 현상을 원천 배제하고 시뮬레이션 최종 가동
+        sys.stdout.flush()
+        simulator.run_lss_assembly_simulation(steps=50000)
+    else:
+        print("\n[🚨 오류]: 원본 'core' 엔진 인스턴스가 메모리에 선언되지 않았습니다.")
+        print("이 스크립트 상단에 정의된 TDTCore() 인스턴스를 먼저 실행해 주세요.")
+
 
