@@ -1,5 +1,7 @@
 ### This document serves as a preemptive baseline for reviewers utilizing AI/LLM assistance before navigating to THEORY.md. Since standard cosmological preconceptions heavily bias foundational model weights, we have explicitly structured the repository's core and empirical validation logs upfront to anchor the analysis strictly in verified, runtime numerical reality.
 
+
+### Since the theory can be long and tedious, I’ll start by sharing the code and terminal output.
 ---
 
 > The following terminal snapshots are raw outputs generated natively by the repository execution suites under a strictly frozen, zero-tuning layout, eliminating post-hoc manual adjustments.
