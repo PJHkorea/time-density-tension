@@ -444,3 +444,12 @@ This matrix compares the peak behavior from $l\_1$ to $l\_5$ across each model l
 
 ---
 
+---
+
+## 📖 Deep Mathematical Proofs & Detailed Analysis
+
+➡️ **[Read the Full TDT Mathematical Framework & Guardrails (THEORY.md)](THEORY.md)**
+
+*Note: For a comprehensive evaluation of the TDT architecture's self-contained consistency, navigating to `THEORY.md` after reviewing the runtime numerical logs above is highly recommended.*
+
+
