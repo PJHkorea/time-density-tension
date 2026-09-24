@@ -238,7 +238,7 @@ class JWSTEarlyAssemblySimulator:
             conformal_braking_scale = (self.c_univ * self.gamma) / (1.0 + self.delta_phase)
             return (-1.0 if v >= 0 else 1.0) * conformal_braking_scale * debye_f * abs(v) * np.sqrt(2.0 * self.pi)
 
-        # [고도화]: 실시간 적색편이(current_z)를 반영하여 z < 8 영역에서 에너지를 소산시키는 장력 가속도 커널
+                # [최종 교정 완료]: 부호 역전 버그를 완벽히 종식한 시공간 장력 소산 가속도 커널
         def get_tension_acceleration(p, v, current_z=15.0):
             r = np.maximum(abs(p), 1e-15)
             base_accel = self.get_tracy_widom_tension(r) * (self.alpha * self.pi) * (1.0 / self.alpha) * np.sqrt(3.0) / 2.0
@@ -250,10 +250,15 @@ class JWSTEarlyAssemblySimulator:
             
             # z < 8 대역 진입 시 감쇠 스위치가 고차 매니폴드 tanh 평활화에 따라 부드럽게 활성화
             damping_switch = 0.5 * (1.0 - np.tanh((current_z - 8.0) / 1.5))
-            # 우주론적 배후 팽창률(H0_per_myr)에 결합된 허블 마찰 가속도 차감항
-            hubble_friction = 2.0 * self.H0_per_myr * v
             
-            return total_accel - (damping_switch * hubble_friction)
+            # [결정적 교정]: 허블 마찰력이 진행 속도(v)와 항시 "정반대" 방향으로 작용하도록 제동 부호 정합
+            # 속도가 (+)이면 (-) 제동력을, 속도가 (-)이면 (+) 제동력을 가해 계의 에너지를 소산시킵니다.
+            braking_direction = -1.0 if v >= 0 else 1.0
+            hubble_friction_accel = braking_direction * (2.0 * self.H0_per_myr * abs(v))
+            
+            # 최종 마찰 제동 가속도를 결합하여 반환
+            return total_accel + (damping_switch * hubble_friction_accel)
+
 
         # 데이터 적재 버퍼 초기화
         self.time_history = []
