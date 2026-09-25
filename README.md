@@ -432,7 +432,7 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 
 ---
 
-## 4 Case-by-Case Peak Numerical Trajectories and Physical Causality Structures
+Case-by-Case Peak Numerical Trajectories and Physical Causality Structures
 
 From the number-theoretic baseline to the actual Planck 2018 observational data, this section summarizes the 5th higher-order node numerical trajectories and spatiotemporal causal structures of the **CMB Acoustic Peaks ($l\_n$)** derived at each physical layer.
 
