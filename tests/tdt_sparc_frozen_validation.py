@@ -288,14 +288,14 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
                 r_valid, scale_factor=1.0
             )
 
-            # 3. [정정] 점성 드래그 감쇄 필터(Viscous Damping Shield)는 시공간 격자 텐션 자체에 기하학적으로 작용합니다.
+            # 3. The Viscous Damping Shield acts geometrically upon the tension of the space-time lattice itself.
             # [Advanced Core Integration] Replaces empirical r_d=3.5 with the exact geometric invariant (core.pi * core.ln2).
             viscous_correction = core.calculate_debye_friction_correction(
                 r_valid, r_d=core.pi * core.ln2
             )
             v_tension_calibrated = v_tension_bare * viscous_correction
 
-            # 4. 최종 물리적 합성 속도 산출 (Baryon + Calibrated Spacetime Tension)
+            # 4. Calculation of final physical synthesis rate (Baryon + Calibrated Spacetime Tension)
             v_predicted = np.sqrt(v_baryon_corrected**2 + v_tension_calibrated**2)
             v_predicted = np.nan_to_num(v_predicted, nan=0.0, posinf=99999.0)
 
