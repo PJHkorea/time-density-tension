@@ -4,7 +4,7 @@
 ### Since the theory can be long and tedious, I’ll start by sharing the code and terminal output.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/8656b106-4e58-4498-b219-db14cf4a21c74" alt="TDT Final Convergence Simulation" width="85%" />
+  <img src="https://github.com/user-attachments/assets/0f50bdfe-5888-478b-8376-5fc89a58084a" alt="TDT Final Convergence Simulation" width="85%" />
 </p>
 
 ---
