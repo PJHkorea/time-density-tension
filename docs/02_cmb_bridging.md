@@ -39,7 +39,7 @@ $$\delta_{\text{phase}} \equiv \alpha = \frac{1}{137.035999084} \approx \mathbf{
 
 The micro-core engine enforces this complete parameter-free purification by locking the structural interaction networks down to the absolute 12th decimal place within the conservation test suite. The legacy empirical formulations (such as the unaligned numerical subtraction profiles yielding `0.039513` via post-hoc Euler-Mascheroni regularizers) have been entirely extirpated (0% fitting).
 
-By synchronizing the continuous hyperbolic tangent manifold ($\gamma_{\text{effective}}(a)$) with the Leibniz differentiation chain-rule, the spatial displacement of the primordial baryon-photon fluid is revealed to be a direct, un-tuned manifestation of quantum electrodynamic boundary couplings rather than an arbitrary thermodynamic offset.
+By synchronizing the continuous hyperbolic tangent manifold $\gamma_{\text{effective}}(a)$ with the Leibniz differentiation chain-rule, the spatial displacement of the primordial baryon-photon fluid is revealed to be a direct, un-tuned manifestation of quantum electrodynamic boundary couplings rather than an arbitrary thermodynamic offset.
 
 ### 1.2 Mathematical Mapping against Planck Satellite Observational Peaks
 
