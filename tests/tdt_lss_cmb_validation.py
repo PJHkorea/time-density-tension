@@ -1,5 +1,7 @@
 """
-TDT (Time-Density Tension) Integrated LSS & CMB Coherence Validation Matrix
+==================================================================================================
+  TDT (Time-Density Tension) Integrated LSS & CMB Coherence Validation Matrix
+==================================================================================================
 Filename: tests/tdt_lss_cmb_validation.py
 
 This module operationalizes the large-scale structure (LSS) expansion trajectory and 
@@ -7,15 +9,17 @@ Cosmic Microwave Background (CMB) acoustic anisotropy verification suite of the 
 It dual-maps predictions simultaneously against empirical Type Ia Supernovae (Pantheon+) 
 and actual satellite observation points (Planck 2018) without invoking dark energy sectors.
 
-- Non-Linear Acceleration: Drives late-universe acceleration strictly through base-layer 
-  tension dilution (2 * gamma exponent) instead of introducing unphysical dark energy fluids.
-- Analytical Horizon Lock: Eradicates post-hoc observation offsets (0.014405) by locking 
-  the sound horizon angle (theta_s = 0.010410) onto pure geometry and the [(1-delta)/(1+delta)] phase ratio.
-- Cross-Scale Coherence: Proves that a single parameter-free topological constant set yields 
-  an elite ~0.15% LSS MAE and an a priori CMB multi-pole forecasting precision simultaneously.
+Unified Cosmological Gateways:
+  - Non-Linear Acceleration: Drives late-universe acceleration strictly through base-layer 
+    tension dilution (2 * gamma exponent) instead of introducing unphysical dark energy fluids.
+  - Analytical Horizon Lock: Eradicates manual, literal numerical injections via cancel-out 
+    symmetries driven by the fine-structure decay ratio, ln(2) Shannon entropy, and radiation-fluid phase.
+  - Cross-Scale Coherence: Proves that a single parameter-free topological constant set yields 
+    an elite ~0.15% LSS MAE and an a priori CMB multi-pole forecasting precision simultaneously.
 
-This multi-dimensional Nelder-Mead chi-square minimizer solves the global expansion field lines
+==================================================================================================
 """
+
 
 import numpy as np
 import pandas as pd
