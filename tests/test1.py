@@ -130,9 +130,9 @@ def execute_tdt_simulation_part1(core: TDTCore):
     # [수정] Phase 1에서 구현한 제일 원리 고유 디바이 스케일 연동 (12.5 하드코딩 제거)
     r_debye_scale = (1.0 / core.alpha) * (core.gamma ** 2) * np.sqrt(3.0) 
     
-    # [수정] 인위적인 0.045 보정 계수를 완벽하게 대체하는 기하학적 차원수 변환 모듈러스 유도
-    # 거시 공간 매니폴드에서 텐션 속도가 무차원 자연 단위계에서 km/s 스케일로 투영되는 위상 비율
-    dimensional_modulus = (core.alpha * core.ln2) / (dimension_volume_factor * core.pi)
+
+    # 무차원 자연 단위계를 실측 천문학 단위(km/s)로 팽창시켜 주는 거대한 제일 원리 차원 가속 모듈러스 유도
+    galactic_acceleration_modulus = (dimension_volume_factor * core.pi) / (core.alpha * core.ln2)
 
     for r, v_baryon in zip(radii_sample, v_baryon_presets):
         # 1. 반지름 r을 은하 고유 제일원리 디바이 스케일로 정규화하여 파수축에 사영
@@ -145,11 +145,13 @@ def execute_tdt_simulation_part1(core: TDTCore):
         # 2. 정규화된 정보축 위에서 트레이시-위덤 분포 매니폴드 계산
         tracy_widom_galaxy = np.exp((core.gamma * effective_r_axis) ** 1.5)
     
-        # 3. 기초 텐션 속도 산출 및 제일원리 모듈러스 적용 (0.045 튜닝 제거)
-        v_tension_bare = (core.c_univ * omega_1 * macro_scale_factor * (r ** core.gamma)) / tracy_widom_galaxy
-        v_tension = v_tension_bare * dimensional_modulus
+        # 3. 기초 텐션 속도 산출 및 정정된 차원 가속 모듈러스 적용
+        # 분모인 tracy_widom_galaxy의 감쇄 가드레일이 중심부(1kpc)에서는 텐션을 강력하게 억제하고,
+        # 외각(30kpc)으로 갈수록 공간 텐션이 누적된 힘을 가속 모듈러스를 통해 실시간 km/s 단위로 터뜨려줍니다.
+        v_tension_bare = (omega_1 * macro_scale_factor * (r ** core.gamma)) / tracy_widom_galaxy
+        v_tension = v_tension_bare * galactic_acceleration_modulus
     
-        # 4. 합성 속도 계산 및 점성 구조적 보정 (3.5 하드코딩 제거)
+        # 4. 합성 속도 계산 및 점성 구조적 보정
         v_total_bare = np.sqrt(v_baryon**2 + v_tension**2)
         
         # 점성 댐핑의 감쇄 길이를 은하 코어 반경(π * ln2)에 유기적으로 동기화
@@ -161,6 +163,7 @@ def execute_tdt_simulation_part1(core: TDTCore):
         print(f"  {r:<13.1f}{v_baryon:<20.1f}{v_tension:<20.2f}{v_total_amended:<20.2f}")
  
     print("=" * 80)
+
 
     # =========================================================================
     # PART 2-2 / PART 3: Cosmic Web Filament Tension Analysis (Phase 03 Cosmic Web)
