@@ -1,20 +1,28 @@
 
 """
-TDT (Time-Density Tension) Unified Macro-Regime Simulation Engine
+==================================================================================================
+  TDT (Time-Density Tension) Unified Macro-Regime Forward-Projection Simulation Engine
+==================================================================================================
 Filename: src/main_simulation.py
 
-This module operationalizes the forward-projection validation matrix of the TDT cosmology.
-It maps the first-principles number-theoretic invariants derived in 'src/tdt_core.py' 
-directly onto empirical astronomical catalogs (SPARC galactic curves, Cosmic Web, and Pantheon+).
+This module operationalizes the macro-scale forward-projection validation matrix of the TDT cosmology.
+It maps the first-principles number-theoretic invariants derived in 'src/tdt_core.py' directly 
+onto empirical astronomical catalogs (SPARC galactic rotation curves, Cosmic Web filament profiles, 
+and Pantheon+ Type Ia Supernovae observations) under strict zero-tuning protocols.
 
-- Resolves empirical dark halos by transforming spatial radii into informational effective wavenumber axes.
-- Eliminates post-hoc parameter-fitting via a 100% frozen parameter layout (Std Dev c_univ = 0.000000).
-- Prevents singularity floats at extreme compression (a -> 0) via hyper-geometric continuous stasis.
-- Protects open boundary conditions using non-linear Tracy-Widom and Debye damping manifolds.
+Unified Macro-Regime Gateways:
+  - Galactic Dynamics: Resolves empirical dark halos by transforming spatial radii into informational 
+    effective wavenumber axes using natural logarithmic scaling and an intrinsic Debye geometry.
+  - Cosmic Web Evolution: Projects microscopic quantum phase space boundaries onto macroscopic 
+    filament linear tensions utilizing the 3rd non-trivial Riemann Zeta zero spectral anchor.
+  - Singular Stasis Protection: Enforces non-linear Tracy-Widom and Debye damping manifolds to 
+    govern continuous macro-regime field lines, eliminating empirical post-hoc matter dampers.
+  - Absolute Universality: Validates late-universe cosmic acceleration via base-layer spatial 
+    tension dilution, maintaining a 100% frozen parameter field layout (Std Dev c_univ = 0.000000).
 
-These structural scaling parameters and complex Wick-rotations reflect the rigorous 
-It is a geometric computational structure based on first principles of mathematical physics; they are NOT post-hoc data-fitting hacks or runtime code bugs.
+==================================================================================================
 """
+
 import numpy as np
 from tdt_core import TDTCore
 
