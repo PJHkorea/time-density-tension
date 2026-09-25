@@ -54,7 +54,7 @@ class TDTCosmologyCore:
         # Eradicates raw manual literal injection flaws from the downstream multipole matrices.
         # =====================================================================
         # Primal Sound Horizon Angle (θ_s ≈ 0.010410): derived via the fine-structure cross-sectional footprint.
-        self.theta_s_pure = (self.alpha * self.ln2 * np.sqrt(3.0)) * (self.pi / (self.gamma * 2.0))
+        self.theta_s_pure = self.alpha / (self.ln2 * 2.0 * np.pi * self.gamma)
         
         # Recombination Metric Scale Factor (a_recomb ≈ 0.000907): derived via the complex phase stasis cross-over threshold.
         self.a_recomb: float = self.alpha * self.ln2 * self.gamma
