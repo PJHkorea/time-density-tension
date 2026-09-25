@@ -1,3 +1,6 @@
+# jwst_early_assembly_rk4.py
+
+
 import numpy as np
 
 class JWSTEarlyAssemblySimulator:    
