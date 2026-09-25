@@ -144,6 +144,7 @@ $$
 
 By integrating a 3D spatial projection tensor cancellation symmetry against the primordial plasma sonic index( $c\_s = 1/\sqrt{3}$ ), it natively recovers the Planck Satellite high-order acoustic peaks $(l_2, l_3, l_4$) down to a fine 0.85% structural residual without empirical baryon density tuning.
 
+*   **`jwst_early_assembly_rk4.py` (Pristine RK4 Soliton Assembly Engine)**: Executes a raw Runge-Kutta 4th-order multi-body integration to simulate dark-matter-free rapid galactic seeding. It isolates the un-damped elastodynamic wave oscillations of the spacetime lattice without late-universe dissipation modifiers.
 
 *   **`jwst_early_assembly_final.py` (High-Redshift Soliton Assembly Engine)**: Simulates non-linear large-scale structure (LSS) dynamics in the early universe $(z \ge 10$) using a 4th-order Runge-Kutta (RK4) integrator coupled with the Planck 2018 cosmic timeline via a Newton-Raphson lookback solver. It demonstrates dark-matter-free rapid galactic seeding, triggering a resonant baryon fluid core capture lock at precisely **3.45 Myr** post-singularity. The resulting early stellar luminosity output matches the JWST empirical bright galaxy anomaly $(M_{\text{UV}} = -20.01$) under zero-tuning boundary constraints, stabilized cleanly via a non-linear Topological Dissipation Manifold.
 
