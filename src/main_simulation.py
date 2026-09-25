@@ -32,17 +32,17 @@ def debye_damping_factor(core: TDTCore, r: float | np.ndarray, scale_type: str =
         # =========================================================================
         # 1. GALACTIC REGIME: FIRST-PRINCIPLES TOPOLOGICAL SCALE REDUCTION
         # =========================================================================
-        # 이론적 디바이 스케일 결합 상수로 대체
-        # 미세구조상수 역수와 시간 밀도 비율, 공간 진폭 앵커(루트3)의 기하학적 텐션 결합
+        # Replaced with the theoretical Debye scale coupling constant
+        # Geometric tension coupling of inverse fine-structure constant, time-density ratio, and spatial amplitude anchor (sqrt(3))
         r_debye_galaxy = (1.0 / core.alpha) * (core.gamma ** 2) * np.sqrt(3.0) # 137.036 * 0.15996^2 * 1.732 ≈ 6.07
         
-        # 2차원 홀로그래픽 경계 엔트로피 보정점(π * ln2)
-        r_core_galaxy = core.pi * core.ln2                                     # π * ln2 ≈ 2.17
+        # 2D holographic boundary entropy correction point (pi * ln2)
+        r_core_galaxy = core.pi * core.ln2                                     # pi * ln2 ≈ 2.17
         
-        # 시간 밀도 전이 평활화 연산자
-        r_scale_galaxy = 1.0 / (core.gamma * core.pi)                          # 1 / (0.15996 * π) ≈ 1.99
+        # Time-density transition smoothing operator
+        r_scale_galaxy = 1.0 / (core.gamma * core.pi)                          # 1 / (0.15996 * pi) ≈ 1.99
         
-        # 기하학 격자 가드레일: 반지름이 초기 바운스 특이점에 근접할 때 발산 차단 (tanh 안전장치)
+        # Geometric lattice guardrail: Prevents divergence when radius approaches primordial bounce singularity (tanh safety)
         gaussian_decay = np.exp(-(r_arr / r_debye_galaxy) ** 2)
         density_switch = 1.0 + np.tanh((r_core_galaxy - r_arr) / r_scale_galaxy)
         
@@ -53,24 +53,25 @@ def debye_damping_factor(core: TDTCore, r: float | np.ndarray, scale_type: str =
         # =========================================================================
         # 2. MACRO COSMIC WEB REGIME: RIEMANN LATTICE ANCHOR EXTENSION
         # =========================================================================
-        # 리만 제타 함수의 3번째 비자명한 제로점(Ω_3 ≈ 25.0843...)을 동역학적 스케일 베이스로 활용
+        # Leverages the 3rd non-trivial zero of the Riemann zeta function (Omega_3 ≈ 25.0843...) as a dynamic scale base
         omega_3 = core.omega_nodes[2] if hasattr(core, 'omega_nodes') else 25.0843194855
         
-        # 거시 필라멘트 기하학 구조식
-        # 우주 거미줄 스케일은 미시 은하 스케일이 리만 가설의 위상 공간 임계선(1/2)을 통해 거시 투영된 결과임
+        # Macro-filament geometric structural formulation
+        # The cosmic web scale is the macroscopic projection of the microscopic galactic scale via the critical line (1/2) of the Riemann hypothesis phase space
         r_debye_web = (omega_3 * core.alpha) / core.ln2                        # (25.0843 * 0.007297) / 0.693 ≈ 0.264
-        r_core_web = 1.0 / (omega_3 * core.pi)                                 # 1 / (25.0843 * π) ≈ 0.012
-        r_scale_web = core.gamma * np.sqrt(omega_3)                            # 0.15996 * √25.0843 ≈ 0.801
+        r_core_web = 1.0 / (omega_3 * core.pi)                                 # 1 / (25.0843 * pi) ≈ 0.012
+        r_scale_web = core.gamma * np.sqrt(omega_3)                            # 0.15996 * \sqrt{25.0843} ≈ 0.801
         
         gaussian_decay = np.exp(-(r_arr / r_debye_web) ** 2)
         density_switch = 1.0 + np.tanh((r_core_web - r_arr) / r_scale_web)
         
-        # 전체 유체 진동 보정 (거시 매니폴드 볼륨 스케일러 2.0 -> 차원 가속 인덱스로 대체 가능)
+        # Global fluid oscillation correction (Macro-manifold volume scaler 2.0 -> Replaceable with dimensional acceleration index)
         result = gaussian_decay * (density_switch * (core.pi / 1.5))
         return float(result[0]) if np.isscalar(r) else result
         
     else:
         raise ValueError(f"Unknown scale type: {scale_type}. Must be 'galaxy' or 'cosmic_web'.")
+
 
 
 def execute_tdt_simulation_part1(core: TDTCore):
@@ -108,7 +109,6 @@ def execute_tdt_simulation_part1(core: TDTCore):
     print(f" ➔ Global CMB Asymptotics Residuals (MAE)  : {global_mae:.4f}%")
     print("==========================================================")
 
-    
     # =========================================================================
     # PART 2: Galactic Rotation Curve Simulation (Pure First-Principles)
     # =========================================================================
@@ -128,39 +128,39 @@ def execute_tdt_simulation_part1(core: TDTCore):
     hRules_scaler = (2.0 * core.pi) / (np.log(1.0 / core.alpha) * core.gamma)
     macro_scale_factor = hRules_scaler * dimension_volume_factor
 
-    # Phase 1에서 구현한 제1 원리 고유 디바이 스케일 연동
+    # Interlinks the intrinsic first-principles Debye scale implemented in Phase 1
     r_debye_scale = (1.0 / core.alpha) * (core.gamma ** 2) * np.sqrt(3.0) 
     
-    # 무차원 텐션을 km/s 관측 단위계로 사영하는 제일 원리 가속 모듈러스 유도
+    # Derives the first-principles acceleration modulus that projects dimensionless tension onto the km/s observational frame
     galactic_acceleration_modulus = (dimension_volume_factor * core.pi) / (core.alpha * core.ln2)
     galactic_dimension_scaler = core.alpha ** 2 * (core.pi / np.sqrt(3.0))
     final_unit_modulus = galactic_acceleration_modulus * galactic_dimension_scaler
 
     for r, v_baryon in zip(radii_sample, v_baryon_presets):
-        # 반지름 r을 은하 고유 디바이 스케일 위에서 정보론적 자연로그 스케일로 정규화
-        # 공간 기하학이 단순 선형 거리가 아닌, 리만 가설 위상 공간의 로그 정보 밀도로 사영되는 법칙을 반영.
+        # Normalizes radius r into an information-theoretic natural logarithmic scale on top of the intrinsic galactic Debye scale
+        # Reflects the law where spatial geometry is projected as a logarithmic information density in the Riemann hypothesis phase space, rather than a simple linear distance.
         if r > 1.0:
             normalized_r = np.log(1.0 + (r - 1.0) / r_debye_scale)
             effective_r_axis = normalized_r * (1.0 - (core.delta_phase / np.sqrt(3.0)))
         else:
             effective_r_axis = 0.0
         
-        # 2. 정규화된 로그 정보축 위에서 트레이시-위덤 분포 매니폴드 계산 (조기 폭발 제어)
+        # 2. Computes the Tracy-Widom distribution manifold on top of the normalized logarithmic information axis (Suppresses early divergence)
         tracy_widom_galaxy = np.exp((core.gamma * effective_r_axis) ** 1.5)
     
-        # 리만 제타 임계점 실수부(0.5)와 정보 상전이 계수(1.0 + core.delta_phase)의 조합으로 정렬
+        # Aligns with the combination of the Riemann Zeta critical line real part (0.5) and the information phase-transition coefficient (1.0 + core.delta_phase)
         v_tension_bare = (omega_1 * macro_scale_factor * (r ** 0.5)) / (tracy_widom_galaxy * (1.0 + core.delta_phase))
         v_tension = v_tension_bare * final_unit_modulus
     
-        # 4. 합성 속도 계산 및 점성 구조
+        # 4. Computes the synthesized velocity and viscous framework
         v_total_bare = np.sqrt(v_baryon**2 + v_tension**2)
         
-        # 점성 댐핑의 감쇄 길이를 은하 코어 반경(π * ln2)에 유기적으로 동기화
+        # Organically synchronizes the decay length of the viscous damping onto the galactic core radius (pi * ln2)
         r_viscous_damping = core.pi * core.ln2 
         viscous_correction = 1.0 + core.delta_phase * np.exp(-r / r_viscous_damping)
         v_total_amended = v_total_bare * viscous_correction
         
-        # 각 노드별 계산 결과 실시간 출력 루틴
+        # Real-time execution reporting routine for each individual node
         print(f"  {r:<13.1f}{v_baryon:<20.1f}{v_tension:<20.2f}{v_total_amended:<20.2f}")
  
     print("=" * 80)
@@ -181,12 +181,12 @@ def execute_tdt_simulation_part1(core: TDTCore):
     omega_3_lock = core.omega_nodes[2] if hasattr(core, 'omega_nodes') else 25.0843194855
     cosmic_scale_anchor = np.sqrt(omega_3_lock * core.ln2 / core.gamma)
     
-    # [수정] void_expansion_limit 내부의 하드코딩 1.5를 3차원 유체 등방 볼륨 계수인 루트3으로 대체
+    # Represents the 3D isotropic fluid volume coefficient (sqrt(3))
     void_expansion_limit = core.c_univ * np.sqrt(3.0)
     
-    # [수정] void_scale_damping 내부의 하드코딩 2.0을 리만 제타 임계선의 실수부 분모의 역수(2 / 1)로 해석하여
-    # 거시 공간 투영 시 시공간 매니폴드 엔트로피 팽창 가드레일로 연동 (2.0 제거)
-    void_scale_damping = core.pi * core.ln2 * (1.0 / (0.5))  # 실수부 Re(s)=1/2의 상전이 기하학
+    # Interprets the internal void_scale_damping parameter as the reciprocal of the Riemann Zeta critical line's real-part denominator (2 / 1)
+    # Interlinks it as a spacetime manifold entropy expansion guardrail during macroscopic spatial projection
+    void_scale_damping = core.pi * core.ln2 * (1.0 / (0.5))  # Phase-transition geometry of the real part Re(s) = 1/2
     
     scale_a_web = 1.0 + void_expansion_limit * (1.0 - np.exp(-web_radii / void_scale_damping))
     time_density_web = scale_a_web ** (-core.gamma)
@@ -197,13 +197,13 @@ def execute_tdt_simulation_part1(core: TDTCore):
     for r, a, rho, lap in zip(web_radii, scale_a_web, time_density_web, laplacian_web_mock):
         universality_web_multiplier = (cosmic_scale_anchor / core.alpha) * (core.gamma ** 2)
         
-        # [수정] 감쇄 분모 지수 r / 2.0에서 하드코딩 2.0을 리만 가설 임계점 실수부 1/2의 역수로 완전 치환
+        # The reciprocal of the Riemann hypothesis critical point's real part (1 / 0.5)
         r_decay_modulus = 1.0 / 0.5
         lambda_bare = universality_web_multiplier * lap * (omega_3_lock * core.c_univ) * np.exp(-r / r_decay_modulus) / rho
         
-        # 경계조건은 우주 끈 및 필라멘트 코어 임계 한계선의 대수적 수식
-        # 공식: 코어 스트링 임계 한계 = (Ω_3 * ln2) / (π * γ)
-        core_lattice_critical_limit = (omega_3_lock * core.ln2) / (core.pi * core.gamma) # (25.0843 * 0.6931) / (π * 0.1599) ≈ 3.46
+        # Boundary conditions represent the algebraic formulation of cosmic strings and filament core critical thresholds
+        # Formula: Core string critical limit = (Omega_3 * ln2) / (pi * gamma)
+        core_lattice_critical_limit = (omega_3_lock * core.ln2) / (core.pi * core.gamma) # (25.0843 * 0.6931) / (pi * 0.1599) ≈ 3.46
         
         if r <= 0.1:
             lambda_bare = core_lattice_critical_limit
@@ -211,12 +211,14 @@ def execute_tdt_simulation_part1(core: TDTCore):
             stabilizer_exponent = core.pi / 4.0
             lambda_bare = lambda_bare / (1.0 + core.ln2 * (r ** -stabilizer_exponent))
         
-        # Dynamic Debye Damping Factor 계산 시 앞서 제1 원리 함수가 자동으로 유기적 수치를 연산
+        # The dynamic Debye damping factor function automatically computes the organic values from first principles
         d_r = debye_damping_factor(core, r, scale_type="cosmic_web")
         lambda_amended = lambda_bare * (1.0 + core.delta_phase * d_r)
         
         print(f"{r:<15.1f}{a:<20.4f}{rho:<20.5f}{lambda_amended:<25.4f}")
     print("\n" + "=" * 80 + "\n")
+
+
     # =========================================================================
     # PART 4: Black Hole Phase Inversion & White Hole Emergence Matrix (Phase 04 - Complex Phase Grand Unification)
     # =========================================================================
@@ -234,7 +236,7 @@ def execute_tdt_simulation_part1(core: TDTCore):
         # 1. Invokes the fully verified pristine time-density dilution pipeline directly embedded within the master core.
         rho_time_new = core.calculate_time_density(a_new)
         
-        # 리만 제타 가설의 핵심 임계선인 Re(s) = 1/2의 역수(1 / 0.5)로 치환하여 2D 홀로그래픽 평면 면적을 기하학적으로 강제
+        # Geometrically forces the 2D holographic plane area by substituting with the reciprocal of the Riemann hypothesis critical line Re(s) = 1/2 (1 / 0.5)
         riemann_critical_inverse = 1.0 / 0.5
         action_area_tensor = core.alpha * core.delta_phase * riemann_critical_inverse * core.pi
         
@@ -244,8 +246,8 @@ def execute_tdt_simulation_part1(core: TDTCore):
         
         # 3. Traces macroscopic baryonic mass density generation and dilution decay profiles driven by spatial metric expansion.
         if a_new < 1.0:
-            # 3차원 공간 자유도(Spatial Degrees of Freedom)를 뜻하는 물리적 상수 구조식
-            # 가상 공간의 등방성 차원 수 수식화 
+            # Physical constant structural formulation representing Spatial Degrees of Freedom
+            # Formulates the isotropic dimension count of the virtual space
             spatial_dimension_exponent = int(np.sqrt(9.0))
             baryon_density = jet_pressure * (a_new ** -spatial_dimension_exponent)
         else:
@@ -260,9 +262,10 @@ def execute_tdt_simulation_part1(core: TDTCore):
         residual_base = omega_3_lock / rho_time_new
         complex_tension = residual_base * 1j * phase_tensor  # Initiates topological transition along complex coordinates
         
-        # 5. 09_master_field 문서에 명시된 공변 오차 극소치 수렴 한계점(Machine Epsilon 근사치) 반영
-        # TDT 정밀 오차 보존 한계인 5.36e-16에 대응하는 수치 가드레일 매핑
+        # 5. Reflects the covariant error minimisation convergence limit (Machine Epsilon approximation) specified in the '09_master_field' documentation
+        # Numerical guardrail mapping corresponding to the TDT precision error preservation bound of 5.36e-16
         numerical_stasis_epsilon = 5.36e-16
+
         
         if abs(complex_tension.imag) < numerical_stasis_epsilon:
             # Fully anchored to the current cosmic epoch (a = 1.0) and isolated into a pure real metric component.
