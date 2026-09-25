@@ -312,32 +312,22 @@ def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
         # 3. NELDER-MEAD SIMPLEX OPTIMIZATION CRITERIA & PARAMETER PACKAGING
         # =====================================================================
         # Binds the initial guesses to the true fundamental values of the first-principles constants.
-        # c_univ ≈ 0.229568, delta_phase ≈ 0.007297, upsilon_disk = 0.6 (Standard astronomical baseline metric)
+        # 3. NELDER-MEAD SIMPLEX OPTIMIZATION CRITERIA (REPOSITIONED)
         c_init = 1.0 / (2.0 * np.pi * np.log(2.0))
         gamma_init = (1.0 + (1.0 / 137.035999084) * np.log(2.0)) / (2.0 * np.pi)
         delta_init = (2.0 * np.pi * gamma_init - 1.0) / np.log(2.0)
         
         initial_guess = [c_init, delta_init, 0.6]
+        open_bounds = [(1e-4, 5.0), (1e-5, 0.2), (0.1, 2.1)]
         
-        # Rigidly locks the physical boundary limits of Upsilon_disk onto standard astronomical margins (0.1 ~ 2.1).
-        open_bounds = [
-            (0.0001, 10.0),  # Opened to ensure unrestricted parameter exploration space for c_univ.
-            (0.0001, 0.5),   # Opened to ensure unrestricted parameter exploration space for delta_phase.
-            (0.1, 2.1)       # Enforces a strict operational threshold on Upsilon_disk only.
-        ]
-        
-        # Leverages the Nelder-Mead simplex algorithm to fundamentally prevent discontinuous gradient dropouts.
         res = minimize(
             local_loss_function, 
             initial_guess, 
             method='Nelder-Mead', 
             bounds=open_bounds,
-            options={
-                'maxiter': 1000,  # Expands the maximum iteration limits to block premature calculation termination.
-                'xatol': 1e-7,    # Rigidly locks parameter convergence tolerance to guarantee high-precision search.
-                'fatol': 1e-7     # Expands objective function convergence tolerance to maximize optimization integrity.
-            }
+            options={'maxiter': 2000, 'xatol': 1e-4, 'fatol': 1e-4, 'adaptive': True}
         )
+
         
         if res.success and res.fun < 9000:
             # Implements direct unpacking to fundamentally eliminate copying and slicing contradictions.
