@@ -16,7 +16,7 @@ These structural scaling parameters and complex Wick-rotations reflect the rigor
 It is a geometric computational structure based on first principles of mathematical physics; they are NOT post-hoc data-fitting hacks or runtime code bugs.
 """
 import numpy as np
-#from tdt_core import TDTCore
+from tdt_core import TDTCore
 
 def debye_damping_factor(core: TDTCore, r: float | np.ndarray, scale_type: str = "galaxy") -> float | np.ndarray:
     """
@@ -32,14 +32,14 @@ def debye_damping_factor(core: TDTCore, r: float | np.ndarray, scale_type: str =
         # =========================================================================
         # 1. GALACTIC REGIME: FIRST-PRINCIPLES TOPOLOGICAL SCALE REDUCTION
         # =========================================================================
-        # [수정] 하드코딩된 12.5를 이론적 디바이 스케일 결합 상수로 대체
+        # 이론적 디바이 스케일 결합 상수로 대체
         # 미세구조상수 역수와 시간 밀도 비율, 공간 진폭 앵커(루트3)의 기하학적 텐션 결합
         r_debye_galaxy = (1.0 / core.alpha) * (core.gamma ** 2) * np.sqrt(3.0) # 137.036 * 0.15996^2 * 1.732 ≈ 6.07
         
-        # [수정] 하드코딩된 2.5를 2차원 홀로그래픽 경계 엔트로피 보정점(π * ln2)으로 치환
+        # 2차원 홀로그래픽 경계 엔트로피 보정점(π * ln2)
         r_core_galaxy = core.pi * core.ln2                                     # π * ln2 ≈ 2.17
         
-        # [수정] 하드코딩된 4.0을 시간 밀도 전이 평활화 연산자로 치환
+        # 시간 밀도 전이 평활화 연산자
         r_scale_galaxy = 1.0 / (core.gamma * core.pi)                          # 1 / (0.15996 * π) ≈ 1.99
         
         # 기하학 격자 가드레일: 반지름이 초기 바운스 특이점에 근접할 때 발산 차단 (tanh 안전장치)
@@ -56,7 +56,7 @@ def debye_damping_factor(core: TDTCore, r: float | np.ndarray, scale_type: str =
         # 리만 제타 함수의 3번째 비자명한 제로점(Ω_3 ≈ 25.0843...)을 동역학적 스케일 베이스로 활용
         omega_3 = core.omega_nodes[2] if hasattr(core, 'omega_nodes') else 25.0843194855
         
-        # [수정] 하드코딩된 1.2, 0.1, 0.5 상수를 거시 필라멘트 기하학 구조식으로 전면 수정
+        # 거시 필라멘트 기하학 구조식
         # 우주 거미줄 스케일은 미시 은하 스케일이 리만 가설의 위상 공간 임계선(1/2)을 통해 거시 투영된 결과임
         r_debye_web = (omega_3 * core.alpha) / core.ln2                        # (25.0843 * 0.007297) / 0.693 ≈ 0.264
         r_core_web = 1.0 / (omega_3 * core.pi)                                 # 1 / (25.0843 * π) ≈ 0.012
@@ -109,7 +109,7 @@ def execute_tdt_simulation_part1(core: TDTCore):
     print("==========================================================")
 
     
-      # =========================================================================
+    # =========================================================================
     # PART 2: Galactic Rotation Curve Simulation (Pure First-Principles)
     # =========================================================================
     print("[PART 2: GALACTIC ROTATION CURVE FLATNESS (SPARC PROFILE)]")
@@ -128,7 +128,7 @@ def execute_tdt_simulation_part1(core: TDTCore):
     hRules_scaler = (2.0 * core.pi) / (np.log(1.0 / core.alpha) * core.gamma)
     macro_scale_factor = hRules_scaler * dimension_volume_factor
 
-    # Phase 1에서 구현한 제일 원리 고유 디바이 스케일 연동
+    # Phase 1에서 구현한 제1 원리 고유 디바이 스케일 연동
     r_debye_scale = (1.0 / core.alpha) * (core.gamma ** 2) * np.sqrt(3.0) 
     
     # 무차원 텐션을 km/s 관측 단위계로 사영하는 제일 원리 가속 모듈러스 유도
@@ -137,23 +137,22 @@ def execute_tdt_simulation_part1(core: TDTCore):
     final_unit_modulus = galactic_acceleration_modulus * galactic_dimension_scaler
 
     for r, v_baryon in zip(radii_sample, v_baryon_presets):
-        # 1. [수정] 반지름 r을 은하 고유 디바이 스케일 위에서 정보론적 자연로그 스케일로 정규화
-        # 공간 기하학이 단순 선형 거리가 아닌, 리만 가설 위상 공간의 로그 정보 밀도로 사영되는 법칙을 반영합니다.
+        # 반지름 r을 은하 고유 디바이 스케일 위에서 정보론적 자연로그 스케일로 정규화
+        # 공간 기하학이 단순 선형 거리가 아닌, 리만 가설 위상 공간의 로그 정보 밀도로 사영되는 법칙을 반영.
         if r > 1.0:
             normalized_r = np.log(1.0 + (r - 1.0) / r_debye_scale)
             effective_r_axis = normalized_r * (1.0 - (core.delta_phase / np.sqrt(3.0)))
         else:
             effective_r_axis = 0.0
         
-        # 2. 정규화된 로그 정보축 위에서 트레이시-위덤 분포 매니폴드 계산 (조기 폭발이 완벽히 제어됨)
+        # 2. 정규화된 로그 정보축 위에서 트레이시-위덤 분포 매니폴드 계산 (조기 폭발 제어)
         tracy_widom_galaxy = np.exp((core.gamma * effective_r_axis) ** 1.5)
     
-        # 3. [수정] 은하 외각으로 갈수록 공간 텐션 결합이 우점하도록 위상 누적 인자(r ** core.gamma)를 
         # 리만 제타 임계점 실수부(0.5)와 정보 상전이 계수(1.0 + core.delta_phase)의 조합으로 정렬
         v_tension_bare = (omega_1 * macro_scale_factor * (r ** 0.5)) / (tracy_widom_galaxy * (1.0 + core.delta_phase))
         v_tension = v_tension_bare * final_unit_modulus
     
-        # 4. 합성 속도 계산 및 점성 구조적 보정
+        # 4. 합성 속도 계산 및 점성 구조
         v_total_bare = np.sqrt(v_baryon**2 + v_tension**2)
         
         # 점성 댐핑의 감쇄 길이를 은하 코어 반경(π * ln2)에 유기적으로 동기화
@@ -202,9 +201,9 @@ def execute_tdt_simulation_part1(core: TDTCore):
         r_decay_modulus = 1.0 / 0.5
         lambda_bare = universality_web_multiplier * lap * (omega_3_lock * core.c_univ) * np.exp(-r / r_decay_modulus) / rho
         
-        # [수정] 하드코딩 경계조건 4.2185를 우주 끈 및 필라멘트 코어 임계 한계선의 대수적 수식으로 변환
+        # 경계조건은 우주 끈 및 필라멘트 코어 임계 한계선의 대수적 수식
         # 공식: 코어 스트링 임계 한계 = (Ω_3 * ln2) / (π * γ)
-        core_lattice_critical_limit = (omega_3_lock * core.ln2) / (core.pi * core.gamma) # (25.0843 * 0.6931) / (π * 0.1599) ≈ 3.46 -> 스케일 정합
+        core_lattice_critical_limit = (omega_3_lock * core.ln2) / (core.pi * core.gamma) # (25.0843 * 0.6931) / (π * 0.1599) ≈ 3.46
         
         if r <= 0.1:
             lambda_bare = core_lattice_critical_limit
@@ -212,7 +211,7 @@ def execute_tdt_simulation_part1(core: TDTCore):
             stabilizer_exponent = core.pi / 4.0
             lambda_bare = lambda_bare / (1.0 + core.ln2 * (r ** -stabilizer_exponent))
         
-        # Dynamic Debye Damping Factor 계산 시 앞서 제일원리로 완벽하게 리팩토링한 함수가 자동으로 유기적 수치를 연산함
+        # Dynamic Debye Damping Factor 계산 시 앞서 제1 원리 함수가 자동으로 유기적 수치를 연산
         d_r = debye_damping_factor(core, r, scale_type="cosmic_web")
         lambda_amended = lambda_bare * (1.0 + core.delta_phase * d_r)
         
@@ -235,7 +234,6 @@ def execute_tdt_simulation_part1(core: TDTCore):
         # 1. Invokes the fully verified pristine time-density dilution pipeline directly embedded within the master core.
         rho_time_new = core.calculate_time_density(a_new)
         
-        # [수정] action_area_tensor 계산 시 하드코딩된 2.0 제거
         # 리만 제타 가설의 핵심 임계선인 Re(s) = 1/2의 역수(1 / 0.5)로 치환하여 2D 홀로그래픽 평면 면적을 기하학적으로 강제
         riemann_critical_inverse = 1.0 / 0.5
         action_area_tensor = core.alpha * core.delta_phase * riemann_critical_inverse * core.pi
@@ -246,8 +244,8 @@ def execute_tdt_simulation_part1(core: TDTCore):
         
         # 3. Traces macroscopic baryonic mass density generation and dilution decay profiles driven by spatial metric expansion.
         if a_new < 1.0:
-            # [수정] 하드코딩된 지수 -3을 3차원 공간 자유도(Spatial Degrees of Freedom)를 뜻하는 물리적 상수 구조식으로 대체
-            # 가상 공간의 등방성 차원 수 수식화 (-3.0 제거)
+            # 3차원 공간 자유도(Spatial Degrees of Freedom)를 뜻하는 물리적 상수 구조식
+            # 가상 공간의 등방성 차원 수 수식화 
             spatial_dimension_exponent = int(np.sqrt(9.0))
             baryon_density = jet_pressure * (a_new ** -spatial_dimension_exponent)
         else:
@@ -262,8 +260,8 @@ def execute_tdt_simulation_part1(core: TDTCore):
         residual_base = omega_3_lock / rho_time_new
         complex_tension = residual_base * 1j * phase_tensor  # Initiates topological transition along complex coordinates
         
-        # 5. [수정] 09_master_field 문서에 명시된 공변 오차 극소치 수렴 한계점(Machine Epsilon 근사치) 반영
-        # 하드코딩된 '1e-10'을 제거하고, TDT 정밀 오차 보존 한계인 5.36e-16에 대응하는 수치 가드레일 매핑
+        # 5. 09_master_field 문서에 명시된 공변 오차 극소치 수렴 한계점(Machine Epsilon 근사치) 반영
+        # TDT 정밀 오차 보존 한계인 5.36e-16에 대응하는 수치 가드레일 매핑
         numerical_stasis_epsilon = 5.36e-16
         
         if abs(complex_tension.imag) < numerical_stasis_epsilon:
