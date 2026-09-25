@@ -234,8 +234,33 @@ def load_and_sanitize_sparc_dataset_split(
     )
     return df_merged
 
+def run_tdt_upsilon_validation(df_cleaned: pd.DataFrame):
+    """
+    [SPARC Galactic Dynamics Purification Validation Loop]
+    Scans empirical observation nodes across individual target galaxies 
+    to execute a zero-parameter a priori framework check.
+    """
+    galaxies = df_cleaned['galaxy'].unique()
+    optimized_records = []
+    
+    for gal in galaxies:
+        df_gal = df_cleaned[df_cleaned['galaxy'] == gal]
+        r_vals = df_gal['radius'].values
+        v_gas_vals = df_gal['v_gas'].values
+        v_disk_vals = df_gal['v_disk'].values
+        v_obs_raw = df_gal['v_obs'].values
+        
+        valid_mask = (v_obs_raw > 0.1) & (~np.isnan(v_obs_raw))
+        if not np.any(valid_mask):
+            continue
+            
+        r_valid = r_vals[valid_mask]
+        v_gas_valid = v_gas_vals[valid_mask]
+        v_disk_valid = v_disk_vals[valid_mask]
+        v_target_valid = v_obs_raw[valid_mask]
+
         # [Frozen Verification Objective Function]: Enforces parameter lock-out and builds 1-DoF restriction
-       def local_loss_function(params):
+        def local_loss_function(params):
             # Explicitly excludes c_univ and delta_phase from the optimization parameters, isolating the search strictly to upsilon_disk.
             # params is a single-element array of size 1 passed dynamically from the optimization engine.
             upsilon_disk = params[0]
