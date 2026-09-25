@@ -1,21 +1,25 @@
 """
-TDT (Time-Density Tension) Asymptotic GR Reduction Matrix
+==================================================================================================
+  TDT (Time-Density Tension) Asymptotic GR Reduction & Boundary Convergence Matrix
+==================================================================================================
 Filename: tests/test_reduction.py
 
-This module operationalizes the boundary convergence and reduction validation of TDT cosmology.
-It programmatically verifies that the first-principles geometric engine smoothly reduces to 
-classical Einsteinian metrics and cosmological bounds under extreme scale horizons (0% empirical fitting).
+This module operationalizes the boundary convergence and asymptotic reduction validation suite 
+of the TDT cosmology. It programmatically verifies that the first-principles geometric engine 
+smoothly reduces to classical Einsteinian metrics and exact cosmological bounds under extreme 
+scale horizons under a strict zero-tuning layout.
 
-- PART 1 (a -> inf): Confirms late-universe stasis where residual time-density tension naturally 
-  converges to the Dark Energy baseline (Cosmological Constant Lambda) instead of unphysical zero collapse.
-- PART 2 (a -> 0): Validates Hamiltonian Phase Stasis at the absolute Big Bang / Black Hole core, 
-  proving that physical reality locks on Re = 1/2 while the complex temporal wave perfectly vanishes (0.0).
-- PART 3 (r -> inf): Maps the quantum-to-classical baryon transition, locating the exact critical 
-  extinction radius where sub-grid viscous shields smoothly dissipate into pure classical gravity.
+Asymptotic Verification Horizons:
+  - PART 1 (a -> inf): Confirms late-universe stasis where residual time-density tension naturally 
+    converges to the Dark Energy baseline (Cosmological Constant Lambda), avoiding zero collapse.
+  - PART 2 (a -> 0): Validates Hamiltonian Phase Stasis at the primordial singularity limit, 
+    proving physical reality locks on Re(s) = 1/2 while the complex temporal wave completely vanishes.
+  - PART 3 (r -> inf): Maps the quantum-to-classical baryon transition, anchoring the critical 
+    extinction radius where sub-grid viscous shields smoothly dissipate into pure classical gravity.
 
-These asymptotic convergences and terminal boundary lockings reflect the rigorous
-It is a structure of asymptotic completeness in mathematical physics, they are NOT numerical masking hacks or hard-coded test bugs.
+==================================================================================================
 """
+
 import numpy as np
 
 def execute_tdt_gr_reduction_simulation_tuned(core):
