@@ -220,8 +220,8 @@ Anchor n=5            0.5000                   0.0000e+00
 --------------------------------------------------------------------------------
 [PART 3: QUANTUM-TO-CLASSICAL BARYON TRANSITION (r -> inf)]
  ➔ Space Metric Radius Scan (r) : 0.1 kpc, 3.5 kpc, 15.0 kpc, 100.0 kpc, 1000.0 kpc
- ➔ Viscous Decay Factor Grid    : 9.71833e-01, 3.67879e-01, 1.37638e-02, 3.90469e-13, 8.23877e-125
- ➔ Amended Viscous Corrections  : 1.0070918071, 1.0026845460, 1.0001004392, 1.0000000000, 1.0000000000
+ ➔ Viscous Decay Factor Grid    : 9.55116e-01, 2.00431e-01, 1.01958e-03, 1.13802e-20, 3.64343e-200
+ ➔ Amended Viscous Corrections  : 1.0069698187, 1.0014626170, 1.0000074403, 1.0000000000, 1.0000000000
  ➔ Critical Extinction Radius r*: 100.0 kpc (Quantum Escape & Classical Gravity Transition Point)
  ➔ Viscous Shield Extinct Result: VERIFIED
 ================================================================================
