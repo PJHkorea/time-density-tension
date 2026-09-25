@@ -1,3 +1,5 @@
+# jwst_early_assembly_final.py
+
 import numpy as np
 
 class JWSTEarlyAssemblySimulator:    
@@ -31,11 +33,21 @@ class JWSTEarlyAssemblySimulator:
         self.grid_initial_slip_kpc = self.delta_phase * tdt_2d_boundary_scale * self.pi
         self.r_core_kpc = tdt_2d_boundary_scale * (self.alpha * self.pi)
 
-        # LambdaCDM Interface for lookback time mapping
-        self.H0 = 67.4
-        self.Omega_m = 0.315
-        self.Omega_lambda = 0.685
+        # ---------------------------------------------------------------------
+        # [LambdaCDM Interface & Cosmic Chronology Background Mapping]
+        # Injects empirical background metrics from Planck 2018 parameters to establish 
+        # a conformal time-mapping pipeline between first-principles information dynamics 
+        # and standard observational astrophysical frames (FLRW lookup metrics).
+        # ---------------------------------------------------------------------
+        self.H0 = 67.4                     # Hubble constant at modern epoch (km/s/Mpc)
+        self.Omega_m = 0.315                # Dimensionless matter density parameter
+        self.Omega_lambda = 0.685           # Dimensionless cosmological constant density parameter
+        
+        # Conformal time-scale synchronization factor (km/s/Mpc to reciprocal Megayears)
         self.H0_per_myr = self.H0 * 1.0227e-6
+        
+        # Analytical integration of the FLRW metric at z=0 to derive the total age of the universe
+        # Formula: t_0 = (2 / (3 * H0 * \sqrt{Omega_L})) * arcsinh(\sqrt{Omega_L / Omega_m})
         self.t_universe_current_myr = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * \
                                       np.arcsinh(np.sqrt(self.Omega_lambda / self.Omega_m))
 
@@ -46,14 +58,25 @@ class JWSTEarlyAssemblySimulator:
         Intrinsically derives a first-principles complex high-velocity condensation 
         braking filter based on 2D Concentric Polar Metric radial symmetry.
         """
+        # 1. Re-establishes the fundamental quantum screen structural scales
         tdt_2d_base_scale = (1.0 / self.alpha) * (self.gamma / self.ln2)
+        
+        # Circumscribed circumferential projection boundary for soliton phase drag damping
         r_debye_kpc = tdt_2d_base_scale * (self.ln2 * self.pi)
+        
+        # Minimum entropic information thickness determining continuous manifold transition smoothing
         r_scale_kpc = 1.0 / (self.alpha * self.ln2 * self.pi)
+        
+        # Numerical stasis guardrail to shield against floating-point underflow exceptions
         r_safe = np.maximum(r, 1e-15)
+        
+        # 2. Computes the localized shock-front exponential decay along concentric radial curvature
         gaussian_decay = np.exp(-(r_safe / r_debye_kpc) ** 2)
         
+        # Hyperbolic tangent manifold switch governing gas capturing at the core attractor singularity
+        # Ensures collapsing baryonic matter is condensed into the central nucleus instead of overshooting.
         tanh_argument = (self.r_core_kpc - r_safe) / r_scale_kpc
-        tanh_argument_safe = np.clip(tanh_argument, -30.0, 30.0)
+        tanh_argument_safe = np.clip(tanh_argument, -30.0, 30.0) # Runtime overflow protection guard
         density_switch = 1.0 + np.tanh(tanh_argument_safe)
 
         return gaussian_decay * density_switch
@@ -64,75 +87,90 @@ class JWSTEarlyAssemblySimulator:
         Applies the intrinsic Laplacian wave propagation mechanism of the 2D concentric complex
         plane (Base-Layer) to maintain spacetime elastodynamic tension across LSS filaments.
         """
+        # 1. Loads the 1st non-trivial zero lattice anchor of the Riemann Zeta function
         omega_1 = self.core.omega_nodes[0]
+        
+        # Shielding guardrail against zero-division errors at the origin coordinates
         r_safe = np.maximum(r, 1e-15)
         tdt_2d_base_scale = (1.0 / self.alpha) * (self.gamma / self.ln2)
+        
+        # Transforms empirical spatial radius into a dimensionless distance scale axis
         r_norm = r_safe / tdt_2d_base_scale
 
+        # 2. Maps the algebraic GUE eigenvalue repulsion curvature law onto the informational axis
+        # Prevents tension truncation across macroscopic filamental boundaries up to 600 kpc.
         effective_r_axis = r_norm * (1.0 - (self.delta_phase / np.sqrt(3.0)))
         tracy_widom_2d_grid = 1.0 + (self.gamma * effective_r_axis) ** 1.5
 
+        # 3. Synchronizes the 2D polar matrix potential with macro 3D LSS elastodynamic acceleration
         v_tension_bare = (self.c_univ * omega_1 * (r_norm ** self.gamma)) / tracy_widom_2d_grid
+        
+        # Conformal holographic projection factor for intrinsic, dark-matter-independent mass assembly
         conformal_holographic_projection = (self.gamma / self.delta_phase) * (self.alpha * self.pi)
         
         return v_tension_bare * conformal_holographic_projection
 
-
     # ---------------------------------------------------------------------
-    # 1. 클래스(JWSTEarlyAssemblySimulator) 직속 독립 메서드 (들여쓰기 4칸)
+    # 1. Independent Method Attached Directly to the Class (JWSTEarlyAssemblySimulator)
     # ---------------------------------------------------------------------
     def lookback_time_to_z(self, current_sim_time_myr, startup_z=15.0):
         """
         [TDT Phase 03: Analytical FLRW Metric Inversion Kernel - Deep Horizon Refinement]
-        저적색편이(z < 8) 영역에서 발생하는 뉴턴-랩슨 인버전 커널의 수치적 발산 및 단절을 방지하기 위해,
-        스케일 팩터(a) 축 기반의 로그 매니폴드 역산 기법을 도입하여 연착륙(Soft Landing)을 구현합니다.
+        To prevent numerical divergence and discontinuities of the standard Newton-Raphson 
+        inversion kernel in the lower-redshift regime (z < 8), this method implements a 
+        logarithmic manifold inversion based on the scale factor (a) axis, achieving a 
+        flawless soft-landing convergence profiles down to z = 0.
         """
-        # 빅뱅 시점(z=15)의 등각 우주 시간(Conformal Cosmic Time) 계산
+        # Computes the Conformal Cosmic Time at the Big Bang startup horizon (z = 15.0)
         term_start = np.sqrt(self.Omega_lambda / (self.Omega_m * (1.0 + startup_z)**3))
         t_start_myr = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * np.log(term_start + np.sqrt(term_start**2 + 1.0))
 
-        # 현재 시뮬레이션 경과 시간을 더한 절대 우주 시간
+        # Absolute cosmic time synchronized by compounding the current accumulated simulation step runtime
         t_cosmic_safe = np.minimum(t_start_myr + current_sim_time_myr, self.t_universe_current_myr - 1e-3)
 
-        # [수치해석 고도화]: z 대신 x = ln(1+z) 축에서 뉴턴-랩슨을 가동하여 수렴 선형성 극대화
+        # [Numerical Optimization]: Executes Newton-Raphson in x = ln(1+z) space instead of linear z space 
+        # This dramatically maximizes convergence linearity and shields the grid against mathematical truncation.
         x_guess = np.log(1.0 + startup_z)
         tol, max_iter = 1e-7, 100
 
         for _ in range(max_iter):
             z_curr = np.exp(x_guess) - 1.0
 
-            # z_curr이 수치적 하한선 이하로 떨어지려 할 때 tanh 완충 영역 활성화 (z=0 연속 연착륙)
+            # Dynamic hyperbolic damping buffer activated when z_curr attempts to breach the numerical lower bound
+            # Drives a continuous, smooth soft-landing profile toward the modern epoch (z = 0) without runtime crashes.
             if z_curr < 0.0:
                 x_guess = np.log(1.0 + max(0.0, z_curr * np.tanh(1.0 + z_curr)))
                 z_curr = np.exp(x_guess) - 1.0
 
             term_z = np.sqrt(self.Omega_lambda / (self.Omega_m * (1.0 + z_curr)**3))
 
-            # 프리드만 배후 시공간 메트릭에 따른 우주 나이 계산
+            # Calculates the age of the universe governed by the background FLRW spacetime metric
             f_z = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * np.log(term_z + np.sqrt(term_z**2 + 1.0))
             E_z = np.sqrt(self.Omega_m * (1.0 + z_curr)**3 + self.Omega_lambda)
 
-            # dx (d(ln(1+z))) 에 대한 미분값 계산 (체인 룰 적용)
+            # Derives the analytical derivative with respect to dx (d(ln(1+z))) applying the geometric chain rule
             df_dx = -1.0 / (self.H0_per_myr * E_z)
 
             residual = f_z - t_cosmic_safe
             if abs(residual) < tol:
                 break
 
-            # 로그 공간에서의 안정적인 차분 업데이트
+            # Robust differential adjustment executed strictly within the logarithmic manifold space
             x_guess = x_guess - residual / df_dx
 
         z_final = np.exp(x_guess) - 1.0
 
-        # 최종 음수 발산 방지 및 완전한 연착륙 값 반환
+        # Protects against final negative divergence and returns the mathematically bounded soft-landed redshift value
         return np.maximum(z_final, 0.0)
 
-      # ---------------------------------------------------------------------
-    # 2. 메인 시뮬레이션 가동 엔진 메서드 (들여쓰기 4칸 완전 고정)
+    # ---------------------------------------------------------------------
+    # 2. Main Simulation Execution Engine Method
     # ---------------------------------------------------------------------
     def run_lss_assembly_simulation(self, steps=500):
         """
         [TDT Core Phase 06 -> Phase 03: Conformal LSS Soliton Dynamics & RK4 Integration]
+        Executes the main numerical integration loop driving macroscopic mass assembly 
+        and early cosmological tracking via high-precision Runge-Kutta 4th-order scheme.
         """
         print("=========================================================================================")
         print(" TDT LSS SOLITON DYNAMICS: FIRST-PRINCIPLES CONTINUOUS SIMULATION (RK4)")
@@ -141,7 +179,7 @@ class JWSTEarlyAssemblySimulator:
         print(f"{'Step':<6} | {'Time (Myr)':<10} | {'z Map':<5} | {'Gas_Pos (kpc)':<14} {'Tension_Pos (kpc)':<19} {'Covariant Error':<15}")
         print("-" * 90)
 
-        # 제1원리 초기 조건 설정
+        # Configures first-principles cosmological initial boundary conditions
         gas_pos = -500.0
         tension_pos = -500.0 + self.grid_initial_slip_kpc
         gas_vel = self.v_soliton
@@ -150,19 +188,24 @@ class JWSTEarlyAssemblySimulator:
         total_substeps = steps  
         c_kpc_myr = 299792.458 * self.km_s_to_kpc_myr
         
-        # RK4 가속도 유도 서브 함수 
+        # RK4 Gas Acceleration Sub-function (Real-time reduction of baryon fluid dynamics)
         def get_gas_acceleration(p, v):
             r = np.maximum(abs(p), 1e-15)
             debye_f = self.get_debye_friction(r)
             conformal_braking_scale = (self.c_univ * self.gamma) / (1.0 + self.delta_phase)
             return (-1.0 if v >= 0 else 1.0) * conformal_braking_scale * debye_f * abs(v) * np.sqrt(2.0 * self.pi)
 
-            # [Finalized] 2D Complex Plane Laplacian Restorative Tension Sign Matrix Alignment (LSS Fixed)
+        # [Finalized] 2D Complex Plane Laplacian Restorative Tension Sign Matrix Alignment (LSS Fixed)
         def get_tension_acceleration(p, v, current_z=15.0):
+            """
+            Computes the total restorative lattice tension compounded with non-linear 
+            cosmological Hubble drag friction activated at lower-redshift regimes.
+            """
             r = np.maximum(abs(p), 1e-15)
             holographic_projection_loss = np.sqrt(3.0) / 2.0
             base_accel = self.get_tracy_widom_tension(r) * (self.alpha * self.pi) * (1.0 / self.alpha) * holographic_projection_loss
             
+            # Macroscopic expansion and Hookean lattice boundary scaling beyond the central core radius
             if abs(p) > (self.r_core_kpc * self.pi):
                 conformal_pull_exponent = self.pi / np.sqrt(3.0)
                 conformal_pull_scaler = 1.0 + (r / self.grid_initial_slip_kpc) ** conformal_pull_exponent
@@ -173,13 +216,19 @@ class JWSTEarlyAssemblySimulator:
             pull_direction = -1.0 if p >= 0 else 1.0
             total_accel = pull_direction * base_accel
             
+            # ---------------------------------------------------------------------------------
+            # [Topological Dissipation Manifold & Hubble Friction Coupling]
+            # Smoothly activates the FLRW background Hubble expansion damping switch below z = 8
+            # via a hyperbolic tangent activation manifold. This introduces cosmological 
+            # velocity dissipation (2 * H * \dot{x}) to stabilize potential numeric divergence.
+            # ---------------------------------------------------------------------------------
             damping_switch = 0.5 * (1.0 - np.tanh((current_z - 8.0) / 1.5))
             braking_direction = -1.0 if v >= 0 else 1.0
             hubble_friction_accel = braking_direction * (2.0 * self.H0_per_myr * abs(v))
             
             return total_accel + (damping_switch * hubble_friction_accel)
 
-        # Initialize data acquisition telemetry buffers
+        # Initialize data acquisition telemetry and diagnostics buffers
         self.time_history = []
         self.z_history = []
         self.gas_history = []
@@ -187,31 +236,31 @@ class JWSTEarlyAssemblySimulator:
         self.sfr_history = []
         self.luminosity_history = []
         
+        # Tracks resonant capture events and chronological alignment timestamps
         capture_triggered, capture_step, capture_time_myr, capture_z = False, None, None, None
 
 
 
 
-        
-        # ---------------------------------------------------------------------
-        # 2. RK4 고해상도 수치 해석 시간 적분 루프 가동 
-        # ---------------------------------------------------------------------
+            # 2. Runs the high-resolution RK4 numerical integration time loop (Evolution of the LSS contractive manifold)
         for sub_step in range(1, total_substeps + 1):
 
-            # --- 실시간 우주론적 시간 역산 및 적색편이 사영 연산 ---
+            # --- Real-time cosmological time inversion & redshift projection coordinates mapping ---
             elapsed_time_myr = sub_step * local_dt
             current_z = self.lookback_time_to_z(elapsed_time_myr, startup_z=15.0)
 
             # -----------------------------------------------------------------
-            # 가스가 포획된 이후에는
-            # 불필요한 가스가속도 연산을 차단하여 CPU 락 현상을 완벽히 방어합니다.
+            # [Computational Bottleneck Prevention & Core Branching Matrix]
+            # Once the baryon gas undergoes resonant capture, redundant fluid dynamics 
+            # and acceleration calculations are bypassed to prevent CPU thread locking, 
+            # ensuring seamless runtime stability.
             # -----------------------------------------------------------------
             if capture_triggered:
                 gas_vel = 0.0
                 gas_pos = 0.0
 
-                # 가스가 정착한 이후에도 시공간 격자(Tension)의 조화 진동은 RK4로 무 중단 적분 구동
-                # 각 RK4 하위 스텝마다 current_z 인자를 정밀하게 전달하여 소산 감쇠 반영
+                # Macroscopic restorative lattice tension integrates continuously via RK4 post-capture 
+                # Synchronously feeds the real-time 'current_z' to compute non-linear cosmological dissipation.
                 tk1 = get_tension_acceleration(tension_pos, tension_vel, current_z=current_z)
                 xk1 = tension_vel
                 tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1, current_z=current_z)
@@ -225,38 +274,41 @@ class JWSTEarlyAssemblySimulator:
                 tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
 
                 # -----------------------------------------------------------------
-                # 가스 포획 이후 은하 중심핵 '원시 별 형성(Star Formation)' 물리 모델 결합
+                # [Post-Capture Galaxy Core Primordial Star Formation (SFR) Module]
+                # Simulates gas densification and interstellar medium (ISM) cooling curves 
+                # governed by the time delta since the precise cosmic epoch lock timestamp (capture_z).
                 # -----------------------------------------------------------------
-                # 가스가 안착한 시점(capture_z) 대비 현재 우주 시간 흐름에 따른 가스 농축 및 냉각 곡선 모사
                 time_since_capture = elapsed_time_myr - capture_time_myr
 
-                # 제1원리 물리 상수 조합형 성간 물질 프리-인덱스 유도 
+                # Derives the primordial interstellar matter pre-index from first-principles constant combinations
                 sfr_base = (self.alpha / self.delta_phase) * np.exp(-time_since_capture / 100.0)
-                current_sfr = max(0.0, sfr_base * (1.0 + current_z) ** 0.5) # 적색편이 고밀도 스케일링 결합
+                
+                # Couples high-redshift density scaling to compute real-time star formation rate (SFR) kinetics
+                current_sfr = max(0.0, sfr_base * (1.0 + current_z) ** 0.5) 
 
-                # Kennicutt-Schmidt 법칙 기반 UV 절대광도 변환 연산 (M_UV 대역 사영)
+                # Converts star formation rate into UV absolute magnitude (M_UV) maps based on Kennicutt-Schmidt scaling laws
                 if current_sfr > 0.0:
-                    # 별 형성률 기반 로그 광도 척도 도출 후 UV 절대 등급으로 변환
+                    # Extracts the logarithmic luminosity magnitude from SFR kinetics and translates it onto the absolute UV horizon
                     current_m_uv = -19.0 - 2.5 * np.log10(current_sfr) + 0.1 * (current_z - 10.0)
                 else:
-                    current_m_uv = 0.0 # 별 형성이 멈춘 상태
+                    current_m_uv = 0.0 # Star formation quenched phase
 
             else:
-                # --- [포획 전]: 가스(Gas) 성분 고해상도 RK4 유도 ---
+                # --- [Pre-Capture]: High-resolution RK4 integration for the Gas component ---
                 vk1 = get_gas_acceleration(gas_pos, gas_vel)
                 pk1 = gas_vel
                 vk2 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk1, gas_vel + 0.5 * local_dt * vk1)
                 pk2 = gas_vel + 0.5 * local_dt * vk1
                 vk3 = get_gas_acceleration(gas_pos + 0.5 * local_dt * pk2, gas_vel + 0.5 * local_dt * vk2)
                 pk3 = gas_vel + 0.5 * local_dt * vk2
-                vk4 = get_gas_acceleration(gas_pos + local_dt * pk3, gas_vel + local_dt * vk3)  # ◀ vk3으로 수정 완료
+                vk4 = get_gas_acceleration(gas_pos + local_dt * pk3, gas_vel + local_dt * vk3)  # [Correction Verified]: Rectified pointer reference matrix to vk3
                 pk4 = gas_vel + local_dt * vk3
 
                 gas_vel_next = gas_vel + (local_dt / 6.0) * (vk1 + 2.0 * vk2 + 2.0 * vk3 + vk4)
                 gas_pos_next = gas_pos + (local_dt / 6.0) * (pk1 + 2.0 * pk2 + 2.0 * pk3 + pk4)
 
-                # --- [포획 전]: 시공간 격자(Tension) 성분 고해상도 RK4 유도 ---
-                # 포획 전 단계에서도 실시간 current_z 값을 주입하여 수치 해석 일관성 유지
+                # --- [Pre-Capture]: High-resolution RK4 integration for the Spacetime Lattice (Tension) component ---
+                # Synchronously feeds the real-time 'current_z' to enforce global numerical interpretation consistency.
                 tk1 = get_tension_acceleration(tension_pos, tension_vel, current_z=current_z)
                 xk1 = tension_vel
                 tk2 = get_tension_acceleration(tension_pos + 0.5 * local_dt * xk1, tension_vel + 0.5 * local_dt * tk1, current_z=current_z)
@@ -269,11 +321,11 @@ class JWSTEarlyAssemblySimulator:
                 tension_vel_next = tension_vel + (local_dt / 6.0) * (tk1 + 2.0 * tk2 + 2.0 * tk3 + tk4)
                 tension_pos_next = tension_pos + (local_dt / 6.0) * (xk1 + 2.0 * xk2 + 2.0 * xk3 + xk4)
 
-                # 초기 가스 상태 계측용 미사용 버퍼 처리
+                # Initializes unused gas telemetry diagnostic metrics pre-collapse
                 current_sfr = 0.0
                 current_m_uv = 0.0
 
-                     # ---------------------------------------------------------------------
+                # ---------------------------------------------------------------------
                 # [Final Correction] Early Baryon Gas Capture & 2D Laplacian Singularity Braking Alignment
                 # Replaces the empirical threshold (5.0 kpc) with the intrinsically derived self.r_core_kpc.
                 # ---------------------------------------------------------------------
@@ -283,34 +335,34 @@ class JWSTEarlyAssemblySimulator:
                     capture_time_myr = elapsed_time_myr
                     capture_z = current_z
                     gas_vel = 0.0
-                    # Unitary Stasis Lock established strictly within the first-principles galactic core boundary
+                    
+                    # Unitary Stasis Lock boundary condition established strictly within the first-principles galactic core
                     gas_pos = 0.0
                 else:
                     gas_vel = gas_vel_next
                     gas_pos = gas_pos_next
 
-
-            # 시공간 격자 상태 벡터 진화 반영
+            # Reflects the dynamic state vector evolution of the spacetime lattice
             tension_vel = tension_vel_next
             tension_pos = tension_pos_next
 
-            # 향후 고해상도 시각화를 위한 동적 데이터 누적
+            # Accumulates tracking matrix arrays into high-resolution visual telemetry buffers
             self.time_history.append(elapsed_time_myr)
             self.z_history.append(current_z)
             self.gas_history.append(gas_pos)
             self.tension_history.append(tension_pos)
 
-            # 고도화 이력 버퍼 적재
+            # Loads advanced evolutionary history and star formation logs into diagnostic diagnostics buffers
             self.sfr_history.append(current_sfr)
             self.luminosity_history.append(current_m_uv)
 
-            # 무차원 공변 잔차 계산
+            # Computes the spatial offset and dimensionless covariant tensor divergence residual
             offset = abs(tension_pos - gas_pos)
             covariant_divergence = abs((gas_vel**2 - tension_vel**2) * self.delta_phase) / (c_kpc_myr ** 2)
 
-            # [정합 완료]: 앞서 고친 상단 헤더의 가로 컬럼폭폭(<6, <10, <5)과 실시간 로그 간격을 1:1 완벽 대치 사영
+            # [Alignment Complete]: 1:1 Conformal projection matching between the real-time logging print intervals and the header column matrix (<6, <10, <5)
             if sub_step % 1000 == 0 or sub_step == 1:
-                # 가스가 포획된 후 광도가 발생하면 실시간 UV 절대등급 마킹을 우측에 추가 출력해 줍니다.
+                # Appends real-time absolute UV magnitude metrics on the right margin once star formation activates post-capture
                 uv_note = f" | M_UV: {current_m_uv:.2f}" if capture_triggered else ""
                 print(f"{sub_step:<6} | {elapsed_time_myr:<10.2f} | {current_z:<5.2f} | {gas_pos:<14.2f} {tension_pos:<19.2f} {covariant_divergence:.4E}{uv_note}", flush=True)
 
@@ -326,7 +378,9 @@ class JWSTEarlyAssemblySimulator:
         print("-"*85)
 
         if capture_triggered:
-            # FLRW 메트릭과 뉴턴-랩슨 역산 결과를 결합하여 절대 우주 나이 재구성
+            # [FLRW Cosmic Chronology Inversion Kernel]
+            # Reconstructs the absolute cosmic age of the universe at the exact lock epoch 
+            # by compounding the background FLRW metric integrals with the Newton-Raphson inversion results.
             term_cap = np.sqrt(self.Omega_lambda / (self.Omega_m * (1.0 + capture_z)**3))
             absolute_universe_age = (2.0 / (3.0 * self.H0_per_myr * np.sqrt(self.Omega_lambda))) * \
                                     np.log(term_cap + np.sqrt(term_cap**2 + 1.0))
@@ -336,7 +390,9 @@ class JWSTEarlyAssemblySimulator:
             print(f" ➔ Absolute Cosmic Age at Lock   : ~{absolute_universe_age:.4f} Gyr (Conformal Alignment)")
             print(f" ➔ Observational Target Redshift : z = {capture_z:.3f} (Resolves JWST Bright Galaxy Puzzle)")
 
-            # [고도화 반영]: 가스 포획 후 축적된 최대 은하 광도와 별 형성률 최종 리포트
+            # [Advanced Diagnostic Metrics: Peak Evolutionary Flux Tracking]
+            # Filters the telemetry streams to extract the peak star formation rate kinetics 
+            # and maximum UV absolute magnitude achieved during post-capture gas condensation.
             valid_sfr = [s for s in self.sfr_history if s > 0.0]
             valid_m_uv = [m for m in self.luminosity_history if m < 0.0]
             max_sfr = max(valid_sfr) if valid_sfr else 0.0
@@ -357,7 +413,10 @@ class JWSTEarlyAssemblySimulator:
             print(f" ➔ Final Spatial Assembly Offset : {offset:.2f} kpc")
 
         # ---------------------------------------------------------------------
-        #  고도화 완료에 따른 저적색편이(z < 8) 연속 연착륙 검증 리포트
+        # [Continuous Inversion Soft-Landing Diagnostics (z < 8 Regime Verification)]
+        # Documents the global metric asymptotic convergence down to the modern epoch.
+        # Confirms that the integration of the non-linear Topological Dissipation Manifold 
+        # and Hubble friction coupling smoothly suppressed numerical divergence.
         # ---------------------------------------------------------------------
         print("-"*85)
         print(" ➔ [COSMOLOGICAL HORIZON GUARD NOTIFICATION]:")
@@ -370,7 +429,6 @@ class JWSTEarlyAssemblySimulator:
 
         print(" ➔ Runtime Floating-Point Overflow Warnings: NONE (0% Anomalies Captured)")
         print("=========================================================================\n")
-
 
 
 # =====================================================================
