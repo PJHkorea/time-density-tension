@@ -1,5 +1,25 @@
-# jwst_early_assembly_rk4.py
+"""
+==================================================================================================
+  TDT (Time-Density Tension) JWST Early Universe Soliton Assembly Simulator (Pristine RK4)
+==================================================================================================
+Filename: tests/jwst_early_assembly_rk4.py
 
+This module operationalizes the high-precision Runge-Kutta 4th-order (RK4) numerical integration 
+loop to simulate early large-scale structure (LSS) assembly within the TDT cosmology framework. 
+It programmatically demonstrates how pure, un-damped spacetime geometric invariants and 
+eigenvalue repulsion waves rapidly capture baryonic gas clusters without invoking cold dark matter.
+
+Pristine Elastodynamic Horizons:
+  - First-Principles Seeding: Eradicates artificial dark matter particle halos by utilizing 
+    the intrinsic elasticity of the 2D information base-layer plane to implode matter toward attractor nodes.
+  - Phase Resonant Capture: Drives omnidirectional gas condensation into the primordial galactic 
+    core radius (r_core ≈ 1.45 kpc) within a fraction of a cosmic epoch (~3.45 Myr).
+  - Pristine Soliton Waves: Excludes late-universe topological dissipation and Hubble friction, 
+    preserving the raw, un-damped elastodynamic wave oscillations to isolate the fundamental 
+    spacetime energy-momentum tensor baseline.
+
+==================================================================================================
+"""
 
 import numpy as np
 
