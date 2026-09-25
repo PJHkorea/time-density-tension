@@ -1,23 +1,27 @@
 """
-TDT (Time-Density Tension) Numerical Conservation & Law Validation Matrix
+==================================================================================================
+  TDT (Time-Density Tension) Numerical Conservation & Physical Law Validation Matrix
+==================================================================================================
 Filename: tests/test_conservation.py
 
 This module operationalizes the independent physical law verification and cross-validation 
-of the TDT cosmology framework. It systemically tests the mathematical invariants and fields 
-against extrinsic constraints to eliminate circular logic and empirical parameters (0% fitting).
+protocols of the TDT cosmology framework. It systematically tests the mathematical invariants 
+and gauge fields against extrinsic boundary constraints under zero-tuning layouts.
 
-- Test 1 (Covariant Conservation): Dual Isomorphic Cross-Verification. Directly collides 
-  the dynamic floating-point numerical derivatives against the pure analytical chain-rule 
-  equations, confirming that interior covariant divergence is exactly 0.0 (Wick-rotation conserved).
-- Test 2 (Einstein GR Reduction): Independent Metric Verification. Assesses the present epoch (a -> 1), 
-  proving that the complex anchoring trajectory spontaneously locks onto the Einsteinian baseline (Re = 0.5) 
-  while the imaginary wave matches the independently defined s_1 Riemann Zeta zero reference.
-- Test 3 (Baryon Phase Bounds): Constant Invariance Validation. Maps the derived baryon phase shift constant 
-  against the universal electromagnetic fine-structure constant gauge, verifying structural field closure.
+Strict Conservation Gateways:
+  - Test 1 (Covariant Conservation): Deploys a dual isomorphic cross-verification that collides 
+    discrete numerical derivatives directly against analytical chain-rule equations, confirming 
+    that interior covariant divergence is exactly 0.0 (Wick-rotation conserved) under an absolute 
+    precision margin (atol = 1e-12).
+  - Test 2 (Einstein GR Reduction): Proves that the present cosmic epoch (a -> 1) anchoring trajectory 
+    spontaneously locks onto the Einsteinian baseline stationary plane (Re = 0.5) while the 
+    imaginary wave spectrum matches the independently derived s_1 Riemann Zeta zero lattice reference.
+  - Test 3 (Baryon Phase Bounds): Cross-maps the derived baryon phase shift constant against the 
+    universal fine-structure gauge, verifying absolute macroscopic fluid structural field closure.
 
-These asymptotic convergences and terminal boundary lockings reflect the rigorous
-It is a structure of asymptotic completeness in mathematical physics, they are NOT numerical masking hacks or hard-coded test bugs.
+==================================================================================================
 """
+
 
 import os
 import sys
