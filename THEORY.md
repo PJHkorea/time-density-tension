@@ -148,6 +148,7 @@ By integrating a 3D spatial projection tensor cancellation symmetry against the 
 
 *   **`jwst_early_assembly_final.py` (High-Redshift Soliton Assembly Engine)**: Simulates non-linear large-scale structure (LSS) dynamics in the early universe $(z \ge 10$) using a 4th-order Runge-Kutta (RK4) integrator coupled with the Planck 2018 cosmic timeline via a Newton-Raphson lookback solver. It demonstrates dark-matter-free rapid galactic seeding, triggering a resonant baryon fluid core capture lock at precisely **3.45 Myr** post-singularity. The resulting early stellar luminosity output matches the JWST empirical bright galaxy anomaly $(M_{\text{UV}} = -20.01$) under zero-tuning boundary constraints, stabilized cleanly via a non-linear Topological Dissipation Manifold.
 
+*   **`bullet_separation_rk4.py` (Bullet Cluster Baryon-Lattice Separation Simulator)**: Executes RK4 integration for high-speed cluster collisions, reproducing the $\sim 300\text{ kpc}$ spatial offset without WIMPs. (For full technical documentation, please refer to the referenced web document).
 
 
 
