@@ -273,17 +273,22 @@ class JWSTEarlyAssemblySimulator:
                 current_sfr = 0.0
                 current_m_uv = 0.0
 
-                # [최종 트리거 판정]: 가스가 중심 핵 5.0 kpc 경계로 낙하 정착하는 순간 낚아챔
-                if (gas_pos < 0.0 and gas_pos_next >= -1.0) or (abs(gas_pos_next) <= 5.0):
+                     # ---------------------------------------------------------------------
+                # [Final Correction] Early Baryon Gas Capture & 2D Laplacian Singularity Braking Alignment
+                # Replaces the empirical threshold (5.0 kpc) with the intrinsically derived self.r_core_kpc.
+                # ---------------------------------------------------------------------
+                if (gas_pos < 0.0 and gas_pos_next >= -1.0) or (abs(gas_pos_next) <= self.r_core_kpc):
                     capture_triggered = True
                     capture_step = sub_step
                     capture_time_myr = elapsed_time_myr
                     capture_z = current_z
                     gas_vel = 0.0
+                    # Unitary Stasis Lock established strictly within the first-principles galactic core boundary
                     gas_pos = 0.0
                 else:
                     gas_vel = gas_vel_next
                     gas_pos = gas_pos_next
+
 
             # 시공간 격자 상태 벡터 진화 반영
             tension_vel = tension_vel_next
