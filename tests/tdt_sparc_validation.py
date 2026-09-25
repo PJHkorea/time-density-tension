@@ -1,5 +1,7 @@
 """
-TDT (Time-Density Tension) Galaxy Dynamics Universality Validation Matrix
+==================================================================================================
+  TDT (Time-Density Tension) Galaxy Dynamics Universality Validation Matrix
+==================================================================================================
 Filename: tests/tdt_sparc_validation.py
 
 This module operationalizes the forward-projection verification of TDT cosmology against 
@@ -7,17 +9,18 @@ the empirical SPARC (Spitzer Photometry and Accurate Rotation Curves) astronomic
 It programmatically demonstrates that flat galactic rotation curves emerge from pure complex 
 spacetime geometric gradients and sub-grid viscous shields without relying on dark matter halos.
 
-- Unification Constraints: Utilizes strict cosmological regularization penalties to lock 
-  the gauge coupling (c_univ) and baryon phase shift (delta_phase) onto their exact, 
-  topologically derived theoretical baselines (0% empirical hyperparameter fitting).
-- Physical Calibration: Isolates the mass-to-light ratio (Upsilon_disk) under standard 
-  astronomical margins (0.1 ~ 2.1) to resolve pure baryonic fluid radiative degeneracy.
-- Covariant Universality: Proves that the standard deviation (Std Dev) of c_univ across diverse 
-  galaxies converges spontaneously near absolute zero (0.000000), confirming an un-tuned universal field.
+Strict Universality Constraints:
+  - Unification Alignment: Utilizes strict cosmological regularization penalties to lock 
+    the gauge coupling (c_univ) and baryon phase shift (delta_phase) onto their exact, 
+    topologically derived theoretical baselines under a 100% frozen layout.
+  - Physical Calibration: Isolates the mass-to-light ratio (Upsilon_disk) under standard 
+    astronomical margins (0.1 ~ 2.1) to resolve pure baryonic fluid radiative degeneracy.
+  - Covariant Universality: Proves that the standard deviation (Std Dev) of c_univ across diverse 
+    galaxies converges spontaneously near absolute zero, validating TDT as an un-tuned universal field.
 
-These localized Nelder-Mead optimization loops track the convergence profile of structural invariants 
-across empirical baselines; they are NOT post-hoc data-fitting hacks or runtime empirical tuning bugs.
+==================================================================================================
 """
+
 
 import numpy as np
 import pandas as pd
