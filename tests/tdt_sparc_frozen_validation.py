@@ -1,21 +1,24 @@
 """
-TDT (Time-Density Tension) Galactic Frozen-Invariance Validation Matrix
+==================================================================================================
+  TDT (Time-Density Tension) Galactic Frozen-Invariance Validation Matrix
+==================================================================================================
 Filename: tests/tdt_sparc_frozen_validation.py
 
 This module operationalizes the absolute frozen-parameter verification of TDT cosmology 
 against the empirical SPARC catalog. It isolates the cosmological gauge couplings from the 
 optimization matrix entirely, forcing the engine to project predictions under a 100% rigid field.
 
-- Dimensional Lockdown: Reduces the search manifold to a strict 1D space, optimizing only 
-  the mass-to-light ratio (Upsilon_disk) to filter localized baryonic radiative fluctuations.
-- Complete Parameter Crystallization: Hard-locks the gauge coupling (c_frozen ≈ 0.229568) and 
-  baryon phase shift (delta_frozen ≈ 0.007297) strictly onto their first-principles invariants.
-- Zero-Variance Law: Programmatically achieves an absolute Zero Covariant Variance (Std Dev = 0.0) 
-  across all galactic profiles, proving that the TDT metric rules uniformly without localized 튜닝.
+Rigid Invariance Gateways:
+  - Dimensional Lockdown: Reduces the search manifold to a strict 1D space, optimizing only 
+    the mass-to-light ratio (Upsilon_disk) to filter localized baryonic radiative fluctuations.
+  - Complete Parameter Crystallization: Hard-locks the gauge coupling (c_frozen ≈ 0.229568) and 
+    baryon phase shift (delta_frozen ≈ 0.007297) strictly onto their first-principles invariants.
+  - Zero-Variance Law: Programmatically achieves an absolute Zero Covariant Variance (Std Dev = 0.0) 
+    across all galactic profiles, proving that the TDT metric rules uniformly without localized empirical tuning.
 
-This single-variable Nelder-Mead search maps the deterministic boundaries of the base-layer; 
-it is NOT an algorithmic limitation, but the ultimate proof of a priori cosmological universality.
+==================================================================================================
 """
+
 
 import numpy as np
 import pandas as pd
