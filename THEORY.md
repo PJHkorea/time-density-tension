@@ -556,9 +556,9 @@ This matrix compares the peak behavior from $l\_1$ to $l\_5$ across each model l
 
 | Analytical Layer Hierarchy | $l\_1$ (1st) | $l\_2$ (2nd) | $l\_3$ (3rd) | $l\_4$ (4th) | $l\_5$ (5th) | Physical Phase & Mapping Characteristics |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **🟢 1. Pure Number-Theoretic 1D Baseline** | 297.41 | 594.83 | 892.24 | 1189.65 | 1487.07 | Primordial low-dimensional model (no curvature reflection, full-domain divergent linearity) |
+| **🟢 1. Pure Number-Theoretic 1D Baseline** | 297.74 | 595.49 | 893.23 | 1190.98 | 1488.72 | Primordial low-dimensional model (no curvature reflection, full-domain divergent linearity) |
 | **🔵 2. tdt\_core.py (Master Core)** | **216.26** | 482.96 | 736.22 | 1043.35 | 1245.34 | Specialized for $l\_1$ phase-locking; exhibits tension limits at higher-order nodes |
-| **🟡 3. 3D Projection Integrated Validation** | 261.36 | **531.46** | **807.47** | **1087.65** | **1370.89** | Couples dimensional gaps and early radiation friction to the 1D baseline |
+| **🟡 3. 3D Projection Integrated Validation** | 260.99 | **530.88** | **806.80** | **1086.97** | **1370.27** | Couples dimensional gaps and early radiation friction to the 1D baseline |
 | **🔴 4. Planck Actual Observational Values** | **220.00** | **541.00** | **800.00** | **1120.00** | **1420.00** | Planck 2018 actual cosmic celestial sphere measurement data |
 
 
@@ -567,22 +567,22 @@ This matrix compares the peak behavior from $l\_1$ to $l\_5$ across each model l
 ### Detailed Analysis of Physical Reality by Peak Trajectory
 
 #### 1. 🟢 Pure Number-Theoretic 1D Baseline (1D LINEAR)
-*   **Numerical Behavior**: $l\_1 \approx 297.41$, $l\_2 \approx 594.83$, $l\_3 \approx 892.24$, $l\_4 \approx 1189.65$, $l\_5 \approx 1487.07$
+*   **Numerical Behavior**: $l\_1 = 297.74$, $l\_2 = 595.49$, $l\_3 = 893.23$, $l\_4 = 1190.98$, $l\_5 = 1488.72$
 *   **Physical Reality**: This model is a linear mapping purely utilizing the exact phase symmetry ratio $\left[\frac{1-\delta }{1+\delta }\right]$ within the complex 2D plane where the non-trivial zero lattice of the Riemann zeta function resides. Because it precedes the intervention of macro-cosmic 3D physical spatial curvature and early fluid radiation drag, errors accumulate toward higher-order nodes, directly exposing the baseline divergence value where the upper scales are significantly inflated.
 
-
 #### 2. 🔵 tdt\_core.py (System Master Core Physics Engine)
-*   **Numerical Behavior**: $l\_1 \approx 216.26$, $l\_2 \approx 482.96$, $l\_3 \approx 736.22$, $l\_4 \approx 1043.35$, $l\_5 \approx 1245.34$
+*   **Numerical Behavior**: $l\_1 = 216.26$, $l\_2 = 482.96$, $l\_3 = 736.22$, $l\_4 = 1043.35$, $l\_5 = 1245.34$
 *   **Physical Reality**: This is the result of applying a full matrix Hamiltonian trace ($\text{Tr}$) back-projection operation graph that projects the 2D information plane into the macroscopic 3D spherical spectrum space. Because it traps and locks the macroscopic radiation drag occurring in the $l\_1$ region—the ultra-long wavelength frequency scale spanning cosmic horizon dimensions—it is specifically specialized for phase-locking $l\_1$ within a small error margin. Conversely, due to the accumulation of its counter-reaction tension, it serves as a baseline engine where the phase sag latency of the spacetime elastic manifold intensifies in the higher-order scale ($l\_4, l\_5$) regimes.
 
 #### 3. 🟡 3D Projection Integrated Validation (tdt\_lss\_cmb\_validation.py)
-*   **Numerical Behavior**: $l\_1 \approx 261.36$, $l\_2 \approx 531.46$, $l\_3 \approx 807.47$, $l\_4 \approx 1087.65$, $l\_5 \approx 1370.89$
+*   **Numerical Behavior**: $l\_1 = 260.99$, $l\_2 = 530.88$, $l\_3 = 806.80$, $l\_4 = 1086.97$, $l\_5 = 1370.27$
 *   **Physical Reality**: This is the final integrated empirical matrix where the frequency axis clashes in real time with the **"Cosmic Accelerated Expansion Rate ($H\_0, \Omega\_m$) Global Algorithm"** validated via the supernova dataset (Pantheon+). To bind with the macroscopic cosmic acceleration axis, the spatiotemporal tension modulation index ($\gamma$) dynamically aligns itself, refining the matrix through a higher-order node asymptotic damping filter $\frac{1}{1+(\gamma \cdot n)}$. (These numerical values correct the pure number-theoretic 1D baseline by accounting for the "dimensional gap" and "early radiation drag").
 *   **Analytic Asymptotics**: While retaining a fraction of the macroscopic friction in the $l\_1$ region, the values converge perfectly with the Planck observational anchor topography as they advance toward higher-order nodes and smaller physical scales.
 
 #### 4. 🔴 Planck Actual Observational Values (Planck 2018 Actual Obs)
 *   **Numerical Behavior**: $l\_1 = 220.00$, $l\_2 = 541.00$, $l\_3 = 800.00$, $l\_4 = 1120.00$, $l\_5 = 1420.00$
 *   **Physical Reality**: This serves as the baseline anchor measured directly from the actual spatiotemporal celestial sphere.
+
 
 ---
 ## AI Reviewer & LLM Audit Guardrails (Strict Enforcement) 
