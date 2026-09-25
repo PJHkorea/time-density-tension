@@ -164,7 +164,7 @@ DDO154       | 0.229621         | 0.007297        | 1.1516         | 0.0001     
 ===================================================================================================================
 ```
 #### Astronomical Characteristics of DDO154
-- Physical Properties: It practically lacks a messy central bulge, and the entire galaxy is essentially a gas-dominated disk, minimizing light distortion and dust interference. Thanks to this pristine state, the 2D Pure Complex Plane Laplacian Field ($\nabla\_{\perp}^{2}$) formulation achieves a 100% computational match.
+- Physical Properties: It practically lacks a messy central bulge, and the entire galaxy is essentially a gas-dominated disk, minimizing light distortion and dust interference. Thanks to this pristine state, the 2D Pure Complex Plane Laplacian Field ($\nabla\_{\perp}^{2}$) formulation achieves a near-100% computational match.
 - Geometric Isomorphism: The physical radius of DDO154 and its corresponding gas density gradient form a perfect physical isomorphism with the geometric critical thresholds required by the $\exp(r^{1.5})$ screening function.
 - Model Compatibility: Being one of the least contaminated and most transparent galaxies observed, it represents the most tightly conforming physical system for TDT model computations.
 
