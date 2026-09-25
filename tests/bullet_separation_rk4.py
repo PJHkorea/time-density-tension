@@ -1,4 +1,28 @@
-# bullet_separation_rk4.py
+"""
+==================================================================================================
+  TDT (Time-Density Tension) Bullet Cluster Baryon-Lattice Separation Simulator (RK4)
+==================================================================================================
+Filename: tests/bullet_separation_rk4.py
+
+This module operationalizes a high-resolution Runge-Kutta 4th-order (RK4) continuous multi-body 
+integration to simulate cluster-scale collision profiles. It programmatically demonstrates 
+that macroscopic spatial decoupling (mass-to-gas separation) across galactic clusters emerges 
+spontaneously from pure spacetime geometric invariants and fluid-dynamic phase friction, 
+entirely independent of cold dark matter (CDM) halos.
+
+Decoupling Mechanics & Invariant Horizons:
+  - Intrinsic Velocity Projection: Maps the 2D information base-layer potential onto the 3D physical 
+    velocity frame via fine-structure cross-sectional area ratios, self-consistently generating 
+    the ~4700 km/s hyper-velocity cluster collision profile under explicit 0% empirical fitting.
+  - Differential Drag Braking: Implements a first-principles Debye phase drag filter that exerts 
+    hydrodynamic braking exclusively upon the baryonic gas wavefront as it permeates the core attractor.
+  - Non-Evanescent Soliton Tension: Leverages the algebraic Tracy-Widom distribution manifold to 
+    transmit continuous elastodynamic restoring waves to lattice coordinates separated by over 600 kpc, 
+    preventing numerical tension truncation across macro-structural filamental boundaries.
+
+==================================================================================================
+"""
+
 
 import numpy as np
 
