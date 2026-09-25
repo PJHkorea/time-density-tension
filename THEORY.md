@@ -135,7 +135,7 @@ $$
 to evaluate the predictive power of the framework. By locking out post-hoc empirical regression, it verifies a global intermediate residual threshold of **15.0831% (MAE)** under strict zero-tuning parameter constraints, purifying legacy empirical anomalies.
 
 
-*   **`test1.py` (Purified Analytical Integration Sandbox)**: The unified cosmological validation kernel. This master script eradicates the legacy empirical sound horizon scale ( $\theta\_s \approx 0.010410$ )
+*   **`tests/tdt_lss_cmb_validation.py` (Purified Analytical Integration Sandbox)**: The unified cosmological validation kernel. This master script eradicates the legacy empirical sound horizon scale ( $\theta\_s \approx 0.010410$ )
  and replaces it with a rigorous, *a priori* geometric formulation
 
 $$
