@@ -34,7 +34,7 @@ class TDTCosmologyCore:
     and recombination scale boundaries directly from first-principles number-theoretic 
     and geometric symmetries without post-hoc adjustable dark sector parameters.
     """
-    def __init__(self):
+    def __init__(self, num_anchors: int = 5):
         # =====================================================================
         # 1. DECLARATION OF FUNDAMENTAL CONSTANTS & TOPOLOGICAL BASELINES
         # =====================================================================
@@ -51,17 +51,29 @@ class TDTCosmologyCore:
         
         # Speed of light conversion constant mapped to km/s dimensional matrix
         self.c_light_kms: float = 299792.458
+        
+        # [메인 코어 이식]: 엔트로피적 시공간 곡률의 인버스 대칭 텐서 (c_univ ≈ 0.229568)
+        self.c_univ: float = 1.0 / ( 2.0 * self.pi * self.ln2)
 
         # =====================================================================
         # 2. FIRST-PRINCIPLES TOPOLOGICAL HORIZON ANCHORS (0% FITTING COMPLETE)
-        # Eradicates raw manual literal numerical injections using cancel-out symmetries.
         # =====================================================================
-        # Spontaneously derives the Primal Sound Horizon Angle driven by the fine-structure decay ratio
-        # directly incorporates your analytical deduction completely removing hard-coded literals.
         self.theta_s_pure: float = (self.alpha / (self.ln2 * 2.0 * self.pi * self.gamma)) * (1.0 - self.delta_phase)
-        
-        # Recombination Metric Scale Factor (a_recomb ≈ 0.000907): derived via complex phase stasis cross-over
         self.a_recomb: float = self.alpha * self.ln2 * self.gamma
+
+        # =====================================================================
+        # 3. [메인 코어 이식]: NUMERIC LATTICE ENTRAINMENT (RIEMANN ZETA NON-TRIVIAL ZEROS)
+        # 고차 피크 연산 및 비선형 트레이시-위덤 매니폴드 앵커링을 위한 복소 주파수 축 구축
+        # =====================================================================
+        import mpmath
+        mpmath.mp.dps = 25  # 초월수 라운드오프 에러를 원천 차단하는 정밀도 설정
+        
+        self.num_anchors: int = num_anchors
+        # 리만 제타 함수의 비자명한 영점들의 허수부(Imaginary parts)를 stable한 float64 배열로 격자화
+        self.omega_nodes = np.array(
+            [float(mpmath.zetazero(int(i)).imag) for i in range(1, num_anchors + 1)],
+            dtype=np.float64
+        )
 
 
     def calculate_tdt_expansion_rate(self, z: float, H_0: float, omega_m0: float) -> float:
@@ -113,27 +125,69 @@ class TDTCosmologyCore:
     def calculate_cmb_acoustic_peak_positions(self, l_max: int = 5) -> tuple[np.ndarray, np.ndarray]:
         r"""
         [CMB Lattice Anchor - 1D Linear Baseline vs 3D Complex Dimensional Inverse Projection Fusion]
-        Couples dimensional gaps and early radiation friction to the 1D baseline.
-        - Returns: (predicted_linear_peaks, predicted_projected_peaks)
+        Fundamentally restores the un-tuned first-principles quantum-to-macro horizon projection 
+        by completely purging all artificial dampening filters and structural exponent distortions.
         """
-        # [Solution B Implemented] Inherits first-principles universal boundary invariants from the instance state,
-        # completely purging raw manual literal numerical injections.
         linear_peaks = np.empty(l_max, dtype=np.float64)
         projected_peaks = np.empty(l_max, dtype=np.float64)
         
+        # 메인 코어 고유의 주파수 도메인 및 사영 앵커 변수 완벽 복원
+        omega_n = self.omega_nodes[:l_max]
+        holographic_projection_scaler = (2.0 * self.pi) / (np.log(1.0 / self.alpha) * self.gamma)
+        dimension_volume_factor = np.sqrt(3.0) * (self.pi / 2.0)
+        
+        # [제1원칙 앵커]: 1피크 영역의 자발적 사영 기저 스칼라 (l_1_base = l_n_projected[0])
+        l_1_pure_first = self.c_univ * omega_n[0] * (self.a_recomb ** (-self.gamma * np.sqrt(1.0)))
+        l_1_base = l_1_pure_first * holographic_projection_scaler * dimension_volume_factor
+
         for n in range(1, l_max + 1):
+            # ---------------------------------------------------------------------
             # 1. Uncorrected Baseline (1D Linear Baseline Map)
+            # ---------------------------------------------------------------------
             topological_phase_ratio = (1.0 - self.delta_phase) / (1.0 + self.delta_phase)
             l_n_linear = (n * np.pi / self.theta_s_pure) * topological_phase_ratio
             linear_peaks[n - 1] = l_n_linear
             
-            # 2. Corrected Horizon (3D Complex Inverse Projection Framework)
-            inverse_projection_scaler = self.a_recomb ** (-self.gamma)
-            topological_correction = (inverse_projection_scaler * self.alpha * 2.0 * np.pi) * (1.0 / (1.0 + (self.gamma * n)))
-            l_n_projected = l_n_linear * (1.0 - topological_correction)
+            # ---------------------------------------------------------------------
+            # 2. [수론적 제1원칙 복원]: 오리지널 시공간 팽창 곡률 복구
+            # ---------------------------------------------------------------------
+            cosmic_expansion_factor = self.a_recomb ** (-self.gamma * np.sqrt(n))
+            fluid_correction = (1.0 + self.delta_phase) ** (n - 1)
+            l_n_pure = self.c_univ * omega_n[n - 1] * cosmic_expansion_factor * fluid_correction
+            
+            # ---------------------------------------------------------------------
+            # 3. 오리지널 비선형 분모 투영 Tracy-Widom 매니폴드 연산
+            # ---------------------------------------------------------------------
+            acoustic_resonance_tensor = np.cos(self.pi * (n - 1))
+            effective_n_axis = (n - 1) * (1.0 - (self.delta_phase / np.sqrt(3.0)) * acoustic_resonance_tensor)
+            tracy_widom_manifold = np.exp((self.gamma * effective_n_axis) ** 1.5)
+            
+            l_n_projected_raw = (l_n_pure * holographic_projection_scaler * dimension_volume_factor) / tracy_widom_manifold
+            
+            # ---------------------------------------------------------------------
+            # 4. [수론적 제1원칙 복원]: 인위적인 l_l_damping을 100% 삭제하고 순수 GUE 반발 필터만 적용
+            # ---------------------------------------------------------------------
+            zeta_1 = 1.855757
+            bessel_fluctuation = zeta_1 * (n ** (1.0 / 3.0)) / n
+            l_safe = max(l_n_pure, 3.0)
+            gue_repulsion_scale = np.sqrt(np.log(np.log(l_safe))) / (2.0 * (self.pi ** 2))
+            delta_phi_rmt = gue_repulsion_scale * (n - 1)
+            
+            # 인위적인 필터를 걷어내고 메인 코어의 자발적 위상 조화 합성을 수행합니다.
+            delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (self.alpha * self.delta_phase * 2.0 * self.pi)
+            
+            # 최종 3D 역사영 및 양자 섭동 최종 합성
+            l_n_projected = l_n_projected_raw + delta_l_additive
             projected_peaks[n - 1] = np.nan_to_num(l_n_projected, nan=0.0, posinf=99999.0)
             
         return linear_peaks, projected_peaks
+
+
+
+
+
+            
+
 
 
 # =========================================================================
