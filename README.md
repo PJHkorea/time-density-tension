@@ -9,9 +9,10 @@
 > The following terminal snapshots are raw outputs generated natively by the repository execution suites under a strictly frozen, zero-tuning layout, eliminating post-hoc manual adjustments.
 ---
 ---
-### tdt_core.py 
+### tdt_core.py
 
-*Note: The peak values in this terminal output are calculated based on the 2D Base Layer (Purified Boundary Invariants) before 3D macroscopic projection.*
+*Note: The spectral multipole positions in this continuous core execution log are mapped strictly onto the **2D Quantum Informational Base Layer (Purified Boundary Invariants)** before undergoing the non-linear 3D macroscopic inverse projection tensor.*
+
 
 ```text
 ==================================================
@@ -33,9 +34,11 @@ Baryon Phase Shift Constant (δ) : 0.007297
 ==================================================
 ```
 ---
+
 ### main_simulation.py
 
-*Note: The peak values in this terminal output are calculated based on the 2D Base Layer (Purified Boundary Invariants) before 3D macroscopic projection.*
+*Note: Unified simulation diagnostics within this master matrix evaluate the primordial resonance wave numbers over the **2D Holographic Screen Baseline**, isolating the raw geometric tension before spatial expansion friction is dynamically engaged in the 3D bulk space.*
+
 
 ```text
 ================================================================================
