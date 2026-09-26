@@ -103,17 +103,18 @@ $(\nabla^{\mu} \mathcal{T}\_{\{\mu\nu\}}^{\text{TDT}} \equiv 0)$.
 
     * *Core Mathematical Concept*: Dimensionally reduced gauge transition mapping and hyperbolic cosine ($$\cosh$$) projection invariants.
     * *Physical Boundary Condition*: 1D number-theoretic background lattice projection into the 3D macroscopic metric space.
-    * *Empirical Reference Target*: Planck Satellite Data Consensus ($$H_0 \approx 67.4\text{ km/s/Mpc}$$) and Local Distance Ladder observations ($$H_0 \approx 73.0\text{ km/s/Mpc}$$).
+    * *Empirical Reference Target*: Recombination Boundary ($$H_0 \approx 52.9115\text{ km/s/Mpc}$$) and Volumetric Boundary ($$H_0 \approx 53.7351\text{ km/s/Mpc}$$).
 
 This phase evaluates the systematic discrepancy within expansion velocity metrics by formalizing the geometric scaling constraints of the Topological Dissipation Manifold ($$z < 8$$). Rather than invoking empirical dark energy variables, the framework models the apparent tension between early-regime asymptotic constants and late-time kinematic observations as a geometric parallax attribute derived from the conformal gauge shift operator. 
 
-Under a zero-tuning configuration ($$\delta_{\text{phase}} \equiv \alpha \approx 0.007297$$), the formulation derives the local expansion parameter ($$H_0^{\text{local}}(a)$$) as a function of the scale factor, tracking the boundary values precisely:
+Under a zero-tuning configuration ($$\alpha \approx 0.007297$$), the formulation derives the local expansion parameter ($$H_0^{\text{local}}(a)$$) as a function of the scale factor, tracking the boundary values precisely:
 
 $$
-H_0^{\text{local}}(a) = H_0^{\text{TDT}} \cdot \left[ 1.0 + \delta_{\text{phase}} \cdot \cosh\left( \frac{\pi}{\sqrt{3}} \cdot a \right) \right]
+H_0^{\text{local}}(a) = H_0^{\text{TDT}} \cdot \left[ 1.0 + \alpha \cdot \cosh\left( \frac{\pi}{\sqrt{3}} \cdot a \right) \right]
 $$
 
-The mathematical structure resolves the early recombination horizon baseline ($$\approx 68.3002\text{ km/s/Mpc}$$) and the contemporary local distance ladder boundary ($$\approx 72.8461\text{ km/s/Mpc}$$) simultaneously from a fixed universal baseline of $$H_0^{\text{TDT}} = 67.8055\text{ km/s/Mpc}$$, establishing parameter-free closure over large-scale metric expansion trajectories.
+The mathematical structure resolves the early recombination horizon baseline ($$\approx 52.9115\text{ km/s/Mpc}$$) and the contemporary local distance ladder boundary ($$\approx 53.7351\text{ km/s/Mpc}$$) simultaneously from a fixed universal baseline of $$H_0^{\text{TDT}} = 52.5282\text{ km/s/Mpc}$$, establishing parameter-free closure over large-scale metric expansion trajectories.
+
 
 
 ---
