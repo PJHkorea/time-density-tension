@@ -574,44 +574,44 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 
 ---
 
-## 4 Case-by-Case Peak Numerical Trajectories and Physical Causality Structures
+## 4 Case-by-Case Peak Numerical Trajectories and Physical Constraints
 
-From the number-theoretic baseline to the actual Planck 2018 observational data, this section summarizes the 5th higher-order node numerical trajectories and spatiotemporal causal structures of the **CMB Acoustic Peaks ($l\_n$)** derived at each physical layer.
+From the number-theoretic baseline to the Planck 2018 observational framework, this section summarizes the higher-order node numerical trajectories and spatiotemporal constraint structures of the **CMB Acoustic Peaks $(l_n$)** derived across each analytical layer.
 
 ### CMB Higher-Order Peak Numerical Comparison Matrix by Layer
-This matrix compares the peak behavior from $l\_1$ to $l\_5$ across each model layer and evaluates precision against the actual Planck observational values.
+This matrix evaluates peak positions from $l_1$ to $l_5$ across each framework layer and monitors residual convergence against the Planck observational baseline.
 
-| Analytical Layer Hierarchy | $l\_1$ (1st) | $l\_2$ (2nd) | $l\_3$ (3rd) | $l\_4$ (4th) | $l\_5$ (5th) | Physical Phase & Mapping Characteristics |
+| Analytical Layer Hierarchy | $l_1$ (1st) | $l_2$ (2nd) | $l_3$ (3rd) | $l_4$ (4th) | $l_5$ (5th) | Physical Phase & Mapping Characteristics |
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
-| **🟢 1. Pure Number-Theoretic 1D Baseline** | 297.74 | 595.49 | 893.23 | 1190.98 | 1488.72 | Primordial low-dimensional model (no curvature reflection, full-domain divergent linearity) |
-| **🔵 2. tdt\_core.py (Master Core)** | **216.26** | 482.96 | 736.22 | 1043.35 | 1245.34 | Specialized for $l\_1$ phase-locking; exhibits tension limits at higher-order nodes |
-| **🟡 3. 3D Projection Integrated Validation** | **220.30** | **495.76** | **760.18** | **1082.66** | **1297.91** | Couples dimensional gaps and early radiation friction to the 1D baseline |
-| **🔴 4. Planck Actual Observational Values** | **220.00** | **541.00** | **800.00** | **1120.00** | **1420.00** | Planck 2018 actual cosmic celestial sphere measurement data |
+| **🟢 1. Pure Number-Theoretic 1D Baseline** | 297.74 | 595.49 | 893.23 | 1190.98 | 1488.72 | Primordial low-dimensional boundary model (linear scaling without curvature reflection) |
+| **🔵 2. tdt\_core.py (Master Core)** | **216.26** | 482.96 | 736.22 | 1043.35 | 1245.34 | Boundary condition set for \(l_1\) phase-locking; exhibits tension constraints at higher-order nodes |
+| **🟡 3. 3D Projection Integrated Validation** | **220.30** | **495.76** | **760.18** | **1082.66** | **1297.91** | Integrates dimensional expansion scale corrections and early radiation friction mechanisms |
+| **🔴 4. Planck Actual Observational Values** | **220.00** | **541.00** | **800.00** | **1120.00** | **1420.00** | Planck 2018 cosmic celestial sphere empirical measurement data |
+
 
 
 
 ---
 
-### Detailed Analysis of Physical Reality by Peak Trajectory
+### Detailed Analysis of Physical Constraints by Peak Trajectory
 
 #### 1. 🟢 Pure Number-Theoretic 1D Baseline (1D LINEAR)
-*   **Numerical Behavior**: $l\_1 = 297.74$, $l\_2 = 595.49$, $l\_3 = 893.23$, $l\_4 = 1190.98$, $l\_5 = 1488.72$
-*   **Physical Reality**: This model is a linear mapping purely utilizing the exact phase symmetry ratio $\left[\frac{1-\delta }{1+\delta }\right]$ within the complex 2D plane where the non-trivial zero lattice of the Riemann zeta function resides. Because it precedes the intervention of macro-cosmic 3D physical spatial curvature and early fluid radiation drag, errors accumulate toward higher-order nodes, directly exposing the baseline divergence value where the upper scales are significantly inflated.
+* **Numerical Behavior**: $l_1 = 297.74$, $l_2 = 595.49$, $l_3 = 893.23$, $l_4 = 1190.98$, $l_5 = 1488.72$
+* **Physical Formulation**: This model evaluates a linear mapping utilizing the exact phase symmetry ratio $\left[\frac{1-\delta }{1+\delta }\right]$ within the complex 2D plane where the non-trivial zero lattice of the Riemann zeta function resides. Because this layer precedes the incorporation of macro-scale 3D physical spatial curvature and early fluid radiation drag, residual variations accumulate toward higher-order nodes, tracking the baseline divergence behavior where upper scales exhibit linear inflation.
 
-#### 2. 🔵 tdt\_core.py (System Master Core Physics Engine)
-*   **Numerical Behavior**: $l\_1 = 216.26$, $l\_2 = 482.96$, $l\_3 = 736.22$, $l\_4 = 1043.35$, $l\_5 = 1245.34$
-*   **Physical Reality**: This is the result of applying a full matrix Hamiltonian trace ($\text{Tr}$) back-projection operation graph that projects the 2D information plane into the macroscopic 3D spherical spectrum space. Because it traps and locks the macroscopic radiation drag occurring in the $l\_1$ region—the ultra-long wavelength frequency scale spanning cosmic horizon dimensions—it is specifically specialized for phase-locking $l\_1$ within a small error margin. Conversely, due to the accumulation of its counter-reaction tension, it serves as a baseline engine where the phase sag latency of the spacetime elastic manifold intensifies in the higher-order scale ($l\_4, l\_5$) regimes.
+#### 2. 🔵 tdt\_core.py (Master Core Physics Engine)
+* **Numerical Behavior**: $l_1 = 216.26$, $l_2 = 482.96$, $l_3 = 736.22$, $l_4 = 1043.35$, $l_5 = 1245.34$
+* **Physical Formulation**: This layer applies a full matrix Hamiltonian trace (\[\text{Tr}\]) back-projection operation graph that maps the 2D information plane onto the macroscopic 3D spherical spectrum space. By constraining the macroscopic radiation drag occurring in the \[l_1\] region—the long-wavelength frequency scale spanning cosmic horizon dimensions—the core engine satisfies boundary conditions for $l_1$ phase-locking. Concurrently, due to the accumulation of counter-reaction tension, it introduces a baseline geometric constraint where the phase lag of the spacetime elastic manifold becomes pronounced in the higher-order scale $(l_4, l_5$) regimes.
 
-#### 3. 🟡 3D Projection Integrated Validation (tdt_lss_cmb_validation.py)
-*   **Numerical Behavior**: $l\_1 = 220.30$, $l\_2 = 495.76$, $l\_3 = 760.18$, $l\_4 = 1082.66$, $l\_5 = 1297.91$
-*   **Physical Reality**: This is the finalized, frozen 0% Fitting Master Integration Matrix where the global cosmic expansion kinematics ($H\_0, \Omega\_m$) validated by the supernova catalog (Pantheon+) are coupled in real-time with the higher-order spectral multipoles. It completely purges arbitrary empirical tuning parameters and dark sector dependencies from macro-scale propagation equations, proving that the continuous mathematical lattice directly maps onto macroscopic empirical realities.
-*   **Analytic Asymptotics**: It captures a brilliant structural paradigm shift in universal horizon expansion, achieving an elite **0.1353% precision** exactly at the primary compression horizon ($l\_1$). Concurrently, the localized **8.3620% error residual isolated at the $l_2$ node** acts as a clean empirical signature of the **[Time Elasticity Lag]**, accounting for early fluid radiation drag and cosmic expansion friction without introducing unphysical cold dark matter particle halos. High-order spectral multipoles ($l_4, l_5$) remain strictly locked within single-digit error bounds to prove absolute cross-scale coherence.
-
-
+#### 3. 🟡 3D Projection Integrated Validation (tdt\_lss\_cmb\_validation.py)
+* **Numerical Behavior**: $l_1 = 220.30$, $l_2 = 495.76$, $l_3 = 760.18$, $l_4 = 1082.66$, $l_5 = 1297.91$
+* **Physical Formulation**: This represents the finalized, frozen zero-variance integration matrix where global cosmic expansion kinematics $$(H_0, \Omega_m)$$ verified by the supernova catalog (Pantheon+) are coupled systematically with the higher-order spectral multipoles. This framework eliminates empirical tuning parameters and dark sector dependencies from macro-scale propagation equations, evaluating how the continuous mathematical lattice maps onto macroscopic empirical observations.
+* **Analytic Asymptotics**: The framework models horizon expansion constraints to achieve a **0.1353%** residual margin at the primary compression horizon$$([l_1]). \text{ Concurrently, the localized } \mathbf{8.3620\%} \text{ error residual at the } [l_2]$$ node is analyzed as an inherent geometric phase lag, accounting for early fluid radiation drag and cosmic expansion friction without introducing cold dark matter particle halos. High-order spectral multipoles $$(l_4, l_5)$$ remain bounded within single-digit error margins, indicating cross-scale geometric coherence.
 
 #### 4. 🔴 Planck Actual Observational Values (Planck 2018 Actual Obs)
-*   **Numerical Behavior**: $l\_1 = 220.00$, $l\_2 = 541.00$, $l\_3 = 800.00$, $l\_4 = 1120.00$, $l\_5 = 1420.00$
-*   **Physical Reality**: This serves as the baseline anchor measured directly from the actual spatiotemporal celestial sphere.
+* **Numerical Behavior**:$l_1 = 220.00$, $l_2 = 541.00$, $l_3 = 800.00$, $l_4 = 1120.00$, $l_5 = 1420.00$
+* **Physical Formulation**: This serves as the empirical reference anchor measured directly from the celestial sphere.
+
 
 
 ---
