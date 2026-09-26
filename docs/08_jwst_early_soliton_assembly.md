@@ -212,16 +212,17 @@ Evaluating the structural assembly via `tests/jwst_early_assembly_rk4.py` yields
 
 ### 5.1 Gauge Alignment of Primal Core Radius ($$r_{\text{core}}$$)
 
-The spatial boundary governing the early galactic nucleus—where the contractive implosion of baryonic gas satisfies the boundary conditions defined by the stable attractor profile—is derived from the geometric cross-sectional ratio of the fine-structure constant ($$\alpha$$) and Shannon entropy ($$\ln 2$$):
+The spatial boundary governing the early galactic nucleus—where the contractive implosion of baryonic gas satisfies the boundary conditions defined by the stable attractor profile—is derived from the geometric cross-sectional ratio of the fine-structure constant ($\alpha$) and Shannon entropy ($\ln 2$):
 
+$$tdt_{\text{2d&#95;base&#95;scale}} = \frac{1}{\alpha} \cdot \frac{\gamma}{\ln 2} \approx 31.62 \text{ kpc}$$
 
-$$tdt_{\text{2d\_base\_scale}} = \frac{1}{\alpha} \cdot \frac{\gamma}{\ln 2} \approx 31.62 \text{ kpc}$$
+$$r_{\text{core}} = tdt_{\text{2d&#95;base&#95;scale}} \cdot (\alpha \cdot \pi) \approx 1.45 \text{ kpc}$$
 
-$$r_{\text{core}} = tdt_{\text{2d\_base\_scale}} \cdot (\alpha \cdot \pi) \approx 1.45 \text{ kpc}$$
 
 Under this formulation, the numerical integration boundary conditions satisfy the following relation:
 
 $$\text{If } |p| \leq r_{\text{core}} \implies \nabla^{\mu}\mathcal{T}_{\mu\nu} \to \text{Unitary Stasis Lock}$$
+
 
 The simulation framework models the early baryon capture boundary ($\approx 1.45\text{ kpc}$) and the conformal scaling boundary ($r_{\text{core}} \cdot \pi \approx 4.55\text{ kpc}$) within a closed loop, satisfying parameter-free convergence tracking profiles over the 50,000-step numerical integration baseline.
 
