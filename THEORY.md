@@ -590,8 +590,9 @@ This matrix compares the peak behavior from $l\_1$ to $l\_5$ across each model l
 | :--- | :---: | :---: | :---: | :---: | :---: | :--- |
 | **🟢 1. Pure Number-Theoretic 1D Baseline** | 297.74 | 595.49 | 893.23 | 1190.98 | 1488.72 | Primordial low-dimensional model (no curvature reflection, full-domain divergent linearity) |
 | **🔵 2. tdt\_core.py (Master Core)** | **216.26** | 482.96 | 736.22 | 1043.35 | 1245.34 | Specialized for $l\_1$ phase-locking; exhibits tension limits at higher-order nodes |
-| **🟡 3. 3D Projection Integrated Validation** | 260.99 | **530.88** | **806.80** | **1086.97** | **1370.27** | Couples dimensional gaps and early radiation friction to the 1D baseline |
+| **🟡 3. 3D Projection Integrated Validation** | **220.30** | **495.76** | **760.18** | **1082.66** | **1297.91** | Couples dimensional gaps and early radiation friction to the 1D baseline |
 | **🔴 4. Planck Actual Observational Values** | **220.00** | **541.00** | **800.00** | **1120.00** | **1420.00** | Planck 2018 actual cosmic celestial sphere measurement data |
+
 
 
 ---
