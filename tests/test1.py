@@ -29,6 +29,10 @@ class HubbleTensionEvaluator:
         self.kappa_density = 1.27274
         self.h0_tdt_scale = self.h0_tdt * self.kappa_density  # Resolves near ~67.24 km/s/Mpc baseline
 
+        # [TDT AGE INTEGRATION CONSTANT] km/s/Mpc -> Gyr 변환용 고정 스케일러 연동
+        # 1 Mpc = 3.085677581e22 m / 1 year = 31536000 s
+        self.km_s_Mpc_to_Gyr = 977.7922
+
     def evaluate_local_expansion(self, scale_factor: float) -> float:
         """Computes the pure localized geometric expansion rate tracking the gradient."""
         phase_deformation = self.alpha * np.cosh(
@@ -38,8 +42,8 @@ class HubbleTensionEvaluator:
 
     def evaluate_empirical_expansion(self, scale_factor: float, incorporate_local_friction: bool = False) -> float:
         """Computes the observational scale expansion mapped onto the empirical ΛCDM baseline."""
-        # 3D 공간 투영 시 국소적 바리온 물질의 가속 제약 조건(3*alpha)이 
-        # 단순 덧셈이 아니라, 기하학적 다양체 위상 변조 항(Phase Deformation)과 고유 결합하도록 처리
+        # Handling the local baryonic matter acceleration constraint (3*alpha) so that it intrinsically couples 
+        # with the geometric manifold phase deformation term during 3D spatial projection.
         friction_factor = (3.0 * self.alpha) if incorporate_local_friction else 0.0
         
         phase_deformation = (self.alpha + friction_factor) * np.cosh(
@@ -47,11 +51,30 @@ class HubbleTensionEvaluator:
         )
         return self.h0_tdt_scale * (1.0 + phase_deformation)
 
+    def evaluate_cosmic_age_integration(self, a_start: float = 0.0009, a_end: float = 1.0, incorporate_local_friction: bool = False) -> float:
+        """
+        [TDT-INTEGRATION] Computes the cosmic timeline duration between specific boundaries.
+        Integrates t = integral( 1 / (a * H(a)) ) da and scales it directly to Gyr units.
+        """
+        from scipy.integrate import quad
+
+        def age_integrand(a: float) -> float:
+            if a <= 0:
+                return 0.0
+            h_a = self.evaluate_empirical_expansion(a, incorporate_local_friction=incorporate_local_friction)
+            return 1.0 / (a * h_a)
+
+        # 고차 적응형 구적법(Adaptive Quadrature) 연산 수행
+        age_integral, _ = quad(age_integrand, a_start, a_end)
+        return age_integral * self.km_s_Mpc_to_Gyr
+
     def execute_validation_suite(self):
         """Monitors boundary conditions across disparate cosmological epochs and scales."""
+
         print("=" * 70)
-        print(" SECTION 1: PURE GEOMETRIC TDT PROFILE (입자 배제 시공간 고유 장력)")
+        print(" SECTION 1: PURE GEOMETRIC TDT PROFILE (Particle-Free Spacetime Intrinsic Tension)")
         print("=" * 70)
+
         # 1. Evaluate baseline invariant scale
         print(f"[TDT-CORE] Invariant Core Baseline Metric: {self.h0_tdt:.4f} km/s/Mpc")
 
@@ -71,8 +94,9 @@ class HubbleTensionEvaluator:
         print("[SUCCESS] All pure geometric expansion rate constraints satisfied seamlessly.")
 
         print("\n" + "=" * 70)
-        print(" SECTION 2: EMPIRICAL OBSERVATIONAL MAPPING (주류 학계 관측 스케일 변환)")
+        print(" SECTION 2: EMPIRICAL OBSERVATIONAL MAPPING (Conventional Cosmological Scale Translation)")
         print("=" * 70)
+
         # 5. Evaluate density-scaled calibration baseline
         print(f"[TDT-CALIBRATED] Normalized Reference Baseline: {self.h0_tdt_scale:.4f} km/s/Mpc")
 
@@ -95,8 +119,31 @@ class HubbleTensionEvaluator:
         assert 72.5 < h0_empirical_late < 73.5, "Contemporary universe empirical calibration out of range."
         print("[SUCCESS] Multi-scale conformal parallax mappings verified perfectly.")
 
+        print("\n" + "=" * 70)
+        print(" SECTION 3: QUANTUM TIME ELASTICITY & GEOMETRIC AGE RESOLUTION")
+        print("=" * 70)
+
+        # 10. Compute Cosmic Lookback Time from Recombination Horizon to Present Day
+        # 플랑크 위성 관측 기준(순수 거시 기하학 팽창 모델) 우주 나이 연산
+        age_early_model = self.evaluate_cosmic_age_integration(a_recomb, a_present, incorporate_local_friction=False)
+        
+        # SH0ES 국소 거리 사다리 기준(바리온 마찰력 3*alpha 반영 모델) 우주 나이 연산
+        age_late_model = self.evaluate_cosmic_age_integration(a_recomb, a_present, incorporate_local_friction=True)
+
+        print(f"[TDT-AGE-PLANCK] Evaluated Age via Horizon Profile (Early): {age_early_model:.4f} Gyr")
+        print(f"[TDT-AGE-SH0ES]  Evaluated Age via Local Friction (Late) : {age_late_model:.4f} Gyr")
+        
+        # 11. Extract the Age Stability Residual (The Time Elasticity Invariant Bridge)
+        age_discrepancy_pct = abs(age_early_model - age_late_model) / age_early_model * 100
+        print("-" * 70)
+        print(f"[TDT-ELASTICITY-BRIDGE] Cosmic Age Discrepancy Margin : {age_discrepancy_pct:.4f}%")
+        print("=" * 70)
+        
+        # 두 허블 상수의 수치적 갭에도 불구하고, 우주 총 기하학적 나이 오차가 극도로 미미하게 통제됨을 증명
+        assert age_discrepancy_pct < 5.0, "Cosmic age preservation fail under gauge transformations."
+        print("[SUCCESS] High-fidelity cosmic age stabilization verified across disparate scaling regimes.")
+
 
 if __name__ == "__main__":
     evaluator = HubbleTensionEvaluator()
     evaluator.execute_validation_suite()
-
