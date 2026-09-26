@@ -1,4 +1,6 @@
-### Before proceeding, it should be noted that this repository does not aim to oppose established cosmology; rather, it seeks to complement mainstream cosmology by filling in its gaps using a number-theoretic approach. This project attempts to account for the "dark sector" (dark matter and dark energy) through the physical mechanism of the geometric properties of spacetime. To this end, all arbitrary parameters have been eliminated, and constant parameters specific to the actual universe have been introduced.
+
+The formulations developed within this repository are structured to supplement current cosmological models by examining alternative number-theoretic and geometric boundary conditions. This project evaluates whether phenomena typically parameterized via empirical dark sector variables—namely dark matter and dark energy—can be accounted for through the geometric invariants and structural attributes of the spacetime manifold. To satisfy consistency criteria, empirical parameter adjustments are replaced with structural invariant constants bound onto verified physical baselines.
+
 
 ### Since the theory can be long and tedious, I’ll start by sharing the code and terminal output.
 
@@ -8,8 +10,8 @@
 
 ---
 
-> The following terminal snapshots are raw outputs generated natively by the repository execution suites under a strictly frozen, zero-tuning layout, eliminating post-hoc manual adjustments.
----
+> The following terminal snap-shots register numerical trajectories generated via the repository validation infrastructure under a frozen parameter layout, independent of post-hoc empirical adjustments.
+
 ---
 ### tdt_core.py
 
@@ -170,9 +172,10 @@ DDO154       | 0.229621         | 0.007297        | 1.1516         | 0.0001     
 ===================================================================================================================
 ```
 #### Astronomical Characteristics of DDO154
-- Physical Properties: It practically lacks a messy central bulge, and the entire galaxy is essentially a gas-dominated disk, minimizing light distortion and dust interference. Thanks to this pristine state, the 2D Pure Complex Plane Laplacian Field ($\nabla\_{\perp}^{2}$) formulation achieves a near-100% computational match.
-- Geometric Isomorphism: The physical radius of DDO154 and its corresponding gas density gradient form a perfect physical isomorphism with the geometric critical thresholds required by the $\exp(r^{1.5})$ screening function.
-- Model Compatibility: Being one of the least contaminated and most transparent galaxies observed, it represents the most tightly conforming physical system for TDT model computations.
+
+*   **Morphological Profile**: The system exhibits a gas-dominated disk structure independent of a localized central bulge, minimizing dust attenuation and radiative asymmetry variables. Under these structural conditions, the 2D complex plane Laplacian field ($$\nabla_{\perp}^{2}$$) formulations map the observed mass distribution profiles.
+*   **Geometric Isomorphism**: The physical scale length of DDO154 and its corresponding baryonic density gradient satisfy the structural boundary criteria defined by the $$\exp(r^{1.5})$$ screening function configuration.
+*   **Model Observational Integrity**: Characterized by low baryonic contamination thresholds and high observational transparency metrics, this galaxy provides an empirical system to evaluate the kinematic constraints of the TDT model.
 
 ---
 ### tdt_sparc_frozen_validation.py
