@@ -32,22 +32,23 @@ This framework implements a first-principles geometric engine that maps 2D numbe
 
 ---
 
-## 📊 Empirical Verification & Boundary Regimes
+## 📊 Empirical Verification & Asymptotic Regimes
 
-The mathematical and computational consistency of the TDT core physics engine has been rigorously evaluated across multiple extreme cosmological limits via independent quantitative benchmarks, demonstrating high-fidelity alignment with established astronomical catalogs under strict zero-tuning constraints.
+The mathematical and computational consistency of the TDT physics engine has been evaluated across multiple cosmological limits via independent quantitative benchmarks, demonstrating statistical alignment with established astronomical catalogs under zero-tuning constraints. 
 
-### 1. Microscopic Limit: Quantum Phase Transition & Singularity Dissolution
-*   **Covariant Conservation ($\nabla_{\mu}\mathcal{T}^{\mu\nu}$):** Confirmed at exactly `0.0` within machine-precision floating-point tolerance down to the absolute compression limit ($a \to 10^{-12}$).
-*   **Mechanism:** Under extreme geometric compression, temporal fluctuation is modeled as a smooth quantum phase transition governed by a dynamic hyperbolic tangent manifold ($\gamma \to 1.0$). Analytical chain-rule differentiation perfectly mirrors the numerical operations graph, providing a rigorous framework to resolve singular divergences natively while preserving energy-momentum conservation.
+### 1. Microscopic Limit: Metric Compression & Singularity Regularization
+*   **Covariant Conservation ($\nabla_{\mu}\mathcal{T}^{\mu\nu}$):** Satisfied at exactly 0.0 within machine-precision floating-point tolerance down to the compression limit ($a \to 10^{-12}$).
+*   **Mechanism:** Under geometric compression, temporal fluctuation is modeled as a continuous phase transition governed by a dynamic hyperbolic tangent manifold ($\gamma \to 1.0$). Analytical chain-rule differentiation maps directly onto the numerical operations graph, providing a consistent framework to resolve singular divergences while preserving energy-momentum conservation. 
 
 ### 2. Intermediate Regime: Macroscopic Galactic Kinematics (SPARC Catalog)
-*   **Universality Invariance:** Spontaneous convergence of the universal gauge coupling ($c_{\text{univ}} = 0.229612$) and the baryon phase modulus ($\delta = 0.007297$) across disparate physical scales.
-*   **Statistical Coherence:** Yields a Global Asymptotics Residual of **15.0898% (MAE)** across the SPARC catalog under a **strictly frozen parameter mode** ($\text{Std Dev } c_{\text{univ}} = 0.000000$).
-*   **Dynamics:** Spontaneous exponential decay of the macro-viscous shielding layer allows the framework to smoothly converge back onto classical Einsteinian General Relativity (GR) metrics ($1.00000\dots$) at galactic outskirts, successfully resolving apparent mass anomalies in low-mass regimes (e.g., near-zero error tracking for the heavily studied dwarf galaxy DDO154).
+*   **Universality Invariance:** Systematic convergence of the universal gauge coupling ($c_{\text{univ}} = 0.229612$) and the baryon phase modulus ($\delta = 0.007297$) across disparate physical scales. 
+*   **Statistical Coherence:** Yields a Global Asymptotics Residual of **15.0898% (MAE)** across the SPARC catalog under a **strictly frozen parameter mode** ($\text{Std Dev } c_{\text{univ}} = 0.000000$). 
+*   **Dynamics:** Asymptotic exponential decay of the macro-viscous shielding layer allows the framework to converge toward classical Einsteinian General Relativity (GR) metrics ($1.00000\dots$) at galactic outskirts, tracking kinematic profiles in low-mass regimes (e.g., minimizing residual errors for the dwarf galaxy DDO154). 
 
 ### 3. Cosmological Macro-Scale: Large Scale Structure (LSS) & CMB Predictions
-*   **Supernovae Distance Modulus:** Achieves a Global Residual Error of **0.1577% (MAE)** against the **Pantheon+ Supernovae Dataset**, self-deriving an optimal Hubble constant baseline of $H_0 = 67.8055 \text{ km/s/Mpc}$.
-*   **CMB Power Spectrum High-Order Target:** *A priori* forecasting projects high-order acoustic peaks (e.g., the \(l_4\) peak prediction aligning within 4.3556% of the *Planck* consensus), strongly supporting the validity of the unified horizon propagation model across the macro-expansion timeline.
+*   **Supernovae Distance Modulus:** Achieves a Global Residual Error of **0.1577% (MAE)** against the **Pantheon+ Supernovae Dataset**, deriving a baseline Hubble constant of $H_0 = 67.8055 \text{ km/s/Mpc}$. 
+*   **CMB Power Spectrum High-Order Target:** Theoretical forecasting maps high-order acoustic peaks (e.g., the $l_{4}$ peak prediction aligning within 4.3556% of the Planck consensus), verifying the unified horizon propagation model across the macro-expansion timeline. 
+
 
 
 
