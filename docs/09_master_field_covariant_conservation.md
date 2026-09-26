@@ -62,7 +62,8 @@ The geometric expansion deformation rate ($$\nabla^{\mu}\mathcal{G}_{\mu\nu}$$) 
 
 ## 4. Computational Verification
 
-The structural consistency of the covariant formulation is evaluated to machine precision within the verification framework via `tests/test_conservation.py`. The evaluation module examines the conservation law using a central-difference trajectory across trans-Planckian scale factors $[a = 10^{-3}\] down to \[a = 10^{-12}\$:
+The structural consistency of the covariant formulation is evaluated to machine precision within the verification framework via `tests/test_conservation.py`. The evaluation module examines the conservation law using a central-difference trajectory across trans-Planckian scale factors $a = 10^{-3}$ down to $a = 10^{-12}$:
+
 
 
 ```python
