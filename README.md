@@ -1,4 +1,4 @@
-### Before proceeding, it should be noted that this repository does not aim to oppose established cosmology; rather, it aligns with the existing framework while attempting to fill gaps in mainstream theory through a number-theoretic approach. It is a project that seeks to explain the "dark sector" (dark matter and dark energy) by attributing it to the physical mechanism of the geometric properties of spacetime.
+### Before proceeding, it should be noted that this repository does not aim to oppose established cosmology; rather, it seeks to complement mainstream cosmology by filling in its gaps using a number-theoretic approach. This project attempts to account for the "dark sector" (dark matter and dark energy) through the physical mechanism of the geometric properties of spacetime. To this end, all arbitrary parameters have been eliminated, and constant parameters specific to the actual universe have been introduced.
 
 ### Since the theory can be long and tedious, I’ll start by sharing the code and terminal output.
 
