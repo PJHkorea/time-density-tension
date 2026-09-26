@@ -1,10 +1,11 @@
 ### Introduction
 
-The quantum field theory (QFT) vacuum fluctuation and topological resonance model proposed in this study introduces a distinct perspective from the standard cosmological model and conventional quantum field theory ($\Lambda\text{CDM}$ / QFT), which have long relied on artificial energy cutoffs or a posteriori renormalization parameters to resolve the ultraviolet (UV) divergence issues of vacuum bubble diagrams at cosmological thresholds. Instead of fitting parameters, the new model directly embeds the vacuum expectation value (VEV) onto a two-dimensional concentric polar coordinate lattice and structures it through the Frobenius trace ($\text{Tr}$) operation of a complex anchoring Hamiltonian. Through this framework, it demonstrates a mathematical physics alternative where vacuum energy is self-normalized from first principles via the Euler product identity of the Riemann zeta function without any hyperparameter tuning.
+The quantum field theory (QFT) vacuum fluctuation and topological resonance formulation proposed in this study departs from the standard cosmological model and conventional quantum field theory ($\Lambda\text{CDM}$ / QFT), which introduce empirical energy cutoffs or post-hoc renormalization parameters to regularize ultraviolet (UV) divergence boundaries within vacuum bubble diagrams at cosmological thresholds. Instead of utilizing parameter adjustments, this model maps the vacuum expectation value (VEV) onto a two-dimensional concentric polar coordinate lattice, structured via the Frobenius trace ($\text{Tr}$) operation of a complex anchoring Hamiltonian. Through this framework, the model evaluates an analytical alternative where vacuum energy satisfies self-normalization constraints from first principles via the Euler product identity of the Riemann zeta function, without introducing hyperparameter tuning.
 
-The cosmological Berry phase ($\gamma\_{\text{Berry}}$) and the Montgomery-Odlyzko spectral isomorphism ($\mathcal{I}\_{\text{Spectrum}}$) derived in this mechanism are not phenomenological patches inserted to bridge theoretical gaps; rather, they constitute core causal elements substantiating the model's mathematical validity. This framework provides a dimensional reduction and topological insulator framework explaining how the microscopic Random Matrix Theory (RMT) energy level distribution of the primordial quark-gluon plasma (QGP) scale-invariantly projects into the linear tension profile of macroscopic large-scale cosmic web filaments.
+The cosmological Berry phase ($$\gamma_{\text{Berry}}$$) and the Montgomery-Odlyzko spectral isomorphism ($$\mathcal{I}_{\text{Spectrum}}$$) implemented in this framework establish the analytical baseline to evaluate spatial scaling constraints without introducing post-hoc empirical parameter adjustments. This formulation structures an analytical framework where the microscopic Random Matrix Theory (RMT) energy level distribution of the primordial quark-gluon plasma (QGP) is projectively extended onto the macroscopic large-scale cosmic web filaments, tracking the linear tension profile through dimensional reduction and topological insulator boundary criteria.
 
-Furthermore, the higher-dimensional algebraic convergence derived at the extreme compression limit ($a \to 0$) and the geometric zero convergence ($0.0000$) at the 15 Mpc scale are not artifacts of numerical approximation. Under a single frozen parameter set ($\text{Std Dev } c\_{\text{univ}} = 0.000000$) anchored on the fine-structure constant ($\alpha$), this consistent formulation demonstrates the structural completeness of a closed-loop cosmology that seamlessly bridges microscopic quantum divergence, galactic rotation curves, and macroscopic accelerated cosmic expansion within a single number-theoretic architecture.
+Furthermore, the algebraic convergence evaluated at the metric compression limit ($$a \to 0$$) and the geometric convergence toward zero ($$0.0000$$) at the 15 Mpc scale are analyzed as systematic features of the boundary manifold rather than artifacts of numerical approximation. Under a frozen parameter configuration ($\text{Std Dev } c_{\text{univ}} = 0.000000$) anchored on the fine-structure constant ($$\alpha$$), this formulation satisfies the boundary conditions of a unified cosmological structure, mapping microscopic quantum divergence limits, galactic rotation profiles, and macroscopic accelerated expansion trajectories within a single number-theoretic framework.
+
 
 ---
 
@@ -12,19 +13,23 @@ Furthermore, the higher-dimensional algebraic convergence derived at the extreme
 
 ## TDT-Core Phase 06: First-Principles Derivation of the Zeta Potential Field, Berry Phase, and Spectral Isomorphism
 
-This document formalizes the microscopic, quantum field-theoretic & QFT) foundations of **Time-Density Tension (TDT) Cosmology**. 
+This document formalizes the microscopic, quantum field-theoretic ($$\text{QFT}$$) foundations of **Time-Density Tension (TDT) Cosmology**. 
 
-By deriving the vacuum expectation value & VEV) from prime-harmonic state densities and defining the cosmological Berry phase, this framework bridges the micro-scale quantum foam directly onto the parameter-free macro-scale geometric constraints established in the core architecture.
+By deriving the vacuum expectation value ($$\text{VEV}$$) from prime-harmonic state densities and defining the cosmological Berry phase, this framework maps the micro-scale quantum fluctuations onto the parameter-free macro-scale geometric constraints established in the core architecture.
+
 
 ---
 
-## 1. The 'Zeta Potential Field' ($^{\Phi}_{\text{Zeta}}$) and VEV Regularization
+## 1. The Zeta Potential Field ($$\Phi_{\text{Zeta}}$$) and VEV Regularization
 
-The primary breakdown of standard Quantum Field Theory & QFT) during cosmological limits occurs due to ultraviolet & UV) divergences in the vacuum bubble graphs, necessitating arbitrary renormalization cutoffs. TDT cosmology resolves this barrier by embedding the vacuum expectation value & VEV) directly onto the 2D Concentric Polar Lattice declared in Phase 01, bounding the field's allowed modes via a rigorous number-theoretic operator. 
+The divergence of standard Quantum Field Theory ($$\text{QFT}$$) under cosmological boundary conditions occurs due to ultraviolet ($$\text{UV}$$) divergence limits within vacuum bubble graphs, which necessitate empirical renormalization cutoffs. The TDT framework addresses this boundary divergence by mapping the vacuum expectation value ($$\text{VEV}$$) onto the 2D Concentric Polar Lattice established in Phase 01, constraining the field modalities via a number-theoretic operator configuration. 
 
-We define the scalar Zeta Potential Field ($^{\Phi}_{\text{Zeta}}$) over the spatial boundary slice. The corresponding vacuum expectation value is not an arbitrary empirical density, but the localized Frobenius trace of the complex anchoring Hamiltonian: 
+The scalar Zeta Potential Field ($$\Phi_{\text{Zeta}}$$) is defined over the spatial boundary slice. Under this formulation, the corresponding vacuum expectation value is structured as the localized Frobenius trace of the complex anchoring Hamiltonian rather than an empirical density variable:
 
 $$ \langle 0|^{\Phi}_{\text{Zeta}}(a)|0\rangle = \lim_{s \to ^{H}_{\text{Anchor}}} \prod_{p \in \mathbb{P}} \left( 1 - p^{-s} \right)^{-1} \equiv \zeta \left( ^{H}_{\text{Anchor}}(a) \right) $$
+
+
+-여기까지-
 
 ### 1.1 Density of States and Geometric Phase-Locking
 
