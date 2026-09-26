@@ -30,21 +30,8 @@ Evaluating at the recombination boundary $$a \to 0.0009$$ and contemporary basel
 
 ---
 
-## 3. Observational Scale Mapping and Gauge Normalization Analysis
 
-Introducing a volumetric density scaling parameter $$\kappa_{\text{density}} \approx 1.27274$$ normalizes the baseline to $$H_0^{\text{TDT-Scale}} \approx 66.8548 \text{ km/s/Mpc}$$. The empirical expansion parameter is formulated as follows:
-
-$$H_0^{\text{empirical}}(a) = H_0^{\text{TDT-Scale}} \cdot \left[ 1.0 + (\alpha + \mu_{\text{friction}}) \cdot \cosh\left( \frac{\pi}{\sqrt{3}} \cdot a \right) \right]$$
-
-*   **Early Recombination Boundary ($a \to 0.0009$, $\mu_{\text{friction}} = 0.0$)**: Yields **$$67.3426 \text{ km/s/Mpc}$$**, aligning with the Planck consensus dataset.
-*   **Contemporary Volumetric Boundary ($a \to 1.0$, $\mu_{\text{friction}} = 3\alpha$)**: Yields **$$72.9987 \text{ km/s/Mpc}$$**, matching the local distance ladder observations.
-
-The derived cosmological Hubble tension gap profile evaluates to **$$5.6560 \text{ km/s/Mpc}$$**.
-
-
----
-
-## 4. Quantum Time Elasticity and Cosmological Timeline Integration
+## 3. Quantum Time Elasticity and Cosmological Timeline Integration
 
 To evaluate timeline duration parameters independent of empirical scaling adjustments, the cosmological lifespan is integrated via an adaptive quadrature routine ($$t = \int \frac{1}{a \cdot H(a)} \, da$$), yielding the geometric manifold ages under disparate scaling regimes:
 
@@ -56,7 +43,7 @@ The derived cosmic age discrepancy margin tracks within a zero-error threshold o
 
 ---
 
-## 5. Quantitative Cosmological Epoch Convergence Matrix
+## 4. Quantitative Cosmological Epoch Convergence Matrix
 
 | Cosmological Epoch | Scale Factor $$a$$ | Metric Dimension Status | Predicted Expansion Rate | Observational Reference Alignment |
 | :--- | :--- | :--- | :--- | :--- |
@@ -71,7 +58,7 @@ The derived cosmic age discrepancy margin tracks within a zero-error threshold o
 ---
 
 
-## 6. Human-Centric Observational Scale Mapping
+## 5. Human-Centric Observational Scale Mapping
 
 Under standard observational frameworks that omit cumulative manifold curvature tracking, the apparent cosmic age reduces to the reciprocal inversion of the contemporary expansion rate modulated via a baryonic deceleration coefficient $$\lambda_{\text{baryon}} = 0.9600$$. This maps the derived parameters onto standard legacy astronomy baselines:
 
@@ -83,7 +70,7 @@ The resulting observational age gap matrix establishes a width of $$1.0800\text{
 ---
 
 
-## 7. Observational Scale Mapping and Gauge Normalization Analysis
+## 6. Observational Scale Mapping and Gauge Normalization Analysis
 
 To evaluate the mathematical alignment between the geometric baseline and empirical astrophysical datasets, a volumetric density scaling parameter ($$\kappa_{\text{density}} \approx 1.2727$$) is introduced to model the configuration of dark sector replacements within classical coordinates. This normalizes the invariant baseline tensor to a cosmological reference value of $$H_0^{\text{TDT-Scale}} \approx 67.24 \text{ km/s/Mpc}$$. 
 
@@ -93,7 +80,7 @@ $$
 H_{0}^{\text{local}}(a) = H_{0}^{\text{TDT-Scale}} \cdot \left[ 1.0 + \alpha \cdot \cosh \left( \frac{\pi}{\sqrt{3}} \cdot a \right) \right]
 $$
 
-### 7.1 Recombination Horizon Boundary Phase Validation ($$a \to 0.0009$$)
+### 6.1 Recombination Horizon Boundary Phase Validation ($$a \to 0.0009$$)
 At high-redshift limits corresponding to the cosmic microwave background (CMB) recombination horizon, the hyperbolic cosine arguments satisfy the asymptotic limit where $$\cosh \to 1.0$$. Evaluating the local expansion metric under fine-structure constant ($$\alpha$$) constraints yields:
 
 $$
@@ -102,7 +89,7 @@ $$
 
 This derived expansion parameter satisfies the boundary requirements defined by the Planck satellite consensus datasets ($$67.4 \pm 0.5 \text{ km/s/Mpc}$$) within the statistical margin.
 
-### 7.2 Contemporary Volumetric Boundary Phase Validation ($$a \to 1.0$$)
+### 6.2 Contemporary Volumetric Boundary Phase Validation ($$a \to 1.0$$)
 As the scale factor approaches the contemporary epoch ($$a \to 1.0$$), the 3D spatial projection metrics introduce an expansion factor of $$\cosh(\pi/\sqrt{3}) \approx 3.1504$$. The baseline geometric configuration evaluates as follows:
 
 $$
