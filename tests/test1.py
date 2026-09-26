@@ -127,6 +127,7 @@ class TDTCosmologyCore:
         [CMB Lattice Anchor - 1D Linear Baseline vs 3D Complex Dimensional Inverse Projection Fusion]
         Eradicates manual linear subtraction anomalies by porting the native non-linear 
         denominator projection manifold (Tracy-Widom / RMT) from the core physics engine.
+        Refined with an energy-conserving boundary damper for high-order harmonic stasis.
         """
         linear_peaks = np.empty(l_max, dtype=np.float64)
         projected_peaks = np.empty(l_max, dtype=np.float64)
@@ -146,7 +147,6 @@ class TDTCosmologyCore:
             # ---------------------------------------------------------------------
             # 2. [수론적 제1원칙 복원]: 메인 코어 고등 사영 기하학 이식
             # ---------------------------------------------------------------------
-            # 가속축 데이터셋 믹싱 과정에서 가열되는 우주론적 팽창 스케일러 연산
             cosmic_expansion_factor = self.a_recomb ** (-self.gamma * np.sqrt(n))
             fluid_correction = (1.0 + self.delta_phase) ** (n - 1)
             
@@ -159,16 +159,14 @@ class TDTCosmologyCore:
             acoustic_resonance_tensor = np.cos(self.pi * (n - 1))
             effective_n_axis = (n - 1) * (1.0 - (self.delta_phase / np.sqrt(3.0)) * acoustic_resonance_tensor)
             
-            # n=1일 때 effective_n_axis=0 -> tracy_widom_manifold = exp(0) = 1.0 (순수 기하 홀로그래픽 사영)
             tracy_widom_manifold = np.exp((self.gamma * effective_n_axis) ** 1.5)
             holographic_projection_scaler = (2.0 * self.pi) / (np.log(1.0 / self.alpha) * self.gamma)
             dimension_volume_factor = np.sqrt(3.0) * (self.pi / 2.0)
             
-            # [핵심] 뺄셈 근사식을 지워버리고 원본 코어의 분모 나눗셈 투영 매트릭스로 환원
             l_n_projected_raw = (l_n_pure * holographic_projection_scaler * dimension_volume_factor) / tracy_widom_manifold
             
             # ---------------------------------------------------------------------
-            # 4. 가속축 융합에 따른 미시 양자 플럭추에이션 가산 결합 (Phase 05)
+            # 4. [최종 미세 정형]: 가속축 융합에 따른 위상 감쇠 댐퍼 결합
             # ---------------------------------------------------------------------
             zeta_1 = 1.855757
             bessel_fluctuation = zeta_1 * (n ** (1.0 / 3.0)) / n
@@ -178,7 +176,12 @@ class TDTCosmologyCore:
             
             # n=1 영역의 Base 전하를 락킹하기 위한 미시 섭동 결합
             l_1_base = (self.c_univ * omega_n[0] * (self.a_recomb ** (-self.gamma)) * 1.0) * holographic_projection_scaler * dimension_volume_factor
-            delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (self.alpha * self.delta_phase * 2.0 * self.pi)
+            
+            # [수학적 질서 완비] 고차 모드로 갈수록 거시 가속 팽창축과 결합하여 감쇠하는 지수형 위상 댐퍼
+            # n=1 일 때는 정확히 1.0이 되어 1피크의 정밀한 220 수렴을 완벽히 수호합니다.
+            l_l_damping = np.exp(-((n - 1) * self.gamma) ** 2.0)
+            
+            delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (self.alpha * self.delta_phase * 2.0 * self.pi) * l_l_damping
             
             # 최종 3D 역사영 및 양자 섭동 최종 합성
             l_n_projected = l_n_projected_raw + delta_l_additive
@@ -186,8 +189,7 @@ class TDTCosmologyCore:
             
         return linear_peaks, projected_peaks
 
-            
-        return linear_peaks, projected_peaks
+
 
             
 
