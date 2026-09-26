@@ -162,6 +162,8 @@ By integrating a 3D spatial projection tensor cancellation symmetry against the 
 
 * **`bullet_separation_rk4.py` (Bullet Cluster Baryon-Lattice Separation Simulator)**: Executes RK4 integration for high-speed cluster collisions, reproducing the observed **~ 300 kpc** spatial offset without introducing external cold dark matter particles.
 
+* **`tdt_hubble_tension_evaluation.py` (Cosmological Conformal Parallax & Hubble Tension Evaluator)**: Monitors dimensional gauge transition dynamics across cosmological epochs, verifying the $52.5282 \to 52.9115 \to 53.7351 \text{ km/s/Mpc}$ geometric expansion profile and evaluating its mapping onto the conventional *Planck* ($\approx 67.3426\text{ km/s/Mpc}$) and SH0ES ($\approx 72.9987\text{ km/s/Mpc}$) empirical consensus boundaries under a frozen parameter architecture.
+
 
 
 
