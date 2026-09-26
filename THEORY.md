@@ -1,30 +1,32 @@
 # Time-Density Tension (TDT) Cosmology
 
-**Time-Density Tension (TDT) Cosmology** introduces a complex spacetime geometric framework that establishes an exact, non-linear topological bridge between the non-trivial zeros of the Riemann Zeta Function $(\Omega_n)$ and the acoustic oscillation multipole peaks $(l_n)$ observed in the Cosmic Microwave Background (CMB).
+**Time-Density Tension (TDT) Cosmology** introduces a complex spacetime geometric framework designed to establish a non-linear topological mapping between the non-trivial zeros of the Riemann Zeta Function $(\Omega_n)$ and the acoustic oscillation multipole peaks $(l_n)$ observed in the Cosmic Microwave Background (CMB). 
 
-By formulating the fabric of spacetime as a dynamic, quantum-informational elastic lattice, the TDT framework offers a self-consistent, alternative geometric mechanism to resolve primordial cosmic perturbations, flat galactic rotation curves, macro-scale cosmic filaments, and black hole singularity dissolution **without invoking ad-hoc dark matter particles or dark energy fields**. This approach demonstrates that the evolutionary timeline of the universe can be governed by a singular, parameter-free structural invariant driven solely by base-layer tension and baryonic fluid viscosity, thereby establishing a predictive horizon grounded in pure topological symmetries.
+By formulating the spacetime continuum as a dynamic, quantum-informational elastic lattice, the TDT framework provides an alternative geometric mechanism to account for primordial cosmic perturbations, flat galactic rotation curves, macro-scale cosmic filaments, and event horizon evolution without introducing dark matter particles or dark energy fields. This approach evaluates the evolutionary timeline of the universe under a parameter-free structural invariant driven by base-layer tension and baryonic fluid viscosity, thereby mapping the macroscopic expansion trajectory onto underlying topological symmetries. 
 
-Crucially, at extreme gravitational and cosmological bounds, this framework delivers a rigorous, first-principles complex geometric formulation that links Lee Smolin’s Fecund Universes hypothesis with structural White Hole Cosmology. By regularizing the ultimate metric compression through a continuous hyperbolic tangent phase transition operator $(\tanh)$ as $a \to 0$, the mechanical collapse inside an event horizon is mapped analytically into a stable quantum wave flow on the complex phase plane $(\tilde{a} = i\alpha)$. This analytical stasis naturally dissolves the unphysical spacetime singularity while strictly preserving the internal covariant conservation law $(\nabla_{\mu} T^{\mu\nu} = 0.0)$, dynamically driving an inflationary bounce. The solution subsequently re-emerges onto the real axis as a White Hole Outflow that seeds new baryonic matter. Consequently, spacetime evolution is formulated as a parameter-free, closed-loop topological cycle wherein the microscopic information lattice natively dictates the macroscopic expansion trajectory of the universe.
+At extreme gravitational bounds, this framework implements a first-principles complex geometric formulation that couples Lee Smolin’s Fecund Universes hypothesis with structural White Hole Cosmology. By regularizing metric compression through a continuous hyperbolic tangent phase transition operator $(\tanh)$ as $a \to 0$, the mechanical collapse inside an event horizon is mapped analytically into a quantum wave flow on the complex phase plane $(\tilde{a} = i\alpha)$. This analytical transition regularizes the spacetime singularity while preserving the internal covariant conservation law $(\nabla_{\mu} T^{\mu\nu} = 0.0)$, leading to a dynamically driven inflationary bounce. The solution subsequently projects onto the real axis as a White Hole Outflow that seeds baryonic matter, modeling spacetime evolution as a parameter-free, closed-loop topological cycle where the microscopic information lattice dictates the macroscopic expansion trajectory of the universe.
+
 
 
 ---
 
-## Quick Architecture Guide & Technical Reviewer Guardrails
+## Architectural Blueprint & Technical Review Methodology
 
-This framework deploys a first-principles geometric engine that maps 2D number-theoretic invariants directly onto macro-scale spacetime dynamics. To ensure rigorous evaluation during comprehensive code reviews or AI-assisted analytical audits within `src/tdt_core.py` and the `tests/` suites, the architecture enforces the following baseline structural constraints:
+This framework implements a first-principles geometric engine that maps 2D number-theoretic invariants directly onto macro-scale spacetime dynamics. To ensure rigorous evaluation during analytical audits of `src/tdt_core.py` and the `tests/` suites, the architecture satisfies the following baseline structural constraints:
 
-*   **Frozen Parameter Layout ($\text{Std Dev } c_{\text{univ}} = 0.000000$):** Eliminates post-hoc hyperparameter tuning. Cosmological couplings converge spontaneously from the underlying Riemann Zeta non-trivial zero lattice, ensuring zero empirical regression.
-*   **2D Holographic Dimension Reduction:** The framework operates without introducing unphysical 3D dark matter halos; macroscopic observables emerge via dimensional expansions from the 2D complex plane base layer governed by the polar Laplacian ($\nabla^2_{\perp}$).
-*   **The Analytic Scar (The $l_2$ Metric Shift):** The ~9.18% residual variation proximate to the second CMB acoustic peak represents an "Asymmetric Metric Translation" from primordial stasis to a macroscopic real field under strict covariant laws, functioning as a structural signature rather than an algorithmic discrepancy.
+*   **Frozen Parameter Layout ($\text{Std Dev } c_{\text{univ}} = 0.000000$):** Eliminates empirical hyperparameter tuning. Cosmological couplings are derived systematically from the underlying Riemann Zeta non-trivial zero lattice, precluding post-hoc empirical regression.
+*   **2D Holographic Boundary Formulation:** The framework evaluates macroscopic observables via dimensional expansions from the 2D complex plane base layer governed by the polar Laplacian ($\nabla _{\perp }^{2}$), replacing macro-scale 3D mass halos with structural boundary dynamics.
+*   **Systematic Metric Shift (The $l_{2}$ Metric Shift):** The ~9.18% residual variation proximate to the second CMB acoustic peak is modeled as an "Asymmetric Metric Translation" from primordial stasis to a macroscopic real field under strict covariant laws, functioning as an inherent structural feature of the topological transition.
 
-### Computational Physics & Analytical Rigor Guardrails
+### Computational Physics & Boundary Framework
 
-1.  **Holographic Inverse Projection Scaler ($a_{\text{recomb}}^{-\gamma}$)**
-    *   **Analytical Foundation:** Utilizing the inverse recombination scale factor serves as a geometric projection amplifier. This mapping scales 2D quantum boundary invariants onto the 3D CMB multipole spectrum with high fidelity, maintaining numerical stability without float runaway.
-2.  **Singularity Dissolution via Complex Space Mapping (`get_anchoring_hamiltonian`)**
-    *   **Analytical Foundation:** The integration embeds a continuous hyperbolic tangent $(\tanh$) operator to resolve singular boundaries natively, superseding arbitrary numerical clipping filters. This locks the interaction indices onto the Einsteinian baseline while dynamically preserving interior covariant conservation ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$).
-3.  **Tracy-Widom Non-Linear Damping & Universal Closure**
-    *   **Analytical Foundation:** The `tracy_widom_manifold` modulates spatial expansion dynamically. This allows a singular baryonic invariant ($\delta_{\text{phase}} \equiv \alpha \approx 0.007297$) to seamlessly govern both micro-vacuum regularizations and macro-scale expansions under a unified gauge symmetry.
+1.  **Holographic Inverse Projection Scaler ($a_{\text{recomb}}^{-\gamma }$)**
+    *   **Analytical Foundation:** The inverse recombination scale factor functions as a geometric projection operator. This mapping projects 2D quantum boundary invariants onto the 3D CMB multipole spectrum, ensuring numerical stability without floating-point runaway.
+2.  **Singularity Regularization via Complex Space Mapping (`get_anchoring_hamiltonian`)**
+    *   **Analytical Foundation:** The integration embeds a continuous hyperbolic tangent $(\tanh)$ operator to regularize singular boundaries, superseding empirical numerical filters. This maps the interaction indices onto the Einsteinian baseline while preserving interior covariant conservation ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$).
+3.  **Tracy-Widom Non-Linear Modulation & Universal Closure**
+    *   **Analytical Foundation:** The `tracy_widom_manifold` modulates spatial expansion tracking dynamically. This allows a singular baryonic invariant ($\delta_{\text{phase}} \equiv \alpha \approx 0.007297$) to govern both micro-vacuum regularizations and macro-scale expansions under a unified gauge symmetry.
+
 
 
 
