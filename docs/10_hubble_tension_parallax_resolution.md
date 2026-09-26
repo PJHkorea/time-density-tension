@@ -10,7 +10,7 @@ This document formalizes the geometric framework of **Time-Density Tension (TDT)
 
 The systematic variation identified between early-universe horizon baseline computations and late-universe kinematic distance ladder measurements is formulated within this framework as a geometric parallax property derived from dimensionally reduced gauge transformations.
 
-The numerical validation pipeline (`tests/tdt_hubble_tension_evaluation.py`) maps a stationary cosmological parameter baseline of \[H_0^{\text{TDT}} = 52.5282\text{ km/s/Mpc}\], satisfying global boundary constraints under a frozen parameter layout. Under this configuration, the observed metric variations track the topological transition as the 1D number-theoretic information layer projectively extends into the 3D macroscopic metric space.
+The numerical validation pipeline (`tests/tdt_hubble_tension_evaluation.py`) maps a stationary cosmological parameter baseline of $$H_0^{\text{TDT}} = 52.5282\text{ km/s/Mpc}$$ satisfying global boundary constraints under a frozen parameter layout. Under this configuration, the observed metric variations track the topological transition as the 1D number-theoretic information layer projectively extends into the 3D macroscopic metric space.
 
 ---
 
