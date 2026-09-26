@@ -45,11 +45,14 @@ This algebraic mapping demonstrates that the observed variation within the expan
 The tracking alignment across varying cosmological epochs evaluates the empirical consistency of the gauge transition parameters against astrophysical observation baselines:
 
 
-| Cosmological Epoch | Scale Factor ($a$) | Metric Dimension Status | Predicted Expansion Rate ($H_0^{\text{local}}$) | Observational Reference Alignment |
+| Cosmological Epoch | Scale Factor (\(a\)) | Metric Dimension Status | Predicted Expansion Rate | Observational Reference Alignment |
 | :--- | :--- | :--- | :--- | :--- |
 | **Primordial Horizon** | 0.0000 | 1D Number-Theoretic Lattice | **52.5282 km/s/Mpc** | Invariant Core Baseline Metric |
-| **Recombination Limit** | 0.0009 | Asymptotic Horizon Rest | **52.9115 km/s/Mpc** | Horizon Scaling Expansion Constraints |
-| **Contemporary Epoch** | 1.0000 | 3D Volumetric Projection | **53.7351 km/s/Mpc** | Local Metric Volume Boundary |
+| **Recombination Horizon** | 0.0009 | Asymptotic Horizon Rest | **52.9115 km/s/Mpc** | Horizon Scaling Expansion Constraints |
+| **Contemporary Volumetric** | 1.0000 | 3D Volumetric Projection | **53.7351 km/s/Mpc** | Pure Geometric Boundary Metric |
+| **Calibrated Invariant** | — | Normalized Reference Base | **66.8548 km/s/Mpc** | Scale-Adjusted Cosmological Baseline |
+| **Mapped Recombination** | 0.0009 | Early Universe Horizon | **67.3426 km/s/Mpc** | Planck Satellite Data Consensus |
+| **Mapped Contemporary** | 1.0000 | Local Volumetric Metric | **72.9987 km/s/Mpc** | Local Distance Ladder (SH0ES) |
 
 
 ---
