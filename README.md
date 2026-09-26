@@ -11,6 +11,8 @@
 ---
 ### tdt_core.py 
 
+*Note: The peak values in this terminal output are calculated based on the 2D Base Layer (Purified Boundary Invariants) before 3D macroscopic projection.*
+
 ```text
 ==================================================
       TDT Vectorized Physics Verification         
@@ -32,6 +34,8 @@ Baryon Phase Shift Constant (δ) : 0.007297
 ```
 ---
 ### main_simulation.py
+
+*Note: The peak values in this terminal output are calculated based on the 2D Base Layer (Purified Boundary Invariants) before 3D macroscopic projection.*
 
 ```text
 ================================================================================
