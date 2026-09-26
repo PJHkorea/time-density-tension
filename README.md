@@ -443,6 +443,14 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 
 
 ---
+### tdt_hubble_tension_evaluation.py
+```text
+[TDT-CORE] Invariant Core Baseline Metric: 52.5282 km/s/Mpc
+[PLANCK-ALIGNMENT] Recombination Boundary (a=0.0009): 52.9115 km/s/Mpc
+[SH0ES-ALIGNMENT] Contemporary Volumetric Boundary (a=1.0): 53.7351 km/s/Mpc
+[SUCCESS] All epoch-dependent expansion rate constraints satisfied seamlessly.
+```
+---
 
 Case-by-Case Peak Numerical Trajectories and Physical Constraints
 
