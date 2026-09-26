@@ -150,9 +150,11 @@ By integrating a 3D spatial projection tensor cancellation symmetry against the 
 
 
 ---
-> The following terminal snapshots are raw outputs generated natively by the repository execution suites under a strictly frozen, zero-tuning layout, eliminating post-hoc manual adjustments.
+> The following terminal snap-shots register numerical trajectories generated via the repository validation infrastructure under a frozen parameter layout, independent of post-hoc empirical adjustments.
 ---
-### tdt_core.py 
+### tdt_core.py
+
+*Note: The spectral multipole positions in this continuous core execution log are mapped strictly onto the **2D Quantum Informational Base Layer (Purified Boundary Invariants)** before undergoing the non-linear 3D macroscopic inverse projection tensor.*
 
 ```text
 ==================================================
@@ -175,6 +177,8 @@ Baryon Phase Shift Constant (δ) : 0.007297
 ```
 ---
 ### main_simulation.py
+
+*Note: Unified simulation diagnostics within this master matrix evaluate the primordial resonance wave numbers over the **2D Holographic Screen Baseline**, isolating the raw geometric tension before spatial expansion friction is dynamically engaged in the 3D bulk space.*
 
 ```text
 ================================================================================
@@ -304,10 +308,10 @@ DDO154       | 0.229621         | 0.007297        | 1.1516         | 0.0001     
 ===================================================================================================================
 ```
 #### Astronomical Characteristics of DDO154
-- Physical Properties: It practically lacks a messy central bulge, and the entire galaxy is essentially a gas-dominated disk, minimizing light distortion and dust interference. Thanks to this pristine state, the 2D Pure Complex Plane Laplacian Field ($\nabla\_{\perp}^{2}$) formulation achieves a near-100% computational match.
-- Geometric Isomorphism: The physical radius of DDO154 and its corresponding gas density gradient form a perfect physical isomorphism with the geometric critical thresholds required by the $\exp(r^{1.5})$ screening function.
-- Model Compatibility: Being one of the least contaminated and most transparent galaxies observed, it represents the most tightly conforming physical system for TDT model computations.
 
+*   **Morphological Profile**: The system exhibits a gas-dominated disk structure independent of a localized central bulge, minimizing dust attenuation and radiative asymmetry variables. Under these structural conditions, the 2D complex plane Laplacian field ($$\nabla_{\perp}^{2}$$) formulations map the observed mass distribution profiles.
+*   **Geometric Isomorphism**: The physical scale length of DDO154 and its corresponding baryonic density gradient satisfy the structural boundary criteria defined by the $$\exp(r^{1.5})$$ screening function configuration.
+*   **Model Observational Integrity**: Characterized by low baryonic contamination thresholds and high observational transparency metrics, this galaxy provides an empirical system to evaluate the kinematic constraints of the TDT model.
 ---
 ### tdt_sparc_frozen_validation.py
 ```text
