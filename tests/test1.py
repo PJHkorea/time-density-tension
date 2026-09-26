@@ -125,17 +125,21 @@ class TDTCosmologyCore:
     def calculate_cmb_acoustic_peak_positions(self, l_max: int = 5) -> tuple[np.ndarray, np.ndarray]:
         r"""
         [CMB Lattice Anchor - 1D Linear Baseline vs 3D Complex Dimensional Inverse Projection Fusion]
-        Eradicates manual linear subtraction anomalies by porting the native non-linear 
-        denominator projection manifold (Tracy-Widom / RMT) from the core physics engine.
-        Refined with an energy-conserving boundary damper for high-order harmonic stasis.
+        Fundamentally restores the un-tuned first-principles quantum-to-macro horizon projection 
+        by completely purging all artificial dampening filters and structural exponent distortions.
         """
         linear_peaks = np.empty(l_max, dtype=np.float64)
         projected_peaks = np.empty(l_max, dtype=np.float64)
         
-        # 고도화된 __init__에서 장착한 리만 제타 영점 그리드 축 벡터화
-        n_arr = np.arange(1, l_max + 1)
+        # 메인 코어 고유의 주파수 도메인 및 사영 앵커 변수 완벽 복원
         omega_n = self.omega_nodes[:l_max]
+        holographic_projection_scaler = (2.0 * self.pi) / (np.log(1.0 / self.alpha) * self.gamma)
+        dimension_volume_factor = np.sqrt(3.0) * (self.pi / 2.0)
         
+        # [제1원칙 앵커]: 1피크 영역의 자발적 사영 기저 스칼라 (l_1_base = l_n_projected[0])
+        l_1_pure_first = self.c_univ * omega_n[0] * (self.a_recomb ** (-self.gamma * np.sqrt(1.0)))
+        l_1_base = l_1_pure_first * holographic_projection_scaler * dimension_volume_factor
+
         for n in range(1, l_max + 1):
             # ---------------------------------------------------------------------
             # 1. Uncorrected Baseline (1D Linear Baseline Map)
@@ -145,28 +149,23 @@ class TDTCosmologyCore:
             linear_peaks[n - 1] = l_n_linear
             
             # ---------------------------------------------------------------------
-            # 2. [수론적 제1원칙 복원]: 메인 코어 고등 사영 기하학 이식
+            # 2. [수론적 제1원칙 복원]: 오리지널 시공간 팽창 곡률 복구
             # ---------------------------------------------------------------------
             cosmic_expansion_factor = self.a_recomb ** (-self.gamma * np.sqrt(n))
             fluid_correction = (1.0 + self.delta_phase) ** (n - 1)
-            
-            # 리만 제타 영점 기반 원초적 순수 파동 스펙트럼 유도 (c_univ 축 상속)
             l_n_pure = self.c_univ * omega_n[n - 1] * cosmic_expansion_factor * fluid_correction
             
             # ---------------------------------------------------------------------
-            # 3. 임계 경계면(n=1) 비선형 위상 압축용 Tracy-Widom 매니폴드 연산
+            # 3. 오리지널 비선형 분모 투영 Tracy-Widom 매니폴드 연산
             # ---------------------------------------------------------------------
             acoustic_resonance_tensor = np.cos(self.pi * (n - 1))
             effective_n_axis = (n - 1) * (1.0 - (self.delta_phase / np.sqrt(3.0)) * acoustic_resonance_tensor)
-            
             tracy_widom_manifold = np.exp((self.gamma * effective_n_axis) ** 1.5)
-            holographic_projection_scaler = (2.0 * self.pi) / (np.log(1.0 / self.alpha) * self.gamma)
-            dimension_volume_factor = np.sqrt(3.0) * (self.pi / 2.0)
             
             l_n_projected_raw = (l_n_pure * holographic_projection_scaler * dimension_volume_factor) / tracy_widom_manifold
             
             # ---------------------------------------------------------------------
-            # 4. [최종 미세 정형]: 가속축 융합에 따른 위상 감쇠 댐퍼 결합
+            # 4. [수론적 제1원칙 복원]: 인위적인 l_l_damping을 100% 삭제하고 순수 GUE 반발 필터만 적용
             # ---------------------------------------------------------------------
             zeta_1 = 1.855757
             bessel_fluctuation = zeta_1 * (n ** (1.0 / 3.0)) / n
@@ -174,20 +173,16 @@ class TDTCosmologyCore:
             gue_repulsion_scale = np.sqrt(np.log(np.log(l_safe))) / (2.0 * (self.pi ** 2))
             delta_phi_rmt = gue_repulsion_scale * (n - 1)
             
-            # n=1 영역의 Base 전하를 락킹하기 위한 미시 섭동 결합
-            l_1_base = (self.c_univ * omega_n[0] * (self.a_recomb ** (-self.gamma)) * 1.0) * holographic_projection_scaler * dimension_volume_factor
-            
-            # [수학적 질서 완비] 고차 모드로 갈수록 거시 가속 팽창축과 결합하여 감쇠하는 지수형 위상 댐퍼
-            # n=1 일 때는 정확히 1.0이 되어 1피크의 정밀한 220 수렴을 완벽히 수호합니다.
-            l_l_damping = np.exp(-((n - 1) * self.gamma) ** 2.0)
-            
-            delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (self.alpha * self.delta_phase * 2.0 * self.pi) * l_l_damping
+            # 인위적인 필터를 걷어내고 메인 코어의 자발적 위상 조화 합성을 수행합니다.
+            delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (self.alpha * self.delta_phase * 2.0 * self.pi)
             
             # 최종 3D 역사영 및 양자 섭동 최종 합성
             l_n_projected = l_n_projected_raw + delta_l_additive
             projected_peaks[n - 1] = np.nan_to_num(l_n_projected, nan=0.0, posinf=99999.0)
             
         return linear_peaks, projected_peaks
+
+
 
 
 
