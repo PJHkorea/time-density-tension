@@ -154,6 +154,20 @@ SN2021afm  0.1230     38.89      0.13
 SN2022ack  0.0152     34.21      0.12
 """
 
+
+def load_and_sanitize_lss_dataset(raw_text: str) -> pd.DataFrame:
+    """
+    [Zone 2 Refinement: High-Precision LSS Baryon Space Data Parser]
+    Parses raw supernova empirical text data into a pandas DataFrame, 
+    preventing redshift zero dispersion and runtime numerical inconsistencies.
+    """
+    df_lss = pd.read_csv(StringIO(raw_text.strip()), sep=r'\s+', header=0)
+    df_lss = df_lss[df_lss['REDSHIFT'] > 0.0001]
+    df_lss = df_lss[df_lss['MU_ERR'] > 1e-4]
+    return df_lss.reset_index(drop=True)
+
+
+
 # =========================================================================
 # [ZONE 3: CHI-SQUARE OBJECTIVE FUNCTION & NELDER-MEAD OPTIMIZATION SUITE]
 # =========================================================================
