@@ -467,12 +467,22 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 ======================================================================
  SECTION 3: QUANTUM TIME ELASTICITY & GEOMETRIC AGE RESOLUTION
 ======================================================================
-[TDT-AGE-PLANCK] Evaluated Age via Horizon Profile (Early): 101.7295 Gyr
-[TDT-AGE-SH0ES]  Evaluated Age via Local Friction (Late) : 99.2924 Gyr
+[TDT-AGE-PLANCK] Evaluated Geometric Manifold Age via Horizon Profile (Early): 101.7295 Gyr
+[TDT-AGE-SH0ES]  Evaluated Geometric Manifold Age via Local Friction (Late) : 99.2924 Gyr
 ----------------------------------------------------------------------
 [TDT-ELASTICITY-BRIDGE] Cosmic Age Discrepancy Margin : 2.3957%
 ======================================================================
 [SUCCESS] High-fidelity cosmic age stabilization verified across disparate scaling regimes.
+
+======================================================================
+ SECTION 4: OBSERVATIONAL HUMAN-CENTRIC AGE MAPPING
+======================================================================
+[HUMAN-OBS-PLANCK] Mapped Observational Age (Planck Scale) : 13.9389 Gyr
+[HUMAN-OBS-SH0ES]  Mapped Observational Age (SH0ES Scale)  : 12.8589 Gyr
+----------------------------------------------------------------------
+[TDT-OBS-WINDOW] Derived Observational Age Gap Window      : 1.0800 Gyr
+======================================================================
+[SUCCESS] Human-centric observational age window successfully synchronized with legacy astronomy.
 ```
 ---
 
