@@ -663,12 +663,8 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
      The multi-scale expansion spectrum satisfies covariant conservation (∇_μ T^μν = 0.0).
      Trans-Planckian boundary loop closure achieved with zero residual tensor variance.
 ================================================================================
-
-
-
-
 ```
-
+---
 
 ## 4 Case-by-Case Peak Numerical Trajectories and Physical Constraints
 
