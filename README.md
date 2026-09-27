@@ -1,5 +1,7 @@
 # TDT-Engine: Geometric Dimension-Inversion Architecture for High-Fidelity Universe Simulation
 
+> **This project is a computer software engine designed to dramatically reduce the heavy computational resource consumption of conventional Large-Scale Structure (LSS) cosmic simulations. The formulations and terminal execution logs specified in this documentation completely eliminate N-body particle loops, serving as the computational specification of high-precision geometric mechanics implemented through dimensional reduction mapping and spacetime tension lattice transitions.**
+
 
 The formulations developed within this repository are structured to supplement current cosmological models by examining alternative number-theoretic and geometric boundary conditions. This project evaluates whether phenomena typically parameterized via empirical dark sector variables—namely dark matter and dark energy—can be accounted for through the geometric invariants and structural attributes of the spacetime manifold. To satisfy consistency criteria, empirical parameter adjustments are replaced with structural invariant constants bound onto verified physical baselines.
 
