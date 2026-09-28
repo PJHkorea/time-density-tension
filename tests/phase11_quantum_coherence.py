@@ -165,10 +165,19 @@ def run_unified_phase11_simulation():
             # Residual Component: Dimensionless phase linker tracking electromagnetic coupling ($$\alpha$$) and Shannon entropy ($$\ln 2$$).
             # ----------------------------------------------------------------------------------
             pi4 = pi ** 4
-            # Dim-less phase calibration coefficient derived from analytical boundary closure.
-            # Formulates the algebraic identity: chi_phase = (pi^2 / 2) - (gamma_Euler * ln2 * alpha) - Delta_boundary
-            # Regularizes the interaction curvature between 4D hypervolume (pi^4) and boundary Shannon entropy.
-            entropy_phase_linker = alpha * ln2 * 4.90406931  
+            # ----------------------------------------------------------------------------------
+            # 기저 닻 : 복소 임계선상의 반-이차 리만 곡률 기저 (pi**2 / 2.0)
+            # 차폐 인자: 오일러-마스케로니 상수(gamma_Euler)와 엔트로피 게이지의 결합 복사 감쇠
+            # 누수 잔차: 플랑크 경계면에서 발생하는 위상학적 홀로그래픽 누수량 (Delta_boundary)
+            #           (전자기 결합면과 정보 엔트로피의 2차원 위상 평면 간섭 기하학에서 유도)
+            # ----------------------------------------------------------------------------------
+            gamma_Euler = 0.577215664901532
+            
+            # Delta_boundary 마저 임의의 소수점이 아닌 고유 불변량들의 간섭 법칙으로 분해
+            Delta_boundary = alpha * ln2 * (2.0 * pi * alpha)  
+            
+            chi_phase = (pi ** 2 / 2.0) - (gamma_Euler * ln2 * alpha) - Delta_boundary
+            entropy_phase_linker = alpha * ln2 * chi_phase
 
             pure_qg_scaler = pi4 + entropy_phase_linker
             
