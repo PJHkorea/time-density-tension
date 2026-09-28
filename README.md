@@ -452,27 +452,27 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 ======================================================================
  SECTION 1: PURE GEOMETRIC TDT PROFILE (Particle-Free Spacetime Intrinsic Tension)
 ======================================================================
-[TDT-CORE] Invariant Core Baseline Metric: 52.5282 km/s/Mpc
-[PLANCK-GEOMETRIC] Recombination Boundary (a=0.0009): 52.9115 km/s/Mpc
-[SH0ES-GEOMETRIC] Contemporary Volumetric Boundary (a=1.0): 53.7351 km/s/Mpc
+[TDT-CORE] Invariant Core Baseline Metric: 52.4295 km/s/Mpc
+[PLANCK-GEOMETRIC] Recombination Boundary (a=0.0009): 52.8120 km/s/Mpc
+[SH0ES-GEOMETRIC] Contemporary Volumetric Boundary (a=1.0): 53.6340 km/s/Mpc
 [SUCCESS] All pure geometric expansion rate constraints satisfied seamlessly.
 
 ======================================================================
  SECTION 2: EMPIRICAL OBSERVATIONAL MAPPING (Conventional Cosmological Scale Translation)
 ======================================================================
-[TDT-CALIBRATED] Normalized Reference Baseline: 66.8548 km/s/Mpc
-[PLANCK-ALIGNMENT] Derived Early Universe Horizon: 67.3426 km/s/Mpc
-[SH0ES-ALIGNMENT] Derived Contemporary Volume Metric: 72.9987 km/s/Mpc
+[TDT-CALIBRATED] Normalized Reference Baseline: 66.7245 km/s/Mpc
+[PLANCK-ALIGNMENT] Derived Early Universe Horizon: 67.2115 km/s/Mpc
+[SH0ES-ALIGNMENT] Derived Contemporary Volume Metric: 72.8565 km/s/Mpc
 ----------------------------------------------------------------------
-[TDT-RESOLUTION] Computed Cosmological Hubble Tension Gap: 5.6560 km/s/Mpc
+[TDT-RESOLUTION] Computed Cosmological Hubble Tension Gap: 5.6450 km/s/Mpc
 ======================================================================
 [SUCCESS] Multi-scale conformal parallax mappings verified perfectly.
 
 ======================================================================
  SECTION 3: QUANTUM TIME ELASTICITY & GEOMETRIC AGE RESOLUTION
 ======================================================================
-[TDT-AGE-PLANCK] Evaluated Geometric Manifold Age via Horizon Profile (Early): 101.7295 Gyr
-[TDT-AGE-SH0ES]  Evaluated Geometric Manifold Age via Local Friction (Late) : 99.2924 Gyr
+[TDT-AGE-PLANCK] Evaluated Geometric Manifold Age via Horizon Profile (Early): 101.9281 Gyr
+[TDT-AGE-SH0ES]  Evaluated Geometric Manifold Age via Local Friction (Late) : 99.4862 Gyr
 ----------------------------------------------------------------------
 [TDT-ELASTICITY-BRIDGE] Cosmic Age Discrepancy Margin : 2.3957%
 ======================================================================
@@ -481,10 +481,10 @@ Step   | Time (Myr) | z Map | Gas_Pos (kpc)  Tension_Pos (kpc)   Covariant Error
 ======================================================================
  SECTION 4: OBSERVATIONAL HUMAN-CENTRIC AGE MAPPING
 ======================================================================
-[HUMAN-OBS-PLANCK] Mapped Observational Age (Planck Scale) : 13.9389 Gyr
-[HUMAN-OBS-SH0ES]  Mapped Observational Age (SH0ES Scale)  : 12.8589 Gyr
+[HUMAN-OBS-PLANCK] Mapped Observational Age (Planck Scale) : 13.9661 Gyr
+[HUMAN-OBS-SH0ES]  Mapped Observational Age (SH0ES Scale)  : 12.8840 Gyr
 ----------------------------------------------------------------------
-[TDT-OBS-WINDOW] Derived Observational Age Gap Window      : 1.0800 Gyr
+[TDT-OBS-WINDOW] Derived Observational Age Gap Window      : 1.0821 Gyr
 ======================================================================
 [SUCCESS] Human-centric observational age window successfully synchronized with legacy astronomy.
 ```
