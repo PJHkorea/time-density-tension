@@ -1,5 +1,10 @@
 # 10. Conformal Parallax and Cosmological Hubble Tension Resolution
 
+> ### 📌 Architectural Introduction and Contextual Grounding
+> This document formalizes the multi-scale calibration matrix required to resolve the cosmological Hubble tension through an automated lookback conformal gauge calibration model. 
+> [For comprehensive derivations and structural constraints, refer to the underlying physical baselines established in Phase 00: Dynamic Time-Density Invariants and Phase 01: 2D Concentric Polar Lattice Specifications.]
+
+
 ## TDT-Core Phase 10: Dimensionally Reduced Gauge Transition and Metric Discrepancy Calibration
 
 This document formalizes the geometric framework of **Time-Density Tension (TDT) Cosmology** to evaluate global expansion parameter discrepancies and resolve the cosmological Hubble tension through a numerical lookback expansion field calibration matrix.
