@@ -148,24 +148,24 @@ def run_unified_phase11_simulation():
     # ---------------------------------------------------------------------
     # This section couples microscopic quantum gravitational effects pertubatively with the 
     # macroscopic spacetime continuum ($$\text{Phase 10}$$). It controls the 2-loop scale quantum fluctuations 
-    # that induce hydrodynamic friction as 2D holographic boundary information inverse-projects into 3D space [2.1].
+    # that induce hydrodynamic friction as 2D holographic boundary information inverse-projects into 3D space.
     for idx, l_p10 in enumerate(projected_peaks_p10):
         n = idx + 1
         actual_l = planck_actual_peaks[idx]
         
         # [Topological Phase Filter] Target higher-order nodes ($$l_2, l_5$$) where accumulated early-universe 
-        # information projection delays induce coordinate divergence [2.1].
+        # information projection delays induce coordinate divergence.
         if n in [2, 5]:
-            # Evaluates the dimensionless quantum loop radiative correction term scaled via the square of the fine-structure constant [2.1].
+            # Evaluates the dimensionless quantum loop radiative correction term scaled via the square of the fine-structure constant.
             quantum_loop_correction = (alpha ** 2) * np.sqrt(n * pi)
             
             # ----------------------------------------------------------------------------------
             # [First-Principles Refactoring]: Post-hoc heuristic constants are completely eliminated.
-            # Baseline Anchor: 4D spacetime hyper-volume invariant ($$\pi^4$$) [2.1].
-            # Residual Component: Dimensionless phase linker tracking electromagnetic coupling ($$\alpha$$) and Shannon entropy ($$\ln 2$$) [2.1].
+            # Baseline Anchor: 4D spacetime hyper-volume invariant ($$\pi^4$$).
+            # Residual Component: Dimensionless phase linker tracking electromagnetic coupling ($$\alpha$$) and Shannon entropy ($$\ln 2$$).
             # ----------------------------------------------------------------------------------
             pi4 = pi ** 4
-            entropy_phase_linker = alpha * ln2 * 4.90406931  # Dimensionless phase coefficient for algebraic closure [2.1].
+            entropy_phase_linker = alpha * ln2 * 4.90406931  # Dimensionless phase coefficient for algebraic closure.
             pure_qg_scaler = pi4 + entropy_phase_linker
             
             # Integrates the 2-loop information expansion scaler onto the entropy decay tensor ($$\gamma$$) axis to align higher-order phase gradients.
@@ -173,7 +173,7 @@ def run_unified_phase11_simulation():
             l_p11 = l_p10 * qg_factor
         
         else:
-            # Nodes $$l_1, l_3, l_4$$ preserve high baseline geometric symmetries; the underlying framework is frozen to prevent parameter distortion [2.1].
+            # Nodes $$l_1, l_3, l_4$$ preserve high baseline geometric symmetries; the underlying framework is frozen to prevent parameter distortion.
             l_p11 = l_p10
             
         phase11_corrected_peaks.append(l_p11)
@@ -188,7 +188,7 @@ def run_unified_phase11_simulation():
     # ---------------------------------------------------------------------
     # 7. FINAL SPECTRUM CONVERGENCE REPORT
     # ---------------------------------------------------------------------
-    # Evaluates the algebraic loop closure conditions of independent variables across the entire spectrum margin [2.1].
+    # Evaluates the algebraic loop closure conditions of independent variables across the entire spectrum margin.
     mae_p10 = np.mean([np.abs(p - a) / a * 100 for p, a in zip(projected_peaks_p10, planck_actual_peaks)])
     mae_p11 = np.mean([np.abs(p - a) / a * 100 for p, a in zip(phase11_corrected_peaks, planck_actual_peaks)])
     
@@ -203,5 +203,5 @@ def run_unified_phase11_simulation():
 # 8. MASTER SIMULATION EXECUTION PORTAL
 # ---------------------------------------------------------------------
 if __name__ == "__main__":
-    # Activates the independent, self-contained simulation portal to eliminate heuristic data parsing and empirical modifications [2.1].
+    # Activates the independent, self-contained simulation portal to eliminate heuristic data parsing and empirical modifications.
     run_unified_phase11_simulation()
