@@ -47,7 +47,7 @@ def run_unified_phase11_simulation():
     ], dtype=np.float64)
 
     l_max = 5
-    a_recomb = 1.0 / 1101.0  # 우주 재결합 에포크 기하학적 스케일 팩터 (Recombination Era)
+    a_recomb = alpha * ln2 * gamma  # 우주 재결합 에포크 기하학적 스케일 팩터 (Recombination Era)
     
     # ---------------------------------------------------------------------
     # 3. 🚨 [CRITICAL RESTORATION] COMOVING SOUND HORIZON ANGULAR SCALER
