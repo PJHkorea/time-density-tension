@@ -2,6 +2,35 @@
 
 > **This project is a computer software engine designed to dramatically reduce the heavy computational resource consumption of conventional Large-Scale Structure (LSS) cosmic simulations. The formulations and terminal execution logs specified in this documentation completely eliminate N-body particle loops, serving as the computational specification of high-precision geometric mechanics implemented through dimensional reduction mapping and spacetime tension lattice transitions.**
 
+---
+### ⚙️ Hardware Acceleration Host Infrastructure Spec
+
+#### `tdt_graphics_pipeline_host.cpp` (DirectX 12 Core Execution Backbone)
+This host infrastructure functions as the low-level hardware orchestration layer designed to bind the a priori mathematical invariants directly into the GPU registers, achieving high-throughput branchless parallel tensor evaluation over massive simulation scales.
+
+*   **Hardware-Enforced Constant Buffer Alignment (`b0` Binding):**
+    To satisfy the rigid hardware constraints of DirectX 12, the `TDTCosmicConstants` structure embeds a strict compile-time `alignas(256)` boundary. This configuration pre-allocates an optimized, frozen memory footprint for arithmetic invariants (\(\alpha, \pi, \ln 2, \omega_1\)) on Device-Local committed resources, facilitating zero-overhead matrix back-projection tracing directly from the host to register `b0`.
+*   **VRAM Interleaving & Isomorphic Node Structuring (`u1` Binding):**
+    The `SimulationNode` layout enforces an explicit 16-byte structural alignment (`alignas(16)`) combined with a critical 12-byte padding metric (`float padding[3]`). This padding expands the struct dimension to exactly 32 bytes, securing a perfect 1:1 structural isomorphism with the HLSL `StructuredBuffer<SimulationNode>` target. This architecture optimizes the GPU L2 cache-line indexing efficiency by completely avoiding unaligned memory access penances during massive parallel data requests.
+*   **Zero-Copy VRAM Memory Lifecycles:**
+    The host initializes the spatial potential fields spontaneously using the intrinsic TDT Geometric Berry Phase seeds. Rather than invoking costly frame-by-frame `CPU ↔ GPU` intersystem memory clones, the engine streams the 1,000,000 cosmic filament node payloads onto an exclusive staging upload heap, dispatching a high-throughput DMA block transfer (`CopyBufferRegion`) into high-speed Default VRAM.
+*   **Pipeline Visibility Barriers & Dynamic Synchronization:**
+    The `DispatchComputeFrame` routine segments the thread grid into unified 64-thread warps to trigger simultaneous parallel evaluation over a Newton-Raphson lookback loop. To isolate data hazards and memory race conditions during high-resolution quadrature, the engine injects a strict pipeline resource barrier (`D3D12_RESOURCE_BARRIER_TYPE_UAV`) right after the `Dispatch` burst. This synchronization boundary stalls downstream execution passes until all asynchronous compute writes are fully committed to VRAM, guaranteeing absolute floating-point stability across extreme lookback epochs.
+
+#### `tdt_unified_core.hlsl` (High-Performance GPU Compute Kernel)
+This parallel compute kernel executes the numerical integrations of the Time-Density-Tension mathematical fields directly within individual GPU execution warps, bypassing conventional N-body structural bottlenecks via branchless scheduling optimizations.
+
+*   **Branchless Mathematical Layout & SFU Acceleration:**
+    The kernel eliminates heavy pipeline execution stalls by leveraging the hardware-level Transcendent Special Function Units (SFUs). In `GetDebyeFriction`, complex geometric decay and damping transitions are evaluated using continuous transcendental expressions (`tanh`, `exp`) over a `clamp` filter. This strategic layout forces the compiler to map smooth density switches directly to fast hardware math instructions, avoiding performance-degrading arithmetic expansions.
+*   **Warp Divergence Suppression via Execution Directives:**
+    To neutralize the risk of SIMD thread stalling within a single 64-thread execution group, the kernel orchestrates execution paths via strict compiler hints:
+    *   **`[flatten]` Directive:** Enforced within the Hookean Manifold Geometric Masking logic of `GetTensionAcceleration`. It forces the GPU to evaluate both algebraic tension trajectories concurrently at the register level, replacing deep instruction cache serialization with a fast conditional move (CMOV).
+    *   **`[branch]` Directive:** Strategic early-rejection gate deployed inside `CSMain`. By dividing the cosmos into localized pre-capture and post-capture domains based on the Baryon Fluid Core Resonant capture lock condition, it safely halts redundant baryonic gas integrations for trapped elements, maximizing thread processing efficiency.
+*   **Massively Parallel Runge-Kutta 4th Order (RK4) Quadrature:**
+    Unlike conventional gaming engines that utilize low-precision Euler integration, this architecture binds a high-fidelity Runge-Kutta 4th-order (RK4) numerical integrator directly into the `[numthreads(64, 1, 1)]` execution block. Spacetime manifold lattice oscillations and baryonic gas fluid dynamics are integrated across 4 independent derivative steps per thread index. Because each simulation seed operates independently on its allocated VRAM register matrix, the GPU sustains absolute numerical quadrature precision without compromising the target 60+ real-time render frame rate.
+*   **Cosmological Hubble Drag & Scale Boundary Transitions:**
+    Late-universe expansion friction is dynamically engaged for lookback epochs below redshift 8 (z < 8). The core engine applies an automated cosmological damping matrix via local Hubble friction constants (H₀), smoothly stabilizing numerical trajectory velocity overflows. Upon reaching the critical attraction boundary, the kinematics anchor tightly onto the 0.00 kpc core attractor via a zero-tolerance boundary evaluation loop, guaranteeing machine-precision convergence before flushing updated structural node states back to register `u1`.
+---
 
 The formulations developed within this repository are structured to supplement current cosmological models by examining alternative number-theoretic and geometric boundary conditions. This project evaluates whether phenomena typically parameterized via empirical dark sector variables—namely dark matter and dark energy—can be accounted for through the geometric invariants and structural attributes of the spacetime manifold. To satisfy consistency criteria, empirical parameter adjustments are replaced with structural invariant constants bound onto verified physical baselines.
 
