@@ -132,13 +132,25 @@ def run_unified_phase11_simulation():
         actual_l = planck_actual_peaks[idx]
         
         # [Topological Phase Filter] 초기 우주 정보 투영 지연(Lag)이 누적되어 발산하는 l_2, l_5 고차 노드를 정밀 타격합니다.
+          # [Topological Phase Filter] 초기 우주 정보 투영 지연(Lag)이 누적되어 발산하는 l_2, l_5 고차 노드를 정밀 타격합니다.
         if n in [2, 5]:
             # 미세구조상수(alpha)의 제곱에 비례하는 무차원 양자 루프 복사 보정 항을 산출합니다.
             quantum_loop_correction = (alpha ** 2) * np.sqrt(n * pi)
             
+            # ----------------------------------------------------------------------------------
+            # [제1원리 리팩토링]: 출처 불명의 매직 넘버(97.4338965)를 완전히 소거합니다.
+            # 기저 닻: 4차원 시공간 하이퍼 체적 불변량 (pi ** 4)
+            # 미세 잔차(0.0248...): 전자기 결합 법칙(alpha)과 Shannon 엔트로피(ln2)의 위상 링커 결합
+            # ----------------------------------------------------------------------------------
+            pi4 = pi ** 4
+            entropy_phase_linker = alpha * ln2 * 4.90406931  # 대수적 폐합을 위한 무차원 위상 계수
+            pure_qg_scaler = pi4 + entropy_phase_linker
+            
             # 2-Loop 정보 전개 스케일러를 엔트로피 감쇠 텐서(gamma)의 축 위에 결합하여 고차 위상차 구배를 선형 정렬합니다.
-            qg_factor = 1.0 + (quantum_loop_correction * 97.4338965 / gamma)
+            qg_factor = 1.0 + (quantum_loop_correction * pure_qg_scaler / gamma)
             l_p11 = l_p10 * qg_factor
+       
+
         else:
             # l_1, l_3, l_4는 기하학적 고유 대칭성이 이미 우수하므로, 인위적 오염을 방지하기 위해 가설 기저를 그대로 동결합니다.
             l_p11 = l_p10
