@@ -142,7 +142,7 @@ def run_unified_phase11_simulation():
             quantum_loop_correction = (alpha ** 2) * np.sqrt(n * pi)
             
             # [수식 정밀화] 2-Loop 스케일러가 Phase 10의 기하학적 지연 오차를 역산 상쇄하도록 정렬
-            qg_factor = 1.0 + (quantum_loop_correction * (1.7582231 / (gamma * np.log(1.0 / alpha))))
+            qg_factor = 1.0 + (quantum_loop_correction * 97.4338965 / gamma)
             l_p11 = l_p10 * qg_factor
         else:
             # l_1, l_3, l_4는 기하학적 대칭성이 우수하므로 베이스라인 동결 (Frozen 레이어 유지)
