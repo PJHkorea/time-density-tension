@@ -176,6 +176,17 @@ public:
         UINT thread_groups_x = static_cast<UINT>((m_total_nodes + 63) / 64);
         command_list->Dispatch(thread_groups_x, 1, 1);
 
+        // =========================================================================
+        // [UAV 메모리 가시성 및 동기화 배리어 주입]
+        // 컴퓨트 셰이더의 비동기 쓰기가 끝날 때까지 렌더 파이프라인 후속 연산을 대기시켜
+        // 데이터 오염(Hazard) 및 메모리 레이스 컨디션을 하드웨어 레벨에서 격리함.
+        // =========================================================================
+        D3D12_RESOURCE_BARRIER barrier = {};
+        barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+        barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+        barrier.UAV.pResource = m_structured_buffer_gpu.Get();
+        command_list->ResourceBarrier(1, &barrier);
+
         // 파이프라인 동기화 펜스 카운터 증가 및 런타임 락 제어
         m_command_queue->Signal(m_fence.Get(), ++m_fence_value);
         if (m_fence->GetCompletedValue() < m_fence_value) {
@@ -184,6 +195,7 @@ public:
         }
     }
 };
+
 
 int main() {
     std::cout << "=========================================================================\n";
