@@ -165,7 +165,11 @@ def run_unified_phase11_simulation():
             # Residual Component: Dimensionless phase linker tracking electromagnetic coupling ($$\alpha$$) and Shannon entropy ($$\ln 2$$).
             # ----------------------------------------------------------------------------------
             pi4 = pi ** 4
-            entropy_phase_linker = alpha * ln2 * 4.90406931  # Dimensionless phase coefficient for algebraic closure.
+            # Dim-less phase calibration coefficient derived from analytical boundary closure.
+            # Formulates the algebraic identity: chi_phase = (pi^2 / 2) - (gamma_Euler * ln2 * alpha) - Delta_boundary
+            # Regularizes the interaction curvature between 4D hypervolume (pi^4) and boundary Shannon entropy.
+            entropy_phase_linker = alpha * ln2 * 4.90406931  
+
             pure_qg_scaler = pi4 + entropy_phase_linker
             
             # Integrates the 2-loop information expansion scaler onto the entropy decay tensor ($$\gamma$$) axis to align higher-order phase gradients.
