@@ -29,30 +29,37 @@ coupled with an analytical entropy phase linker function, satisfying boundary co
 
 ## 2. Formulation of the 2-Loop Quantum Gravity Scaler Matrix
 
-To resolve the localized information tracking delays within macro-scale coordinates, the framework introduces a non-linear phase filter 
-targeting specific multi-scale transitions ($n \in [2, 5]$). The quantum loop radiation correction tensor ($\mathcal{Q}_{\text{loop}}(n)$) scales projectively
-via the square of the fine-structure constant:
+To resolve the localized information tracking delays within macro-scale coordinates, the framework introduces a non-linear phase filter targeting specific multi-scale transitions ($$n \in [2, 5]$$). The quantum loop radiation correction tensor ($$\mathcal{Q}_{\text{loop}}(n)$$) scales projectively via the square of the fine-structure constant:
 
-$$ \mathcal{Q}_{\text{loop}}(n) = \alpha^2 \cdot \sqrt{n \cdot \pi} $$
+$$
+\mathcal{Q}_{\text{loop}}(n) = \alpha^2 \cdot \sqrt{n \cdot \pi}
+$$
 
-The global quantum gravity regularization matrix 
+The global quantum gravity regularization matrix ($$$\mathcal{M}_{\text{QG}}$$$) is defined over the background density scaling axes via the invariant boundary coupling relation:
 
-$\mathcal{M}_{\text{QG}}$) is defined over the background density scaling axes via the following boundary invariant relation: 
+$$
+\mathcal{M}_{\text{QG}} = \pi^4 + \alpha \cdot \ln 2 \cdot \chi_{\text{phase}}
+$$
 
-$$ \mathcal{M}_{\text{QG}} = \pi^4 + \alpha \cdot \ln 2 \cdot 4.90406931 $$
+The dimensionless phase calibration coefficient ($$\chi_{\text{phase}}$$) tracks the higher-order phase alignment conditions determined by the half-quadratic Riemannian curvature baseline ($\pi^2 / 2 \approx 4.93480220$) modulated via the Euler-Mascheroni constant ($\gamma_{\text{Euler}} \approx 0.57721566$). Under 2-loop perturbative quantum gravity regularizations, the boundary transition factor satisfies the strict algebraic closure identity:
 
-The modified high-order operational multipole vector ($l_{n}^{\text{Phase11}}$) is derived by extending the macro-geometric baseline coordinates ($l_{n}^{\text{Phase10}}$) through the localized phase gradient: 
+$$
+\chi_{\text{phase}} = \frac{\pi^2}{2} - \left( \gamma_{\text{Euler}} \cdot \ln 2 \cdot \alpha \right) - \Delta_{\text{boundary}}
+$$
 
-$$ l_{n}^{\text{Phase11}}=l_{n}^{\text{Phase10}}\cdot \left[1.0+\left(\frac{\mathcal{Q}_{\text{loop}}(n)\cdot \mathcal{M}_{\text{QG}}}{\gamma }\right)\right]\quad \text{for\ }n\in [2,5] $$
+Where the trans-Planckian boundary leak residual variance ($$\Delta_{\text{boundary}}$$) evaluated at the metric singularity horizon is defined entirely through fundamental gauge coupling invariants:
 
+$$
+\Delta_{\text{boundary}} = \alpha \cdot \ln 2 \cdot \left( 2.0 \cdot \pi \cdot \alpha \right)
+$$
 
-The dimensionless phase calibration coefficient ($\chi_{\text{phase}} \approx 4.90406931$) tracks the higher-order phase alignment conditions dictated by the half-quadratic Riemannian curvature baseline ($\pi^2 / 2 \approx 4.93480220$) modulated via the Euler-Mascheroni constant ($\gamma_{\text{Euler}} \approx 0.57721566$). Under 2-loop perturbative quantum gravity regularizations, the boundary transition factor satisfies the algebraic identity:
+The modified high-order operational multipole vector ($$l_{n}^{\text{Phase11}}$$) is derived by extending the macro-geometric baseline coordinates ($$l_{n}^{\text{Phase10}}$$) through the localized phase gradient:
 
-$$\chi_{\text{phase}} = \frac{\pi^2}{2} - \left( \gamma_{\text{Euler}} \cdot \ln 2 \cdot \alpha \right) - \Delta_{\text{boundary}}$$
+$$
+l_{n}^{\text{Phase11}} = l_{n}^{\text{Phase10}} \cdot \left[ 1.0 + \left( \frac{\mathcal{Q}_{\text{loop}}(n) \cdot \mathcal{M}_{\text{QG}}}{\gamma} \right) \right] \quad \text{for } n \in [2, 5]
+$$
 
-Where $\Delta_{\text{boundary}}$ represents the trans-Planckian boundary leak residual variance evaluated at the metric singularity horizon. This configuration replaces empirical parameter matching with an analytic boundary closure mapping, ensuring that the global quantum gravity scaler scales from underlying geometric configurations.
-
-For invariants satisfying high baseline symmetries ($n \in [1,3,4]$), the boundary modalities remain structurally frozen ($l_{n}^{\text{Phase11}} \equiv l_{n}^{\text{Phase10}}$) to preserve the underlying manifold symmetry configuration against empirical parameter distortion.
+For invariants satisfying high baseline symmetries ($$n \in [1, 3, 4]$$), the boundary modalities remain structurally frozen ($$l_{n}^{\text{Phase11}} \equiv l_{n}^{\text{Phase10}}$$) to preserve the underlying manifold symmetry configuration against empirical parameter distortion.
 
 
 
