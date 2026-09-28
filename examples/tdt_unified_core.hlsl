@@ -1,4 +1,4 @@
-// GPU 가속용 TDT 통합 연산 파이프라인 컴퓨트 셰이더 (TDT_Unified_Core.hlsl)
+// GPU-Accelerated Integrated TDT Cosmological Matrix Execution Pipeline Compute Shader (tdt_unified_core.hlsl)
 
 cbuffer TDTCosmicConstants : register(b0)
 {
@@ -25,7 +25,7 @@ struct SimulationNode
 RWStructuredBuffer<SimulationNode> RenderNodes : register(u1);
 
 // ---------------------------------------------------------------------
-// [제일 원리 기하학 필터 커널들 - GPU 무분기 하드웨어 최적화 버전]
+// [First-Principles Geometric Filter Kernels - Branchless Hardware-Optimized Spec]
 // ---------------------------------------------------------------------
 float GetDebyeFriction(float r)
 {
@@ -35,7 +35,7 @@ float GetDebyeFriction(float r)
     float r_scale = 1.0f / (c_alpha * c_ln2 * c_pi);
 
     float gaussian_decay = exp(-pow(r_safe / r_debye, 2.0f));
-    // 하드웨어 레벨에서 지수 가속 처리되는 tanh 연산
+    // Leverage the hardware-level transcendent special function unit (SFU) for accelerated tanh execution
     float density_switch = 1.0f + tanh(clamp((c_r_core - r_safe) / r_scale, -30.0f, 30.0f));
     
     return gaussian_decay * density_switch;
@@ -57,17 +57,17 @@ float GetTracyWidomTension(float r)
 }
 
 // ---------------------------------------------------------------------
-// [가속도 연산 커널 - RK4 프레임워크 바인딩]
+// [Kinematic Acceleration Kernels - RK4 Integration Framework Binding]
 // ---------------------------------------------------------------------
 float GetGasAcceleration(float p, float v)
 {
     float r = max(abs(p), 1e-15f);
     float debye_f = GetDebyeFriction(r);
     float conformal_braking_scale = (c_c_univ * c_gamma) / (1.0f + c_delta_phase);
-    float spatial_projection_factor = sqrt(2.0f * c_pi); // 3D -> 1D 단면 투사 정밀도 보정
+    float spatial_projection_factor = sqrt(2.0f * c_pi); // 3D -> 1D Dimensional Cross-Sectional Projection Correction
 
     float friction_accel = conformal_braking_scale * debye_f * abs(v) * spatial_projection_factor;
-    float direction = (v >= 0.0f) ? -1.0f : 1.0f; // 하드웨어 조건 스위치
+    float direction = (v >= 0.0f) ? -1.0f : 1.0f; // Branchless Hardware Condition Sign Switcher
     return direction * friction_accel;
 }
 
@@ -76,8 +76,8 @@ float GetTensionAcceleration(float p, float v, float current_z)
     float r = max(abs(p), 1e-15f);
     float base_accel = GetTracyWidomTension(r) * (c_alpha * c_pi) * (1.0f / c_alpha) * (sqrt(3.0f) / 2.0f);
 
-    // 훅의 법칙(Hookean) 기하학 마스킹 연산
-    [flatten] // GPU 분기 예측 오버헤드를 소멸시키는 셰이더 플래튼 명령어
+    // Intrinsic Hookean Manifold Geometric Masking Operation
+    [flatten] // Forces compile-time branch flattening to eliminate Warp Divergence and pipeline latency
     if (abs(p) > (c_r_core * c_pi))
     {
         float conformal_pull_exponent = c_pi / sqrt(3.0f);
@@ -91,7 +91,7 @@ float GetTensionAcceleration(float p, float v, float current_z)
     float pull_direction = (p >= 0.0f) ? -1.0f : 1.0f;
     float total_accel = pull_direction * base_accel;
 
-    // 후기 우주론적 허블 드래그 마찰 스위치 결합 (z < 8)
+    // Late-Universe Cosmological Hubble Drag Damping Switch Coupling (Active for z < 8)
     float damping_switch = 0.5f * (1.0f - tanh((current_z - 8.0f) / 1.5f));
     float H0_per_myr = 67.4f * 1.0227e-6f;
     float braking_direction = (v >= 0.0f) ? -1.0f : 1.0f;
@@ -101,7 +101,7 @@ float GetTensionAcceleration(float p, float v, float current_z)
 }
 
 // ---------------------------------------------------------------------
-// [메인 스레드 가속 엔트리 포인트 - 1그룹당 64스레드 병렬 폭발]
+// [Main Compute Thread Entry Point - Parallel Execution Burst via 64-Thread Warps]
 // ---------------------------------------------------------------------
 [numthreads(64, 1, 1)]
 void CSMain(uint3 dtid : SV_DispatchThreadID)
@@ -109,21 +109,24 @@ void CSMain(uint3 dtid : SV_DispatchThreadID)
     uint id = dtid.x;
     SimulationNode node = RenderNodes[id];
 
-    float local_dt = 0.01f; // 고정된 고해상도 정보 격자 타임스텝
+    float local_dt = 0.01f; // Fixed high-resolution informational grid timestep
     float current_z = node.current_z;
 
     // ---------------------------------------------------------------------
-    // [컴퓨팅 세이더 레벨의 예외 배리어 - Capture Lock Matrix]
-    // 포획 장벽 내부 진입 시 가스의 추가 연산을 하드웨어 레벨에서 중단시켜 병목 원천 차단
+    // [Compute Shader Level Execution Barrier - Capture Lock Matrix]
+    // Upon inner-barrier convergence, gas-phase kinematic integration is halted at the 
+    // hardware level to eliminate execution bottlenecks and prevent thread stalling.
     // ---------------------------------------------------------------------
-    [branch]
+    [branch] // Explicit branch execution path optimization to maximize early rejection efficiency
     if (node.gas_position == 0.0f && abs(node.tension_position) <= c_r_core)
     {
-        // 포획 이후 상태: 은하핵 가스 압착 및 원시 스타포메이션 렌더 레이어 진입
-        // 이 구역에서 별 생성(SFR) 속도에 따른 가상 텍스처/정점 컬러 버퍼 변환 코드가 가동됩니다.
-        // ex) RenderUVLuminosityBuffer[id] = -19.0f - 2.5f * log10(DerivedSFR);
+        // --- Post-Capture Phase: Galactic Nucleus Gas Compression & Proto-Starformation Render Layer ---
+        // This localized domain is allocated for dynamic virtual texture mapping and vertex color 
+        // buffer transformations driven by the derived Star Formation Rate (SFR).
+        // e.g., RenderUVLuminosityBuffer[id] = -19.0f - 2.5f * log10(DerivedSFR);
         
-        // 시공간 결합 격자(Tension)의 후기 잔여 진동만 RK4 적분 수행
+        // Execute Runge-Kutta 4th Order (RK4) numerical quadrature strictly for the late-stage 
+        // residual oscillations of the coupled spacetime manifold (Tension).
         float tk1 = GetTensionAcceleration(node.tension_position, node.tension_velocity, current_z);
         float xk1 = node.tension_velocity;
         float tk2 = GetTensionAcceleration(node.tension_position + 0.5f * local_dt * xk1, node.tension_velocity + 0.5f * local_dt * tk1, current_z);
@@ -138,8 +141,8 @@ void CSMain(uint3 dtid : SV_DispatchThreadID)
     }
     else
     {
-        // --- 프리 캡처(Pre-Capture) 단계: 가스 및 격자 멀티바디 초고속 RK4 수치 적분 ---
-        // 바리온 가스 RK4
+        // --- Pre-Capture Phase: Ultra-High-Precision Multi-Body Gas & Lattice RK4 Integration ---
+        // Baryonic Gas RK4 Integration Pass
         float vk1 = GetGasAcceleration(node.gas_position, node.gas_velocity);
         float pk1 = node.gas_velocity;
         float vk2 = GetGasAcceleration(node.gas_position + 0.5f * local_dt * pk1, node.gas_velocity + 0.5f * local_dt * vk1);
@@ -152,7 +155,7 @@ void CSMain(uint3 dtid : SV_DispatchThreadID)
         float gas_vel_next = node.gas_velocity + (local_dt / 6.0f) * (vk1 + 2.0f * vk2 + 2.0f * vk3 + vk4);
         float gas_pos_next = node.gas_position + (local_dt / 6.0f) * (pk1 + 2.0f * pk2 + 2.0f * pk3 + pk4);
 
-        // 시공간 격자 RK4
+        // Spacetime Manifold Lattice RK4 Integration Pass
         float tk1 = GetTensionAcceleration(node.tension_position, node.tension_velocity, current_z);
         float xk1 = node.tension_velocity;
         float tk2 = GetTensionAcceleration(node.tension_position + 0.5f * local_dt * xk1, node.tension_velocity + 0.5f * local_dt * tk1, current_z);
@@ -165,11 +168,11 @@ void CSMain(uint3 dtid : SV_DispatchThreadID)
         node.tension_velocity += (local_dt / 6.0f) * (tk1 + 2.0f * tk2 + 2.0f * tk3 + tk4);
         node.tension_position += (local_dt / 6.0f) * (xk1 + 2.0f * xk2 + 2.0f * xk3 + xk4);
 
-        // 정밀 코어 어트랙터 포획 조건 판정 연산
+        // Precision Core Attractor Capture Limit Boundary Evaluation
         if ((node.gas_position < 0.0f && gas_pos_next >= -1.0f) || (abs(gas_pos_next) <= c_r_core))
         {
             node.gas_velocity = 0.0f;
-            node.gas_position = 0.0f; // 중심부 고정 및 락 트리거 활성화
+            node.gas_position = 0.0f; // Anchor coordinates to core and activate lock trigger
         }
         else
         {
@@ -178,9 +181,13 @@ void CSMain(uint3 dtid : SV_DispatchThreadID)
         }
     }
 
-    // 타임라인 감쇄 진행 연산 (실제 오픈월드 엔진 연동 시 프레임 갱신율 바인딩)
+    // --- Cosmological Timeline Decay Integration ---
+    // Increments the state-transition lookback timeline. 
+    // In production open-world environments, this factor binds directly to the engine's delta frame rate tracker.
     node.current_z = max(node.current_z - 0.0002f, 0.0f);
 
-    // 연산된 결과를 글로벌 그래픽스 메모리에 즉시 플러시하여 버퍼 동기화
+    // --- Global Graphics Memory Flush & Pipeline Synchronization ---
+    // Commits the updated structural kinematic metrics directly back to the VRAM Unordered Access View (UAV) buffer.
     RenderNodes[id] = node;
 }
+
