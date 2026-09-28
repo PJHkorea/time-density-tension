@@ -20,7 +20,7 @@ the second ($l_2$) and fifth ($l_5$) acoustic nodes—is formulated as a higher-
 The automated validation architecture (`tests/phase11_quantum_coherence.py`) maps continuous spectral convergence independent of auxiliary software dependencies, 
 utilizing a frozen parameter layout bound onto universal invariants:
 
-$$\alpha = \frac{1}{137.035999084}, \quad \ln 2 \approx 0.693147, \quad \gamma = \frac{1.0 + \alpha \cdot \ln 2}{2\pi} \approx 0.159961$$
+$$ \alpha = \frac{1}{137.035999084}, \quad \ln 2 \approx 0.693147, \quad \gamma = \frac{1.0 + \alpha \cdot \ln 2}{2\pi} \approx 0.159961 $$
 
 Under this implementation, empirical damping parameters are replaced with a dimensionless 4D spacetime hyper-volume invariant ($\pi^4$)
 coupled with an analytical entropy phase linker function, satisfying boundary consistency thresholds under a zero-tuning configuration.
@@ -33,17 +33,17 @@ To resolve the localized information tracking delays within macro-scale coordina
 targeting specific multi-scale transitions ($n \in [2, 5]$). The quantum loop radiation correction tensor ($\mathcal{Q}_{\text{loop}}(n)$) scales projectively
 via the square of the fine-structure constant:
 
-$$\mathcal{Q}_{\text{loop}}(n) = \alpha^2 \cdot \sqrt{n \cdot \pi}$$
+$$ \mathcal{Q}_{\text{loop}}(n) = \alpha^2 \cdot \sqrt{n \cdot \pi} $$
 
 The global quantum gravity regularization matrix 
 
 $\mathcal{M}_{\text{QG}}$) is defined over the background density scaling axes via the following boundary invariant relation: 
 
-$$\mathcal{M}_{\text{QG}} = \pi^4 + \alpha \cdot \ln 2 \cdot 4.90406931$$
+$$ \mathcal{M}_{\text{QG}} = \pi^4 + \alpha \cdot \ln 2 \cdot 4.90406931 $$
 
 The modified high-order operational multipole vector ($l_{n}^{\text{Phase11}}$) is derived by extending the macro-geometric baseline coordinates ($l_{n}^{\text{Phase10}}$) through the localized phase gradient: 
 
-$$l_{n}^{\text{Phase11}}=l_{n}^{\text{Phase10}}\cdot \left[1.0+\left(\frac{\mathcal{Q}_{\text{loop}}(n)\cdot \mathcal{M}_{\text{QG}}}{\gamma }\right)\right]\quad \text{for\ }n\in [2,5]$$
+$$ l_{n}^{\text{Phase11}}=l_{n}^{\text{Phase10}}\cdot \left[1.0+\left(\frac{\mathcal{Q}_{\text{loop}}(n)\cdot \mathcal{M}_{\text{QG}}}{\gamma }\right)\right]\quad \text{for\ }n\in [2,5] $$
 
 
 The dimensionless phase calibration coefficient ($\chi_{\text{phase}} \approx 4.90406931$) tracks the higher-order phase alignment conditions dictated by the half-quadratic Riemannian curvature baseline ($\pi^2 / 2 \approx 4.93480220$) modulated via the Euler-Mascheroni constant ($\gamma_{\text{Euler}} \approx 0.57721566$). Under 2-loop perturbative quantum gravity regularizations, the boundary transition factor satisfies the algebraic identity:
