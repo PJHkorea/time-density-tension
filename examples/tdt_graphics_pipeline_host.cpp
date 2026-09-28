@@ -73,7 +73,7 @@ public:
     }
 
     // 하드웨어 디바이스 인프라 초기화 및 가설 불변 기반 초기 시드 할당
-    void InitializePipeline(ComPtr<ID3D12Device> d3d12_device, ComPtr<ID3D12CommandQueue> cmd_queue) {
+    void InitializePipeline(ComPtr<ID3D12Device> d3d12_device, ComPtr<ID3D12CommandQueue> cmd_queue, ComPtr<ID3D12GraphicsCommandList> init_cmd_list) {
         m_device = d3d12_device;
         m_command_queue = cmd_queue;
         m_device->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_COMPUTE, IID_PPV_ARGS(&m_command_allocator));
@@ -92,13 +92,27 @@ public:
             m_host_nodes[i].current_z = 15.0f; // 초기 고적색편이 스타트업 호라이즌
         }
 
-        // 2. GPU 메모리 버퍼 자원 생성 및 메모리 맵 복사
+        // 2. GPU 메모리 버퍼 자원 생성 및 시스템 메모리 맵 복사
         CreateGPUResources();
         UploadStaticData();
         
-        // 3. 무분기 병렬 텐서 적분 전용 루트 시그니처 및 파이프라인 상태 생성
+        // 3. [완결] Upload 힙에서 고속 VRAM(Default 힙)으로 대량의 초기 노드 버퍼 하드웨어 복사 실행
+        UINT64 buffer_size = m_total_nodes * sizeof(SimulationNode);
+        init_cmd_list->CopyBufferRegion(m_structured_buffer_gpu.Get(), 0, m_upload_heap.Get(), 0, buffer_size);
+
+        // 복사 작업 완료 시점까지 파이프라인 동기화 배리어 설정
+        D3D12_RESOURCE_BARRIER copy_barrier = {};
+        copy_barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+        copy_barrier.Transition.pResource = m_structured_buffer_gpu.Get();
+        copy_barrier.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
+        copy_barrier.Transition.StateAfter = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+        copy_barrier.Transition.Subresource = D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+        init_cmd_list->ResourceBarrier(1, &copy_barrier);
+        
+        // 4. 무분기 병렬 텐서 적분 전용 루트 시그니처 및 파이프라인 상태 생성
         CreateComputePipelineState();
     }
+
 
     // 초고속 VRAM 업로드 전용 힙 생성 및 고정 상수 1회성 플러시
     void CreateGPUResources() {
