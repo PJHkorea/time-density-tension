@@ -67,15 +67,25 @@ def run_unified_phase11_simulation():
     holographic_projection_scaler = (2.0 * pi) / (np.log(1.0 / alpha) * gamma)
     dimension_volume_factor = np.sqrt(3.0) * (pi / 2.0)  # 3차원 연속체 유체역학 스케일링 체적 인자
     
-    # 제1 피크 기저의 순수 기하학 장 스케일 앵커링 연산 (전체 omega_nodes 텐서 배열 맵핑)
-    # [주의] omega_nodes[0]으로 슬라이싱하면 고차 하모닉 주파수 축이 단절되므로 반드시 전체 벡터를 연산해야 합니다.
-    l_1_pure_first = c_univ * omega_nodes * (a_recomb ** (-gamma * np.sqrt(1.0)))
+        # ---------------------------------------------------------------------
+    # 4. DIMENSIONAL EXTENSION LATTICE MATRIX (1D ➔ 3D 차원 확장 변환 장치)
+    # ---------------------------------------------------------------------
+    # [제1원칙 복원] 중복 오염 레이어를 완전히 도려내고 단일 스트림으로 결합합니다.
+    linear_peaks = np.empty(l_max, dtype=np.float64)
+    projected_peaks_p10 = np.empty(l_max, dtype=np.float64)
+    
+    # 1D 미시 수열 격자를 3D 거시 연속체 스펙트럼 공간으로 변환하는 홀로그래픽 링커 고정
+    holographic_projection_scaler = (2.0 * pi) / (np.log(1.0 / alpha) * gamma)
+    dimension_volume_factor = np.sqrt(3.0) * (pi / 2.0)  # 3차원 연속체 유체역학 스케일링 체적 인자
+    
+    # [제1원칙 수정] 기준점 스케일 앵커링은 전체 벡터가 아닌, 제1원점 주파수 고유값(omega_nodes[0])에 묶인 단일 스칼라여야 합니다.
+    # 이렇게 해야 5번 문단 (B)의 omega_nodes[n-1]과 결합할 때 주파수 축이 2중 중첩 전개(제곱 오염)되는 모순을 원천 차단합니다.
+    l_1_pure_first = c_univ * omega_nodes[0] * (a_recomb ** (-gamma * np.sqrt(1.0)))
     l_1_base = l_1_pure_first * holographic_projection_scaler * dimension_volume_factor
 
     # 타겟 데이터 및 고차 보정 배열 클리어 셋팅
     planck_actual_peaks = [220.0, 541.0, 800.0, 1120.0, 1420.0]
     phase11_corrected_peaks = []
-
 
     # ---------------------------------------------------------------------
     # 5. MANIFOLD EXPANSION & GUE EIGENVALUE REPULSION LOOP (기저 장 적분 스펙트럼 유도)
@@ -93,15 +103,13 @@ def run_unified_phase11_simulation():
         l_n_pure = c_univ * omega_nodes[n - 1] * cosmic_expansion_factor * fluid_correction
         
         # (C) Tracy-Widom 다양체 분모 텐서 제어 (Non-linear Conformal Shield)
-        # [제1원칙 복원] 4번 문단의 변수 단절(오타)이 해결되었으므로, 지수 스케일러를 임의의 튜닝 값(1.125)이 아닌 
-        # TDT 고유의 순수 이론적 뼈대인 1.5 오리지널 지수로 완벽히 복원합니다.
+        # 지수 스케일러를 TDT 고유의 순수 이론적 뼈대인 1.5 오리지널 지수로 완벽히 복원합니다.
         acoustic_resonance_tensor = np.cos(np.pi * (n - 1))
         effective_n_axis = (n - 1) * (1.0 - (delta_phase / np.sqrt(3.0)) * acoustic_resonance_tensor)
         tracy_widom_manifold = np.exp((gamma * effective_n_axis) ** 1.5)
         l_n_projected_raw = (l_n_pure * holographic_projection_scaler * dimension_volume_factor) / tracy_widom_manifold
 
         # (D) 양자 무작위 행렬 이론(RMT)에 따른 GUE 고유값 반발력 공식화
-        # [제1원칙 확정] 앞선 4번 문단의 앵커(l_1_base) 단절과 (C) 문단의 다양체 지수(1.5)가 모두 정상화되었으므로,
         # 미시 영역의 에르미트 행렬 간섭 항은 임의의 타협 변형 없이 원천 가설 공식 구조를 100% 동결하여 유지합니다.
         zeta_1 = 1.855757
         bessel_fluctuation = zeta_1 * (n ** (1.0 / 3.0)) / n
@@ -109,13 +117,11 @@ def run_unified_phase11_simulation():
         gue_repulsion_scale = np.sqrt(np.log(np.log(l_safe))) / (2.0 * (pi ** 2))
         delta_phi_rmt = gue_repulsion_scale * (n - 1)
         
-        # [제1원칙 차원 보정] 주파수 축의 2중 중첩 오염을 완벽히 격리하기 위해, GUE 반발력 가산 항의 기준축을
-        # 5차원 배열(l_1_base[n-1])이 아닌, 제1원점 주파수 고유값으로 묶인 순수 1차 피크 스칼라(l_1_base[0])로 매핑합니다.
-        l_1_scalar_base = l_1_base[0]
-        delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_scalar_base * (alpha * delta_phase * 2.0 * pi)
+        # [제1원칙 복원] l_1_base가 단일 스칼라로 정형화되었으므로, 임의의 슬라이싱([0] 또는 [n-1])을 완전히 걷어내고
+        # 가설 고유의 순수 원천 공식 구조(l_1_base와의 다이렉트 결합)를 완벽하게 사수합니다.
+        delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (alpha * delta_phase * 2.0 * pi)
 
         # (E) 최종 거시 3D 역투영 벡터 합성 (Phase 10 베이스라인 뼈대 확정)
-        # 1D Baseline에서 출발하여 3D 복원 필터 및 RMT 섭동 항이 완벽히 폐합(Loop Closure)된 마일스톤 벡터 축적
         l_n_projected = l_n_projected_raw + delta_l_additive
         projected_peaks_p10[n - 1] = np.nan_to_num(l_n_projected, nan=0.0, posinf=99999.0)
 
