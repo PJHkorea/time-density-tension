@@ -59,35 +59,23 @@ def run_unified_phase11_simulation():
     # ---------------------------------------------------------------------
     # 4. DIMENSIONAL EXTENSION LATTICE MATRIX (1D ➔ 3D 차원 확장 변환 장치)
     # ---------------------------------------------------------------------
+    # [제1원칙 복원] 중복 오염 레이어를 완전히 도려내고 단일 스트림으로 결합합니다.
     linear_peaks = np.empty(l_max, dtype=np.float64)
     projected_peaks_p10 = np.empty(l_max, dtype=np.float64)
     
-    # ---------------------------------------------------------------------
-    # 4. DIMENSIONAL EXTENSION LATTICE MATRIX (1D ➔ 3D 차원 확장 변환 장치)
-    # ---------------------------------------------------------------------
-    # [제1원칙 방어] 오타(holgraphic ➔ holographic)를 완벽히 멸균하고 단일 메모리 스트림으로 통합합니다.
     # 1D 미시 수열 격자를 3D 거시 연속체 스펙트럼 공간으로 변환하는 홀로그래픽 링커 고정
     holographic_projection_scaler = (2.0 * pi) / (np.log(1.0 / alpha) * gamma)
     dimension_volume_factor = np.sqrt(3.0) * (pi / 2.0)  # 3차원 연속체 유체역학 스케일링 체적 인자
     
-    # 제1 피크(l_1_base)의 순수 기하학적 장 스케일 앵커링 연산
-    # 공간 파수가 인덱스 n에 비례하여 선형 증가하기 위한 근본적인 속도 에너지 기준선 확립
-    l_1_pure_first = c_univ * omega_nodes[0] * (a_recomb ** (-gamma * np.sqrt(1.0)))
+    # 제1 피크 기저의 순수 기하학 장 스케일 앵커링 연산 (전체 omega_nodes 텐서 배열 맵핑)
+    # [주의] omega_nodes[0]으로 슬라이싱하면 고차 하모닉 주파수 축이 단절되므로 반드시 전체 벡터를 연산해야 합니다.
+    l_1_pure_first = c_univ * omega_nodes * (a_recomb ** (-gamma * np.sqrt(1.0)))
     l_1_base = l_1_pure_first * holographic_projection_scaler * dimension_volume_factor
 
     # 타겟 데이터 및 고차 보정 배열 클리어 셋팅
     planck_actual_peaks = [220.0, 541.0, 800.0, 1120.0, 1420.0]
     phase11_corrected_peaks = []
 
-
-
-    # [메모리 최적화] 관측 데이터 및 결과 배열 외부 선언
-    holographic_projection_scaler = (2.0 * pi) / (np.log(1.0 / alpha) * gamma)
-    l_1_pure_first = c_univ * omega_nodes[0] * (a_recomb ** (-gamma * np.sqrt(1.0)))
-    l_1_base = l_1_pure_first * holographic_projection_scaler * dimension_volume_factor
-
-    planck_actual_peaks = [220.0, 541.0, 800.0, 1120.0, 1420.0]
-    phase11_corrected_peaks = []
 
      # ---------------------------------------------------------------------
     # 5. MANIFOLD EXPANSION & GUE EIGENVALUE REPULSION LOOP (기저 장 적분 스펙트럼 유도)
@@ -121,9 +109,9 @@ def run_unified_phase11_simulation():
         gue_repulsion_scale = np.sqrt(np.log(np.log(l_safe))) / (2.0 * (pi ** 2))
         delta_phi_rmt = gue_repulsion_scale * (n - 1)
         
-        # 무차원 위상 작용 면적 요소를 거시 연속체 스케일러와 유기적으로 커플링하여 양자 제동 항 산출
-        delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base * (alpha * delta_phase * 2.0 * pi)
-        
+        # l_1_base 전체 배열에서 현재 루프 노드(n - 1)에 해당하는 기저 장 스케일 앵커만 맵핑
+        delta_l_additive = (bessel_fluctuation + delta_phi_rmt) * l_1_base[n - 1] * (alpha * delta_phase * 2.0 * pi)
+
         # (E) 최종 거시 3D 역투영 벡터 합성 (Phase 10 베이스라인 뼈대 확정)
         # 1D Baseline에서 출발하여 3D 복원 필터 및 RMT 섭동 항이 완벽히 폐합(Loop Closure)된 마일스톤 벡터 축적
         l_n_projected = l_n_projected_raw + delta_l_additive
