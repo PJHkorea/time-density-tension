@@ -24,7 +24,7 @@ Where:
 *   $$\alpha \approx 1/137.036$$: The fine-structure constant.
 *   $$\kappa_{\text{conformal}} \approx 1.0227$$: The universal conversion factor mapping 2D information density onto 3D macroscopic kinematics ($$\text{kpc/Myr}$$).
 
-This formulation evaluates to a characteristic velocity scale of $$\approx 4700\text{ km/s}$$, aligning with the kinematic constraints observed in high-energy cluster mergers [02_cmb_bridging.md, 04_lss_blackhole_universe.md].
+This formulation evaluates to a characteristic velocity scale of $$\approx 4700\text{ km/s}$$, aligning with the kinematic constraints observed in high-energy cluster mergers `02_cmb_bridging.md`, `04_lss_blackhole_universe.md`.
 
 
 ### 2.2 Geometrical Berry Phase Shift
