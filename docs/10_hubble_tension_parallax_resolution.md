@@ -56,9 +56,9 @@ The effective interaction index updates dynamically along the geodesic tracking 
 
 $$\gamma_{\text{eff}}(a) = 1.0 - (1.0 - \gamma) \cdot \tanh\left( \frac{a}{\delta_{\text{phase}}} \right)$$
 
-The cumulative metric expansion time-lag component ($\Delta t_{\text{lag}}$) accumulates the localized geometric tension force components ($F_{\text{tension}} = \frac{1}{a}(1 - a^{-\gamma_{\text{eff}}})$) across the scalar mesh intervals ($da$):
+The cumulative metric expansion time-lag component ($\Delta t_{\text{lag}}$) accumulates the localized geometric tension force components $F\_{\text{tension}} = \frac{1}{a}(1 - a^{-\gamma\_{\text{eff}}})$ across the scalar mesh intervals ($da$):
 
-$$\Delta t_{\text{lag}} = \int_{1.0}^{0.0009} \frac{1}{a} \left( 1 - a^{-\gamma_{\text{eff}}(a)} \right) \, da$$
+$$\Delta t\_{\text{lag}} = \int\_{1.0}^{0.0009} \frac{1}{a} \left( 1 - a^{-\gamma\_{\text{eff}}(a)} \right) \, da$$
 
 By normalizing the global boundary conditions via a conformal gauge modifier ($\mathcal{M}_{\text{conformal}} \approx 0.04335447$) parameterized by the target mismatch ratio ($\frac{H_0^{\text{SH0ES}} - H_0^{\text{Planck}}}{H_0^{\text{SH0ES}}}$), the system resolves the real-time subtraction mechanism:
 
@@ -122,7 +122,7 @@ To verify the continuous boundary relaxation governed by \(\mathcal{M}_{\text{co
    The variance adjustment from the 1D number-theoretic baseline ($\text{MAE} = 13.6482\%$) to the 3D holographic inverse projection ($\text{MAE} = 5.0812\%$) satisfies the boundary conditions where the cosmic microwave background function coordinates as a lower-dimensional informational boundary projectively extended onto the macroscopic cosmological celestial sphere.
 
 3. **Covariant Gauge Conservation**: 
-   The higher-order multipole trajectories are bound onto a frozen universal parameter configuration ($\text{Std } c_{\text{univ}} = 0.000000$). The structural stabilization of the global manifold timeline within a $$2.39\%$$ threshold verifies that the evaluated peak residuals satisfy the covariant conservation law ($$$\nabla_{\mu} T^{\mu\nu} = 0.0$$), governing the expansion spectrum independent of empirical parameter adjustments.
+   The higher-order multipole trajectories are bound onto a frozen universal parameter configuration ($\text{Std } c\_{\text{univ}} = 0.000000$). The structural stabilization of the global manifold timeline within a $$2.39\%$$ threshold verifies that the evaluated peak residuals satisfy the covariant conservation law ($$\nabla\_{\mu} T^{\mu\nu} = 0.0$$), governing the expansion spectrum independent of empirical parameter adjustments.
 
 ---
 
