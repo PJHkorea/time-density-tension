@@ -257,4 +257,4 @@ else:
     gas_pos = gas_pos_next
 ```
 
-By bounding the boundary capture thresholds onto the analytical polar metric footprint (\[r_{\text{core}} \approx 1.45\text{ kpc}\]), the spatial evaluation framework satisfies regularization constraints independent of numerical variance. The implementation structure is integrated within `tests/jwst_early_assembly_final.py`, ensuring that validation protocols and numerical models evaluate under identical geometric constraints.
+By bounding the boundary capture thresholds onto the analytical polar metric footprint ( $r_{\text{core}} \approx 1.45\text{ kpc}$ ), the spatial evaluation framework satisfies regularization constraints independent of numerical variance. The implementation structure is integrated within `tests/jwst_early_assembly_final.py`, ensuring that validation protocols and numerical models evaluate under identical geometric constraints.
