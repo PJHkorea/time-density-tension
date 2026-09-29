@@ -26,7 +26,8 @@ The divergence of standard Quantum Field Theory ($$\text{QFT}$$) under cosmologi
 
 The scalar Zeta Potential Field ($$\Phi_{\text{Zeta}}$$) is defined over the spatial boundary slice. Under this formulation, the corresponding vacuum expectation value is structured as the localized Frobenius trace of the complex anchoring Hamiltonian rather than an empirical density variable:
 
-$$ \langle 0|^{\Phi}_{\text{Zeta}}(a)|0\rangle = \lim_{s \to ^{H}_{\text{Anchor}}} \prod_{p \in \mathbb{P}} \left( 1 - p^{-s} \right)^{-1} \equiv \zeta \left( ^{H}_{\text{Anchor}}(a) \right) $$
+$$\langle 0| \Phi_{\text{Zeta}}(a) |0\rangle = \lim_{s \to \hat{H}_{\text{Anchor}}} \prod_{p \in \mathbb{P}} \left( 1 - p^{-s} \right)^{-1} \equiv \zeta \left( \hat{H}_{\text{Anchor}}(a) \right)$$
+
 
 
 ### 1.1 Density of States and Algebraic Phase-Locking
@@ -84,7 +85,7 @@ The final architectural integration of TDT cosmology establishes a cross-discipl
 
 ### 3.1 QFT Tensor Mapping of the Quark-Gluon Plasma (QGP) Hamiltonian
 
-Within the primordial high-temperature plasma regime ($a \to 0$), the high-energy density fields are governed by the strong interaction Dirac operator ($\hat{D}_{\text{QCD}}$). In accordance with Quantum Chromodynamics (QCD) formulated over complex boundary metrics, the eigenvalue correlation spectrum of this Hamiltonian satisfies the statistical criteria of the Gaussian Unitary Ensemble (GUE). The microscopic spectral density $\rho_{\text{QFT}}(\lambda)$ of the Dirac operator is formulated herein as an exact mathematical isomorphism ($\mathcal{I}_{\text{Spectrum}}$), mapping directly onto the discrete imaginary roots $\Omega_{n}$ established within the core architecture:
+Within the primordial high-temperature plasma regime ($a \to 0$), the high-energy density fields are governed by the strong interaction Dirac operator ($\hat{D}\_{\text{QCD}}$). In accordance with Quantum Chromodynamics (QCD) formulated over complex boundary metrics, the eigenvalue correlation spectrum of this Hamiltonian satisfies the statistical criteria of the Gaussian Unitary Ensemble (GUE). The microscopic spectral density $\rho_{\text{QFT}}(\lambda)$ of the Dirac operator is formulated herein as an exact mathematical isomorphism ($\mathcal{I}\_{\text{Spectrum}}$), mapping directly onto the discrete imaginary roots $\Omega_{n}$ established within the core architecture:
 
 
 $$ \mathcal{I}_{\text{Spectrum}}:\text{Spec}(\hat{D}_{\text{QCD}})\longleftrightarrow \{\Omega_{1},\Omega_{2},\Omega_{3},\dots \} $$
