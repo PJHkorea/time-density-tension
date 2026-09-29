@@ -145,7 +145,7 @@ To evaluate how the discrete $$\sqrt{n}$$ scaling resistance emerges without rel
 
 #### 4.1 Energy Distribution, Quantum Amplitude, and the Spatial Gradient
 
-In a 2D harmonic holographic grid, the total quantum energy density $$\mathcal{E}_{n}$$ scales linearly with the structural eigenvalues $$\lambda_{n} = k_{n}^{2}$$ of the Spatial Laplacian operator ($$\nabla_{\perp}^{2}$$). The observable macroscopic tension or effective spatial gradient acceleration satisfies a proportional constraint where the gradient field tracks the square root of the eigenvalue, establishing that $$\nabla_{\perp} \propto \sqrt{\lambda_{n}}$$.
+In a 2D harmonic holographic grid, the total quantum energy density $\mathcal{E}\_{n}$ scales linearly with the structural eigenvalues $\lambda_{n} = k_{n}^{2}$ of the Spatial Laplacian operator ($$\nabla_{\perp}^{2}$$). The observable macroscopic tension or effective spatial gradient acceleration satisfies a proportional constraint where the gradient field tracks the square root of the eigenvalue, establishing that $$\nabla_{\perp} \propto \sqrt{\lambda_{n}}$$.
 
 
 
@@ -229,9 +229,9 @@ $$
 
 declared in Phase 00, the spatial gradient across the radial holographic layers scales as a function of the universal interaction invariants:
 
-$$
-\vert{}\nabla_{\perp}\vert{} \propto a^{-\gamma \cdot k_n} \implies a^{-\gamma \cdot n} \tag{3.3}
-$$
+$$\left| \nabla_{\perp} \right| \propto a^{-\gamma \cdot k_n} \implies \mathcal{R}_{\text{Scaling}}(n) \propto a^{-\gamma \cdot \sqrt{n}} \quad (3.3)$$
+
+
 
 
 When projected onto the invariant real base plane (Re(s) = 1/2), the total effective scaling resistance 
