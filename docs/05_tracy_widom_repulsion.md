@@ -5,7 +5,7 @@ The statistical spectrum regularization formulation proposed in this study depar
 The random matrix theory (RMT) formulation ($$\Delta \phi_{\text{RMT}}$$) implementing a log-log divergence trajectory ($$\ln\ln T$$) in combination with the fine-structure constant ($$\alpha$$) defines the analytical baseline to model micro-scale fluctuations without introducing empirical parameters. This framework establishes a causal mapping where high-frequency grid translation features at microscopic boundaries are projectively extended onto macroscopic observational coordinates, satisfying self-linear alignment and expansion criteria within the underlying manifold under invariant parameters.
 
 
-In particular, the localized discontinuities within the second acoustic peak (\[l_2\]) regime derived via Selberg's central limit theorem are evaluated as systematic boundary configurations rather than computational flaws. They reflect an asymmetric metric translation—a geometric property of the spacetime manifold emerging as the system transitions from the complex Hamiltonian boundary limits into a macroscopic physical field framework. Without introducing post-hoc empirical parameter adjustments, this metric configuration satisfies boundary consistency requirements via the eigenvalue variance coupling equations implemented inside `src/tdt_core.py`, ensuring that the covariant conservation law remains satisfied within floating-point error thresholds.
+In particular, the localized discontinuities within the second acoustic peak $l_2$ regime derived via Selberg's central limit theorem are evaluated as systematic boundary configurations rather than computational flaws. They reflect an asymmetric metric translation—a geometric property of the spacetime manifold emerging as the system transitions from the complex Hamiltonian boundary limits into a macroscopic physical field framework. Without introducing post-hoc empirical parameter adjustments, this metric configuration satisfies boundary consistency requirements via the eigenvalue variance coupling equations implemented inside `src/tdt_core.py`, ensuring that the covariant conservation law remains satisfied within floating-point error thresholds.
 
 
 ---
@@ -51,11 +51,12 @@ This microscopic statistical correction is encoded within the simulation archite
 ```python
 # Pure first-principles RMT & GUE spectral Regularization line from src/tdt_core.py
 # Formulated strictly with zero empirical data-fitting parameters
-l_clamped = max&multipole_l, 3.0)
-rmt_variance_floor = np.sqrt&np.log&np.log&l_clamped))) & 2.0 * &self.pi ** 2))
+l_clamped = max(multipole_l, 3.0)
+rmt_variance_floor = np.sqrt(np.log(np.log(l_clamped)) / (2.0 * (self.pi ** 2)))
 
 # Dynamic Tracy-Widom mapping applied identically to the high-order spectrum
-phase_shift_correction = self.alpha * rmt_variance_floor * &anchor_index - 1)
+phase_shift_correction = self.alpha * rmt_variance_floor * (anchor_index - 1)
+
 ```
 
 
