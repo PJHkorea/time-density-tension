@@ -38,6 +38,7 @@ $$ g(\omega) = \sum_{n=1}^{\infty} \delta(\omega - \omega_{n}) \propto \frac{d}{
 
 Here, $\omega_{n}$ denotes the discrete eigenfrequencies characterising the time-density medium. Consequent to the geometric cavity constraints inherent to the cosmic base layer, the vacuum state configuration is restricted from sampling unaligned continuum wave vectors. Under this boundary manifold topology, the field energy density is analytically constrained to match the invariant Riemann critical line ($\text{Re}(s) = 1/2$):
 
+
 $$ \langle 0|^{\Phi}_{\text{Zeta}}(a)|0\rangle = \zeta \left( \frac{1}{2} + i \cdot \left[ \frac{\Omega_{n}}{\rho_{0} \cdot a^{-\gamma_{\text{effective}}(a)}} \right] \right) $$
 
 ### 1.2 Asymptotic Convergence and Metric Stasis Bounds
@@ -57,7 +58,8 @@ Let $|\Psi_n(a)\rangle$ denote the quantum mechanical state vector of the cosmol
 
 $$ \gamma_{\text{Berry}}(n) = i\oint_{\mathcal{C}} \langle \Psi_{n}(a) \vert \frac{\partial}{\partial a} \vert \Psi_{n}(a) \rangle \,da \equiv \int_{\mathcal{S}} \mathcal{B}_{\mu \nu }(a)\,da^{\mu} \land da^{\nu} $$
 
-Here, $\mathcal{B}_{\mu\nu}(a)$ denotes the invariant Berry Curvature Tensor defined over the time-density manifold. To strictly satisfy the zero-sum interior covariant conservation condition ($\nabla_{\mu}\mathcal{T}^{\mu\nu} = 0.0$) derived analytically from first principles, the cosmological continuum is modeled as a macroscopic Topological Insulator operating within a two-dimensional Quantum Hall edge state framework. Under this topological configuration, the bulk of the cosmic cavity remains non-dissipative, while the boundary transport dynamics are rigidly protected by the topological Chern number ($C_n \in \mathbb{Z}$).
+Here, $\mathcal{B}\_{\mu\nu}(a)$ denotes the invariant Berry Curvature Tensor defined over the time-density manifold. To strictly satisfy the zero-sum interior covariant conservation condition ($\nabla\_{\mu}\mathcal{T}^{\mu\nu} = 0.0$) derived analytically from first principles, the cosmological continuum is modeled as a macroscopic Topological Insulator operating within a two-dimensional Quantum Hall edge state framework. Under this topological configuration, the bulk of the cosmic cavity remains non-dissipative, while the boundary transport dynamics are rigidly protected by the topological Chern number ($C\_n \in \mathbb{Z}$).
+
 
 
 ### 2.2 First-Principles Synchronization with the Master Invariant
