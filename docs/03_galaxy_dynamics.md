@@ -20,12 +20,12 @@ This document formalizes the geometric expansion of **Time-Density Tension (TDT)
 
 ## 1. Galactic Surface Mass Density and Laplacian Field Projection
 
-The TDT framework models the missing mass profile typically attributed to dark matter halos as an intrinsic spatial gradient property of the base-layer time density. By mapping the Poisson equation onto the 2D holographic boundary of the galactic disk, the equivalent Surface Mass Density Profile $$\Sigma_{\text{DM}}(r)$$ is derived systematically via the 2D transverse Laplacian ($$\nabla_{\perp}^2$$) acting upon the inverse dynamic time-density field:
+The TDT framework models the missing mass profile typically attributed to dark matter halos as an intrinsic spatial gradient property of the base-layer time density. By mapping the Poisson equation onto the 2D holographic boundary of the galactic disk, the equivalent Surface Mass Density Profile $\Sigma\_{\text{DM}}(r)$ is derived systematically via the 2D transverse Laplacian ($\nabla_{\perp}^{2}$) acting upon the inverse dynamic time-density field:
 
 
-$$
-\Sigma_{\text{DM}}(r) = \frac{c_{\text{univ}}}{4\pi G} \cdot \nabla_{\perp}^2 \left( \frac{1}{\rho_{\text{Time}}(r)} \right) = \frac{c_{\text{univ}}}{4\pi G} \cdot \left( \frac{\partial^2}{\partial r^2} + \frac{1}{r}\frac{\partial}{\partial r} \right) \left( r^{\gamma_{\text{effective}}(r) \cdot n} \right)
-$$
+
+$$\Sigma\_{\text{DM}}(r) = \frac{c\_{\text{univ}}}{4\pi G} \cdot \nabla\_{\perp}^2 \left( \frac{1}{\rho\_{\text{Time}}(r)} \right) = \frac{c\_{\text{univ}}}{4\pi G} \cdot \left( \frac{\partial^2}{\partial r^2} + \frac{1}{r}\frac{\partial}{\partial r} \right) \left( r^{\gamma\_{\text{effective}}(r) \cdot n} \right)$$
+
 
 
 Where:
@@ -69,7 +69,8 @@ $$
 \mathcal{F}_{\text{Debye}}(r) = 1.0 + \delta_{\text{phase}} \cdot \exp\left(-\frac{r}{R_d}\right)
 $$
 
-The underlying core geometric tension velocity ($$v_{\text{tension}}$$) is modulated within the denominator via the Tracy-Widom distribution phase projection to satisfy boundary constraints:
+The underlying core geometric tension velocity ($v\_{\text{tension}}$) is modulated within the denominator via the Tracy-Widom distribution phase projection to satisfy boundary constraints:
+
 
 $$
 \text{Tracy-Widom Manifold: } \mathcal{M}_{\text{TW}}(r) = \exp \left( -\left[ \gamma \cdot r \right]^{1.5} \right)
@@ -167,7 +168,7 @@ By keeping the thermodynamic phase shift parameter frozen at its gauge baseline 
 | **10.2** | 1.3113 | 0.95757 | **0.0001** | Horizon Scaling Extinction |
 | **15.0** | 1.3334 | 0.95502 | **0.0000** | Classical Einsteinian Baseline |
 
-### 4.2 Universal Consistency of the \(\delta_{\text{phase}}\) Metric
+### 4.2 Universal Consistency of the $\delta_{\text{phase}}$ Metric
 
 The mathematical convergence evaluated in this section defines a baseline for the TDT framework. The same phase parameter($\delta_{\text{phase}} \equiv \alpha \approx 0.007297$) derived from the microscopic constants ($\alpha, \pi, \ln 2$) in Phase 02 maps onto three distinct astrophysical regimes:
 
