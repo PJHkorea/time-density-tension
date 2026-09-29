@@ -23,7 +23,7 @@ $$R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R = \frac{8\pi G}{c^4} \left[ T_{\mu\nu}^{\t
 Where:
 *   $$G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R$$ is the classical Einstein Tensor.
 *   $$T_{\mu\nu}^{\text{Baryon}}$$ is the baseline stress-energy tensor of observed baryonic matter.
-*   $$\mathcal{G}_{\mu\nu}$$ represents the intrinsic metric background tension tensor of the spatial lattice.
+*   $$\mathcal{G}\_{\mu\nu}$$ represents the intrinsic metric background tension tensor of the spatial lattice.
 *   $$a$$ is the cosmological scale factor.
 *   $$\alpha$$ is the fine-structure constant ($\approx 1/137.035999084$), serving as the gauge coupling limit.
 *   $$\gamma$$ is the derived spacetime interaction index: $$\gamma = \frac{1 + \alpha \ln 2}{2\pi}$$.
