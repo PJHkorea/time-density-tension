@@ -35,11 +35,10 @@ $$
 \mathcal{Q}_{\text{loop}}(n) = \alpha^2 \cdot \sqrt{n \cdot \pi}
 $$
 
-The global quantum gravity regularization matrix ($$$\mathcal{M}_{\text{QG}}$$$) is defined over the background density scaling axes via the invariant boundary coupling relation:
+The global quantum gravity regularization matrix ($\mathcal{M}\_{\text{QG}}$) is defined over the background density scaling axes via the invariant boundary coupling relation:
 
-$$
-\mathcal{M}_{\text{QG}} = \pi^4 + \alpha \cdot \ln 2 \cdot \chi_{\text{phase}}
-$$
+$$ \mathcal{M}\_{\text{QG}} = \pi^4 + \alpha \cdot \ln 2 \cdot \chi\_{\text{phase}} $$
+
 
 The dimensionless phase calibration coefficient ($$\chi_{\text{phase}}$$) tracks the higher-order phase alignment conditions determined by the half-quadratic Riemannian curvature baseline ($\pi^2 / 2 \approx 4.93480220$) modulated via the Euler-Mascheroni constant ($\gamma_{\text{Euler}} \approx 0.57721566$). Under 2-loop perturbative quantum gravity regularizations, the boundary transition factor satisfies the strict algebraic closure identity:
 
