@@ -56,9 +56,9 @@ Beyond the microscopic singular regimes, the parameter-free core physics engine 
 
 The cosmological expansion model is evaluated via a global chi-square optimization routine against the Pantheon+ Supernovae Distance Modulus Database (`tests/tdt_lss_validation.py`). Operating under a frozen parameter layout, the framework maps the baseline cosmological parameters: 
 
-*   **Hubble Constant (\[H_{0}\])**: $67.8055 \text{ km/s/Mpc}$ (aligning with the Planck satellite consensus baseline)
-*   **Matter Density (\[\Omega_{m}\])**: \[0.1000\] (characterizing the baryon-geometric continuum)
-*   **Global Supernovae Dataset Residuals (LSS MAE)**: **0.1577%**
+- **Hubble Constant ($H_{0}$)**: $67.8055 \text{ km/s/Mpc}$ (aligning with the Planck satellite consensus baseline)
+- **Matter Density ($\Omega_{m}$)**: $0.1000$ (characterizing the baryon-geometric continuum)
+- **Global Supernovae Dataset Residuals (LSS MAE)**: **0.1577%**
 
 
 
@@ -99,7 +99,7 @@ As the scale factor compresses along this complex trajectory, the residual tensi
 | 0.500 | $-3.6845 + 22.1473 \cdot i$ | 1.4851 | $1.1881 \times 10^1$ | Macroscopic Galaxy Inception |
 | 1.000 | $0.0000 + 25.0843 \cdot i$ | 1.6593 | $1.2227 \times 10^{-5}$ | Present Epoch Baseline |
 
-At the present epoch baseline ($$a = 1.000$$), the real part of the interior residual tension reduces to zero ($$0.0000$$), establishing a state where the system maps onto a purely imaginary phase bound defined by the third Riemann anchor node ($$\Omega_3 = 25.0843 \cdot i$$).
+At the present epoch baseline ($$a = 1.000$$), the real part of the interior residual tension reduces to zero ($$0.0000$$), establishing a state where the system maps onto a purely imaginary phase bound defined by the third Riemann anchor node $Omega_3 = 25.0843 \cdot i$.
 
 
 ---
