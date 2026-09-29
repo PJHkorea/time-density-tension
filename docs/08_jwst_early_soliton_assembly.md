@@ -58,7 +58,7 @@ When the cosmological scale factor expands past the high-redshift boundary ($$z 
 
 $$a_{\text{dissipation}}(v, z) = \mathcal{S}_{\text{damping}}(z) \cdot \left[ \mathcal{B}_{\text{direction}}(v) \cdot \left( 2H_0(z) \cdot |v| \right) \right]$$
 
-Where the analytical switching transition manifold $$\mathcal{S}_{\text{damping}}(z)$$ and the directional braking filter $$\mathcal{B}_{\text{direction}}(v)$$ are derived under boundary consistency constraints.
+Where the analytical switching transition manifold $\mathcal{S}\_{\text{damping}}(z)$ and the directional braking filter $\mathcal{B}\_{\text{direction}}(v)$ are derived under boundary consistency constraints.
 
 #### 3.3.2 Seeding Luminosity Scale ($$M_{\text{UV}}$$ Evolution)
 
