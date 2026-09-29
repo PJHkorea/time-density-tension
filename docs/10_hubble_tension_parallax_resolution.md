@@ -65,7 +65,7 @@ By normalizing the global boundary conditions via a conformal gauge modifier ($\
 $$H_{\text{calibrated}}(a) = H_0^{\text{SH0ES}} - \left[ H_0^{\text{SH0ES}} \cdot \left( \Delta t_{\text{lag}}(a) \cdot \mathcal{M}_{\text{conformal}} \right) \right]$$
 
 
-Numerical implementation evaluations register a terminal machine-precision residual error threshold of \[\mathcal{O}(10^{-16})\], verifying the structural closure and covariant consistency of the multi-scale expansion spectrum without free-fitting hyperparameter adjustments.
+Numerical implementation evaluations register a terminal machine-precision residual error threshold of  $\mathcal{O}(10^{-16})$, verifying the structural closure and covariant consistency of the multi-scale expansion spectrum without free-fitting hyperparameter adjustments.
 
 ---
 
@@ -73,7 +73,8 @@ Numerical implementation evaluations register a terminal machine-precision resid
 
 To verify the continuous boundary relaxation governed by \(\mathcal{M}_{\text{conformal}}\), the automated verification routine (`tests/tdt_lookback_conformal_calibration.py`) executes a discrete numerical scansion across the expansion timeline. The localized expansion field trajectories register the following high-precision integration outputs:
 
-| Cosmological Epoch Checkpoint | Scale Factor (a) | Intrinsic Lag Area (\(\Delta t_{\text{lag}}\)) | Calibrated Expansion Rate (H(a)) |
+
+| Cosmological Epoch Checkpoint | Scale Factor ($a$) | Intrinsic Lag Area ($\Delta t_{\text{lag}}$) | Calibrated Expansion Rate $H(a)$ |
 | :--- | :--- | :--- | :--- |
 | **Contemporary Volumetric** | 1.0000 | 0.0000 | **72.998672 km/s/Mpc** |
 | **Acceleration Transition** | 0.5005 | -0.0398 | **72.997974 km/s/Mpc** |
