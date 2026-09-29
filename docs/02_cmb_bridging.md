@@ -36,7 +36,7 @@ Where:
 *   **$$\Omega_n$$**: The $$n$$-th non-trivial zero of the Riemann Zeta Function along the critical line ($\text{Re}(s) = 1/2$).
 *   **$$\theta_s$$**: The structural angular sound horizon scale determined by the cosmic base-layer geometry.
 *   **$$\delta_{\text{phase}}$$**: The invariant **Baryon Phase Modulus** governing the micro-viscous fluid displacement at the epoch of recombination.
-*   **$$\mathcal{A}_{\text{Lag}}(n)$$$**: The non-linear Time Elasticity Lag mapping the cumulative boundary friction.
+*   **$$\mathcal{A}_{\text{Lag}}(n)$$**: The non-linear Time Elasticity Lag mapping the cumulative boundary friction.
 
 
 ### 1.1 First-Principles Invariant Boundary Consolidation
@@ -80,7 +80,7 @@ $$l_{n} = c_{\text{univ}} \cdot \Omega_{n} \cdot a_{\text{recomb}}^{-\gamma_{\te
     $$c_{\text{univ}} = \frac{1}{2\pi \ln 2} \approx \mathbf{0.229568}$$
     *Empirical parameter calibrations are replaced under this configuration to satisfy gauge invariance.*
 2.  **$$\Omega_{n}$$**: The $$n$$-th non-trivial zero (imaginary part) of the Riemann Zeta Function ($\Omega_1 \approx 14.134725, \Omega_2 \approx 21.022040, \dots$), functioning as the topological anchor node of the cosmic horizon.
-3.  **$$\gamma_{\text{effective}}(a)$$$**: The dynamic spacetime interaction index governed by the continuous hyperbolic tangent manifold. At the recombination limit ($a_{\text{recomb}} = 1 / 1102.6$), the function converges to the baseline index:
+3.  **$$\gamma_{\text{effective}}(a)$$**: The dynamic spacetime interaction index governed by the continuous hyperbolic tangent manifold. At the recombination limit ($a_{\text{recomb}} = 1 / 1102.6$), the function converges to the baseline index:
     $$\gamma \approx \mathbf{0.159960}$$
     *The fractional power component of $$\sqrt{n}$$ within the exponent maps onto a linear spatial frequency operator ($n$), aligning with McMahon's Asymptotic Expansion.*
 4.  **$$\delta_{\text{phase}}$$**: The invariant Baryon Phase Modulus, aligning with the fine-structure constant ($\alpha \approx \mathbf{0.007297}$) under gauge coherence constraints.
@@ -111,8 +111,8 @@ The parameter-free master bridging formula evaluates the ratio between the secon
 #### 3.1 First-Principles Numerical Execution
 
 According to the simulation matrix evaluated across the primary and secondary vibrational horizons, the structural multipole positions are derived without relying on post-hoc empirical parameters:
-*   **Acoustic Peak \[l_1\] (via \[\Omega_1 = 14.134725\]):** **`260.99`** (Planck Satellite Empirical Baseline: 220.0)
-*   **Acoustic Peak \[l_2\] (via \[\Omega_2 = 21.022040\]):** **`530.88`** (Planck Satellite Empirical Baseline: 540.0)
+* **Acoustic Peak $l_1$ (via $\Omega_1 = 14.134725$):** **260.99** (Planck Satellite Empirical Baseline: 220.0)
+* **Acoustic Peak $l_2$ (via $\Omega_2 = 21.022040$):** **530.88** (Planck Satellite Empirical Baseline: 540.0)
 
 
 #### 3.2 The Asymptotic Peak-to-Peak Ratio Comparison
@@ -127,11 +127,11 @@ Substituting the frozen number-theoretic and physical constants ($$\gamma \appro
 $$\text{Ratio}_{\text{TDT}} = \left( \frac{21.022040}{14.134725} \right) \cdot (1102.6)^{0.1599605} \cdot (1.00729735) \cdot \left( \frac{1.1599605}{1.3199210} \right) \approx \mathbf{2.034153}$$
 
 #### 3.3 Theoretical Integrity and Damping Residuals
-*   **TDT Predicted Invariant Ratio (\[l_2 / l_1\]):** **`2.034153`**
-*   **Planck Satellite Observed Consensus Ratio:** \(541 / 220 \approx \mathbf{2.459091}\)
+*   **TDT Predicted Invariant Ratio $l_2 / l_1$:** **`2.034153`**
+*   **Planck Satellite Observed Consensus Ratio:** $541 / 220 \approx \mathbf{2.459091}$
 *   **Global Macro-Scale Alignment Residual:** Corresponds to a localized topological deficit of **17.280%**.
 
-The alignment between higher-order spectral multipoles and the Planck observational baseline indicates that the spatial oscillations observed at the recombination boundary can be modeled as a projection of underlying topological invariants. The 17.280% empirical deficit in the peak-to-peak ratio is evaluated as a systemic feature of the manifold, functioning as a geometric phase lag (\[\mathcal{A_{\text{Lag}}}\]) concentrated at the long-wavelength \[l_1\] node due to early cosmic expansion friction and dimensional expansion asymmetry. By isolating this macro-viscous spatial tension within the primary horizon, the framework satisfies structural constraints independent of empirical cold dark matter particle densities in early universe acoustic structures.
+The alignment between higher-order spectral multipoles and the Planck observational baseline indicates that the spatial oscillations observed at the recombination boundary can be modeled as a projection of underlying topological invariants. The 17.280% empirical deficit in the peak-to-peak ratio is evaluated as a systemic feature of the manifold, functioning as a geometric phase lag $\mathcal{A_{\text{Lag}}}$ concentrated at the long-wavelength $l_1$ node due to early cosmic expansion friction and dimensional expansion asymmetry. By isolating this macro-viscous spatial tension within the primary horizon, the framework satisfies structural constraints independent of empirical cold dark matter particle densities in early universe acoustic structures.
 
 
 ---
