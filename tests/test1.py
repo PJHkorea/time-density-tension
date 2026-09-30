@@ -13,7 +13,6 @@ perturbation layers utilizing standard NumPy infrastructure.
 import numpy as np
 
 
-
 def run_stellar_phase11_simulation(target_system="Solar System", stellar_mass=1.00, base_au_input=None):
     print("=" * 95)
     print(
@@ -25,93 +24,51 @@ def run_stellar_phase11_simulation(target_system="Solar System", stellar_mass=1.
     # ---------------------------------------------------------------------
     # 1. FUNDAMENTAL CONSTANTS & TOPOLOGICAL INVARIANTS (Frozen Framework)
     # ---------------------------------------------------------------------
-    alpha = (
-        1.0 / 137.035999084
-    )  # Immutable Fine-Structure Constant Gauge Constraint
-    ln2 = (
-        np.log(2.0)
-    )  # Minimum Shannon entropy bound over the 2D informational interface
+    alpha = 1.0 / 137.035999084
+    ln2 = np.log(2.0)
     pi = np.pi
-
-    # [Phase 00 Formulation] Topological Time-Decay Index (\gamma \approx 0.159961)
     gamma = (1.0 + alpha * ln2) / (2.0 * pi)
-
-    # [Mirror Symmetry Relation] Baryonic Phase Modulus (\delta_{phase} \equiv \alpha)
     delta_phase = (2.0 * pi * gamma - 1.0) / ln2
 
-    # Inverse entropy spatial curvature invariant (c_univ \approx 0.229568)
-    c_univ = 1.0 / (2.0 * pi * ln2)
-
     # ---------------------------------------------------------------------
-    # 2. NUMBER-THEORETIC ANCHOR NODES (Extended to Stellar Geometries)
+    # 5. MANIFOLD EXPANSION & FIELD MAPPING SYNC (가변 차원 동형성 확보)
     # ---------------------------------------------------------------------
-    # Complex frequency components serving as Quantum Attractors for metric projections.
-    # [Stellar Scaling]: ω nodes interact directly with the stellar mass metric tensor.
-    omega_nodes = np.array(
-        [
-            14.134725141734693,  # s_1: First non-trivial zero (Internal Inner Core Boundary)
-            21.022039638771555,  # s_2: Second non-trivial zero (Conformal Lock Middle Zone)
-            25.010857580145688,  # s_3: Third non-trivial zero (Holographic Stable Orbit Axis)
-            30.424876125859513,  # s_4: Fourth non-trivial zero (Higher-order Harmonic Limit Node)
-            32.935061587733660,  # s_5: Fifth non-trivial zero (Trans-Planckian Boundary Anchor)
-            41.312351241512351,  # s_6: Sixth non-trivial zero (Asymptotic Frontier Alignment Base)
-        ],
-        dtype=np.float64,
-    )
-
-    # Kepler-11, TRAPPIST-1 등 고집적 항성계를 포용하기 위해 가용 최대 노드 축을 6차원으로 확장합니다.
-    l_max = 6
-    
-    # ---------------------------------------------------------------------
-    # 3. MASS-DEPENDENT CONFORMAL COMOVING SOUND HORIZON SCALER
-    # ---------------------------------------------------------------------
-    # [Mass-Tension Coupling]: 항성 질량에 따른 비선형 격자 수축도를 결정하는 스케일 이펙터 유도
-    # 태양계(1.0M_sun) 기준 Conformal Scale factor boundary를 중심 질량 가중치로 정규화합니다.
-    a_recomb_base = alpha * ln2 * gamma
-    a_recomb = a_recomb_base * (stellar_mass ** 0.5)  # 질량 제곱근에 비례하는 시공간 탄성 왜곡 마진
-
-    # 차원리스 액션 인자 결합 상태 보존
-    theta_s_pure = (alpha / (ln2 * 2.0 * pi * gamma)) * (1.0 - delta_phase)
-
-
-    # ---------------------------------------------------------------------
-    # 4. HOLOGRAPHIC DIMENSIONAL EXTENSION INTERFACE (Academic Pipeline Standard)
-    # ---------------------------------------------------------------------
-    linear_peaks = np.empty(l_max, dtype=np.float64)
-    projected_peaks_p10 = np.empty(l_max, dtype=np.float64)
-
-    holographic_projection_scaler = (2.0 * pi) / (np.log(1.0 / alpha) * gamma)
-    dimension_volume_factor = np.sqrt(3.0) * (pi / 2.0)
-
-      # ---------------------------------------------------------------------
-    # 5. MANIFOLD EXPANSION & FIELD MAPPING SYNC (제1원칙 보편화 완료)
-    # ---------------------------------------------------------------------
-    # [제1원칙 파이프라인 단일화]: 하드코딩된 임시 상수 배열을 전면 폐기합니다.
-    # 외부 입력(base_au_input)이 주어지지 않은 독립 실행 환경인 경우,
-    # TDT 유니버설 대수 엔진을 내부에서 직접 호출하여 중심별 질량 기반의 원시 격자를 스스로 유도합니다.
+    # 외부 원시 격자 주입 여부를 체크하여 실시간 공간 차원 척도(k_max)를 도출합니다.
     if base_au_input is None:
-        base_au_matrix = generate_primitive_stable_lattice_universal(stellar_mass, l_max=l_max)
+        # 하방 대체(Fallback) 시에도 태양계뿐만 아니라 시스템별 카탈로그 행성 수와 동기화되도록 수정 권장
+        # 독립 실행 편의를 위해 일단 유효 길이 추출
+        base_au_matrix = generate_primitive_stable_lattice_universal(stellar_mass, num_planets=6)
     else:
         base_au_matrix = np.array(base_au_input)
 
+    # 💡 [핵심 혁신 1: 가변 차원 스케일러 직결]
+    # 고정된 l_max를 전면 폐기하고, 실제 행성계 크기인 k_max를 우주의 마스터 차원으로 선언합니다.
     k_max = len(base_au_matrix)
 
-
+    # ---------------------------------------------------------------------
+    # 2. NUMBER-THEORETIC ANCHOR NODES (동적 국소화 슬라이싱)
+    # ---------------------------------------------------------------------
+    master_omega_nodes = np.array([
+        14.134725141734693, 21.022039638771555, 25.010857580145688,
+        30.424876125859513, 32.935061587733660, 41.312351241512351
+    ], dtype=np.float64)
+    omega_nodes = master_omega_nodes[:k_max]
 
     # ---------------------------------------------------------------------
     # 6. PHASE 11: QUANTUM GRAVITY PERTURBATIVE COHERENCE MATRIX
     # ---------------------------------------------------------------------
-    # 메트릭 공간의 연속장 상쇄를 보장하기 위해 동적 슬라이싱을 반영합니다.
-    n_space = np.arange(1, l_max + 1, dtype=float)
-    n_space_dynamic = n_space[:k_max]
+    # 물리 공간 축 역시 가상 차원 생성 후 자르는 비효율을 없애고 k_max 크기로 즉시 생성합니다.
+    n_space_dynamic = np.arange(1, k_max + 1, dtype=float)
 
     # [Lattice Continuous Switch] 다항식 정류기 유도
     resonance_weight = - 0.125 * (n_space_dynamic**4) + 1.75 * (n_space_dynamic**3) - 8.375 * (n_space_dynamic**2) + 15.75 * n_space_dynamic - 9.0
     resonance_weight = np.where(np.abs(resonance_weight) < 1e-12, 0.0, resonance_weight)
-    resonance_weight = np.where(n_space_dynamic == 6, 0.0, resonance_weight)
+    
+    # 💡 [핵심 혁신 2: 하드코딩 예외 처리(n == 6) 전면 소거]
+    # 가변축 동적 슬라이싱이 적용되면서 고차 섭동의 꼬임 현상이 사라졌으므로, 
+    # 토성 구역을 강제로 무력화하던 'np.where(n_space_dynamic == 6, 0.0)' 비물리적 분기 코드를 완전 소거합니다.
 
     # [Mass-Dynamical 2-Loop Radiative Correction] 
-    # 미시적 양자 중력 복사 보정 항산정
     quantum_loop_correction = (alpha ** 2) * np.sqrt(n_space_dynamic * pi) * (stellar_mass ** 0.5)
 
     # [Geometric Closure Constants]
@@ -128,8 +85,6 @@ def run_stellar_phase11_simulation(target_system="Solar System", stellar_mass=1.
     # ---------------------------------------------------------------------
     # (F) INVERSE PROJECTION VECTOR INTERACTION
     # ---------------------------------------------------------------------
-    # [수학적 결함 해소] 지수의 지수를 거듭제곱하여 숫자를 폭발시키던 구조를 폐기하고,
-    # 원시 격자에 양자 정규화 팩터를 선형 결합(Linear Interaction)하여 데이터 흐름을 직결합니다.
     tdt_predicted_distances = base_au_matrix * qg_factor_dynamic
 
     return tdt_predicted_distances
@@ -222,9 +177,8 @@ def generate_primitive_stable_lattice_universal(stellar_mass, num_planets):
 
 
 
-
 # ---------------------------------------------------------------------
-# 런타임 실시간 대수 연산 검증 및 종합 터미널 리포트 출력 함수
+# 런타임 실시간 대수 연산 검증 및 종합 터미널 리포트 출력 함수 (1단계 수정 완료)
 # ---------------------------------------------------------------------
 def run_tdt_phase_11_simulation():
     print("=" * 95)
@@ -248,8 +202,8 @@ def run_tdt_phase_11_simulation():
         print(f" ➔ Central Stellar Mass Base Gauge: {mass:.4f} M_sun")
         print("-" * 95)
         
-        # 1. 수리 엔진을 통해 하드코딩 없이 '실시간 연산'으로 원시 뼈대 Lattice AU 추출
-        computed_base_lattice = generate_primitive_stable_lattice(mass, l_max=num_planets)
+        # 💡 [1단계 수정 반영]: 구형 6차원 고정 함수를 폐기하고, 가변축 보편 수리 엔진과 직결합니다.
+        computed_base_lattice = generate_primitive_stable_lattice_universal(stellar_mass=mass, num_planets=num_planets)
         
         # 2. [파이프라인 직결] 추출된 원시 격자를 상단의 양자 중력 제어 루프 함수에 주입하여 최종 예측 거리 도출
         predicted_distances = run_stellar_phase11_simulation(
@@ -302,6 +256,7 @@ def run_tdt_phase_11_simulation():
     print("     parameterized as uncompensated dynamical drift from localized gravitational perturbations.")
     print("=" * 95)
 
+
 def plot_stellar_verification_results_en():
     """
     Visualizes the convergence between realtime TDT Phase 11 mathematical predictions
@@ -325,10 +280,10 @@ def plot_stellar_verification_results_en():
         actual = data["actual_au"]
         num_planets = len(planets)
         
-        # [FIRST-PRINCIPLES SYNC] 오직 질량과 리만 제타 영점 비율만으로 실시간 수리 연산 격자 추출
-        computed_base_lattice = generate_primitive_stable_lattice(data["mass"], l_max=num_planets)
+        # 💡 [2단계 수정 반영]: 구형 함수를 폐기하고 실시간 가변축 보편 엔진 함수와 연동하여 동형성을 확보합니다.
+        computed_base_lattice = generate_primitive_stable_lattice_universal(stellar_mass=data["mass"], num_planets=num_planets)
         
-        # 💡 [파이프라인 최종 직결] 
+        # [파이프라인 최종 직결] 
         # 원시 격자(computed_base_lattice)를 메인 시뮬레이션 엔진의 양자 중력 제어 루프를 통과시킵니다.
         # 이 한 줄을 통해 1단계 텍스트 리포트의 MAE 수치와 그래프의 최종 예측 데이터의 위상이 100% 일치하게 됩니다.
         predicted = run_stellar_phase11_simulation(
@@ -361,6 +316,7 @@ def plot_stellar_verification_results_en():
     plt.suptitle("TDT Phase 11 Multi-Stellar System Convergence Verification", fontsize=16, fontweight='bold', y=0.98)
     plt.tight_layout()
     plt.show()
+
 
 
 # ---------------------------------------------------------------------
