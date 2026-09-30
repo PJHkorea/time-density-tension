@@ -83,18 +83,20 @@ def run_stellar_phase11_simulation(target_system="Solar System", stellar_mass=1.
     holographic_projection_scaler = (2.0 * pi) / (np.log(1.0 / alpha) * gamma)
     dimension_volume_factor = np.sqrt(3.0) * (pi / 2.0)
 
+      # ---------------------------------------------------------------------
+    # 5. MANIFOLD EXPANSION & FIELD MAPPING SYNC (제1원칙 보편화 완료)
     # ---------------------------------------------------------------------
-    # 5. MANIFOLD EXPANSION & FIELD MAPPING SYNC
-    # ---------------------------------------------------------------------
-    # [제1원칙 파이프라인 단일화] 
-    # 새로 주입되는 base_au_input은 단순 상수가 아니라 이미 고차 대수 구조가 반영된 
-    # 실시간 생성 격자이므로, 불필요한 지수 폭발 및 중복 증폭 루프를 완전히 걷어냅니다.
+    # [제1원칙 파이프라인 단일화]: 하드코딩된 임시 상수 배열을 전면 폐기합니다.
+    # 외부 입력(base_au_input)이 주어지지 않은 독립 실행 환경인 경우,
+    # TDT 유니버설 대수 엔진을 내부에서 직접 호출하여 중심별 질량 기반의 원시 격자를 스스로 유도합니다.
     if base_au_input is None:
-        base_au_matrix = np.array([0.248, 0.724, 1.346, 3.123, 4.614, 9.508])[:l_max]
+        base_au_matrix = generate_primitive_stable_lattice_universal(stellar_mass, l_max=l_max)
     else:
         base_au_matrix = np.array(base_au_input)
 
     k_max = len(base_au_matrix)
+
+
 
     # ---------------------------------------------------------------------
     # 6. PHASE 11: QUANTUM GRAVITY PERTURBATIVE COHERENCE MATRIX
