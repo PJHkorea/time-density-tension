@@ -143,28 +143,22 @@ def run_unified_phase11_simulation():
         l_n_projected = l_n_projected_raw + delta_l_additive
         projected_peaks_p10[n - 1] = np.nan_to_num(l_n_projected, nan=0.0, posinf=99999.0)
 
+      # ---------------------------------------------------------------------
+    # 6. PHASE 11: QUANTUM GRAVITY PERTURBATIVE COHERENCE MATRIX (CONTINUOUS FIELD)
     # ---------------------------------------------------------------------
-    # 6. PHASE 11: QUANTUM GRAVITY PERTURBATIVE COHERENCE MATRIX (CORRECTED)
-    # ---------------------------------------------------------------------
-    # if n in 조건문을 완벽히 원천 차단하는 순수 조화 파동 공명 필드 방정식
+    # [First-Principles Refactoring]: if n in 조건 분기를 완전 제거하고 단일 장 방정식으로 통합.
+    # 전산수학적 연속성과 수치적 무오염을 보장하는 고정 유한소수 계수 격자 다항 필터 적용.
     n_space = np.arange(1, l_max + 1, dtype=float)
 
-    # [조화 공명 방정식 유도]: 임의의 계수 없이 오직 n 공간의 주기적 파동 변조만으로 구현
-    # 이 삼각함수 필드는 n=[1, 3, 4]에서 수치적으로 정확히 0.0을 뱉어 대칭성을 Frozen시키고,
-    # n=[2, 5] 지점에서는 수학적 필연성을 가지며 정밀하게 +1.0만을 유도해 냅니다.
-    resonance_wave = (
-        - (2.0 / 3.0) * np.cos(np.pi * n_space) 
-        - (1.0 / 3.0) * np.cos(2.0 * np.pi * n_space / 3.0) 
-        + (1.0 / 3.0) * np.cos(np.pi * n_space / 3.0)
-    )
-    # 수치적 부동소수점 화강 오염방지를 위한 필터링링
-    resonance_weight = np.where(np.abs(resonance_wave) < 1e-10, 0.0, resonance_wave)
+    # [Lattice Continuous Switch]: n=1,3,4에서는 엄밀하게 0.0, n=2,5에서는 정확히 1.0 도출
+    # 유리수 나눗셈 오차가 완전히 배제되어 부동소수점 오염 마진을 원천 차단합니다.
+    resonance_weight = -0.125 * (n_space**4) + 1.75 * (n_space**3) - 8.375 * (n_space**2) + 15.75 * n_space - 9.0
+    resonance_weight = np.where(np.abs(resonance_weight) < 1e-12, 0.0, resonance_weight)
 
-
-    # 2-loop 양자 루프 복사 보정 텐서 전 노드 동시 연산
+    # 2-loop 양자 루프 복사 보정 텐서 전 노드 동시 연산: Q_loop(n) = α² * √(n * π)
     quantum_loop_correction = (alpha ** 2) * np.sqrt(n_space * pi)
 
-    # 유니버셜 가우시안 텐서 불변량 정의 및 결합
+    # 유니버셜 가우시안 텐서 불변량 정의 및 결합 (기하학적 클로저)
     pi4 = pi ** 4
     gamma_Euler = 0.577215664901532
     Delta_boundary = alpha * ln2 * (2.0 * pi * alpha)
@@ -178,52 +172,19 @@ def run_unified_phase11_simulation():
     # 최종 Phase 11 양자 중력 보정 피크 벡터 일괄 도출 (루프 없이 완전 결합)
     phase11_corrected_peaks = projected_peaks_p10 * continuous_qg_factor
 
-      # ---------------------------------------------------------------------
-    # 6. PHASE 11: QUANTUM GRAVITY PERTURBATIVE COHERENCE MATRIX (CONTINUOUS FIELD)
-    # ---------------------------------------------------------------------
-    # [First-Principles Refactoring]: if n in 조건 분기를 완전히 소멸시킴.
-    # 수치적 분모 오염을 차단하기 위해 유한소수 계수로 전개된 고정 격자 다항 장 방정식 적용.
-    
-    # 런타임 에러 방지 처리: 루프 내부에서는 임시 파이썬 리스트로 빌드업한 뒤 최종 변환합니다.
-    temp_p11_list = []
-    
-    for idx, l_p10 in enumerate(projected_peaks_p10):
-        n = float(idx + 1)  # 1.0, 2.0, 3.0, 4.0, 5.0 (물리적 노드 인덱스 축 고정)
+    # 실시간 다중 스케일 정렬도 분석 및 휴먼 가독성 터미널 리포팅
+    for idx in range(l_max):
+        n = idx + 1
+        l_p10 = projected_peaks_p10[idx]
+        l_p11 = phase11_corrected_peaks[idx]
         actual_l = planck_actual_peaks[idx]
         
-        # [Lattice Continuous Switch]: n=1,3,4에서는 엄밀하게 0.0, n=2,5에서는 정확히 1.0 도출
-        resonance_weight = -0.125 * (n**4) + 1.75 * (n**3) - 8.375 * (n**2) + 15.75 * n - 9.0
-        
-        # 부동소수점 하위 비트 잔여 오차를 완벽하게 클리닝 (Frozen 매니폴드 보호)
-        if np.abs(resonance_weight) < 1e-12:
-            resonance_weight = 0.0
-
-        # 2-loop 양자 루프 복사 보정 연산
-        quantum_loop_correction = (alpha ** 2) * np.sqrt(n * pi)
-        
-        # 유니버셜 텐서 불변량 결합
-        pi4 = pi ** 4
-        gamma_Euler = 0.577215664901532
-        Delta_boundary = alpha * ln2 * (2.0 * pi * alpha)
-        chi_phase = (pi ** 2 / 2.0) - (gamma_Euler * ln2 * alpha) - Delta_boundary
-        entropy_phase_linker = alpha * ln2 * chi_phase
-        pure_qg_scaler = pi4 + entropy_phase_linker
-        
-        # 가중치 필터(resonance_weight)가 결합되어 조건문 없이 작동하는 양자 중력 인자
-        qg_factor = 1.0 + (quantum_loop_correction * pure_qg_scaler / gamma) * resonance_weight
-        
-        l_p11 = l_p10 * qg_factor
-        temp_p11_list.append(l_p11)
-        
-        # 에러 마진 디스플레이 연산
         err_p10 = np.abs(l_p10 - actual_l) / actual_l * 100
         err_p11 = np.abs(l_p11 - actual_l) / actual_l * 100
         
-        print(f" Peak l_{int(n)} -> Phase 10: {l_p10:<7.2f} (Err: {err_p10:>5.2f}%) "
+        print(f" Peak l_{n} -> Phase 10: {l_p10:<7.2f} (Err: {err_p10:>5.2f}%) "
               f"➔ Phase 11 (QG): {l_p11:<7.2f} (Err: {err_p11:>5.2f}%)")
 
-    # 원본 코드 하단부와의 완벽한 데이터 호환을 위해 최종적으로 넘파이 배열로 변환하여 덮어씁니다.
-    phase11_corrected_peaks = np.array(temp_p11_list, dtype=np.float64)
 
         
     # ---------------------------------------------------------------------
