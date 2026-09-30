@@ -361,10 +361,10 @@ if __name__ == "__main__":
     run_cross_verification_portal()
     
     # [2단계] 시각화 확장 포탈 작동
-    print("\n📊 [VISUALIZATION] 실측 vs 예측 궤도 4분할 비교 차트를 생성합니다...")
+    print("\n📊 [VISUALIZATION] Generating a four-panel comparison chart of measured versus predicted trajectories...")
     try:
         plot_stellar_verification_results()
-        print("➔ [💎 VISUALIZATION SUCCESS - 차트 렌더링 완료]")
+        print("➔ [ Chart rendering complete. ]")
     except Exception as e:
-        print(f"❌ 시각화 렌더링 중 오류 발생: {e}")
-        print("➔ Matplotlib 라이브러리 상태 및 폰트 설정을 확인해 주세요.")
+        print(f"❌ An error occurred during visualization rendering.: {e}")
+        print("➔ Matplotlib Please check the library status and font settings..")
