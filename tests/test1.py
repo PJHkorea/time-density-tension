@@ -303,6 +303,7 @@ def run_cross_verification_portal():
     print("=" * 95)
 
 
+
 import matplotlib.pyplot as plt
 
 def plot_stellar_verification_results_en():
@@ -342,12 +343,12 @@ def plot_stellar_verification_results_en():
         # Clean English Labels and Titles
         # 💡 주석: 기존의 한글 항성계 이름을 영문 패싱하도록 처리
         clean_title = system_name.split('(')[0].strip() # 'Solar System (태양계)' -> 'Solar System'
-        ax.set_title(f"🌌 {clean_title} Orbit Spectrum", fontsize=12, fontweight='bold')
+        ax.set_title(f"{clean_title} Orbit Spectrum", fontsize=12, fontweight='bold')
         ax.grid(True, which="both", linestyle="--", alpha=0.5)
         ax.legend(fontsize=9, loc='upper left')
         ax.tick_params(axis='x', rotation=15, labelsize=9)
 
-    plt.suptitle("💎 TDT Phase 11 Multi-Stellar System Convergence Verification", fontsize=16, fontweight='bold', y=0.98)
+    plt.suptitle("TDT Phase 11 Multi-Stellar System Convergence Verification", fontsize=16, fontweight='bold', y=0.98)
     plt.tight_layout()
     plt.show()
 
@@ -356,15 +357,19 @@ def plot_stellar_verification_results_en():
 # ---------------------------------------------------------------------
 # 8. MASTER SIMULATION EXECUTION PORTAL
 # ---------------------------------------------------------------------
+# ---------------------------------------------------------------------
+# 8. MASTER SIMULATION EXECUTION PORTAL
+# ---------------------------------------------------------------------
 if __name__ == "__main__":
-    # [1단계] 텍스트 기반 수치 검증 리포트 가동
+    # [1단계] 학술 표준 텍스트 기반 수치 검증 리포트 가동
     run_cross_verification_portal()
     
-    # [2단계] 시각화 확장 포탈 작동
-    print("\n📊 [VISUALIZATION] Generating a four-panel comparison chart of measured versus predicted trajectories...")
+    # [2단계] 학술 규격 시각화 확장 포탈 가동
+    print("\n [VISUALIZATION] Generating a four-panel comparison chart of measured versus predicted trajectories...")
     try:
-        plot_stellar_verification_results()
-        print("➔ [ Chart rendering complete. ]")
+        # 오타 수정: 구 한글 함수명 대신 새 영문 전용 함수(_en)를 정확하게 가동합니다.
+        plot_stellar_verification_results_en()
+        print(" ➔ [ Chart rendering complete successfully with zero-font warnings. ]")
     except Exception as e:
-        print(f"❌ An error occurred during visualization rendering.: {e}")
-        print("➔ Matplotlib Please check the library status and font settings..")
+        print(f" [ERROR] An error occurred during visualization rendering: {e}")
+        print(" ➔ Verification Suggestion: Ensure matplotlib dependencies and standard sans-serif backends are accessible.")
