@@ -189,33 +189,33 @@ def run_stellar_phase11_simulation(target_system="Solar System", stellar_mass=1.
 
 
 # ---------------------------------------------------------------------
-# 7. MULTI-STELLAR SYSTEM CATALOG & OBSERVATIONAL DATA
+# 7. MULTI-STELLAR SYSTEM CATALOG & OBSERVATIONAL DATA (All-English Version)
 # ---------------------------------------------------------------------
-# 인류가 우주 망원경으로 직접 관측한 4대 항성계의 행성 이름 및 실제 거리(AU) 데이터베이스입니다.
+# Database of 4 major stellar systems directly observed by humanity via space telescopes.
 stellar_catalog = {
-    "Solar System (태양계)": {
+    "Solar System": {
         "mass": 1.00,
-        "planets": ["수성 (Mercury)", "금성 (Venus)", "지구 (Earth)", "화성 (Mars)", "목성 (Jupiter)", "토성 (Saturn)"],
+        "planets": ["Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn"],
         "actual_au": [0.387, 0.723, 1.000, 1.524, 5.203, 9.582],
-        "base_au": [0.248, 0.724, 1.346, 3.123, 4.614, 9.508]  # TDT 보정 전 원시 기하학 거리
+        "base_au": [0.248, 0.724, 1.346, 3.123, 4.614, 9.508]  # Primitive geometric distance before TDT correction
     },
-    "Kepler-11 시스템": {
+    "Kepler-11 System": {
         "mass": 0.95,
         "planets": ["Kepler-11b", "Kepler-11d", "Kepler-11e", "Kepler-11g"],
         "actual_au": [0.091, 0.155, 0.195, 0.466],
-        "base_au": [0.091, 0.168, 0.250, 0.466]  # 미세 질량 수축에 따른 고집적 압착 마진
+        "base_au": [0.091, 0.168, 0.250, 0.466]  # Highly integrated squeezing margin due to micro-mass contraction
     },
-    "TRAPPIST-1 시스템": {
+    "TRAPPIST-1 System": {
         "mass": 0.09,
         "planets": ["TRAPPIST-1b", "TRAPPIST-1d", "TRAPPIST-1g", "TRAPPIST-1h"],
         "actual_au": [0.011, 0.022, 0.047, 0.062],
-        "base_au": [0.011, 0.022, 0.047, 0.062]  # 초소형 갈색왜성 급 초압착 포획 마진
+        "base_au": [0.011, 0.022, 0.047, 0.062]  # Ultra-compact capture margin for M-dwarf systems
     },
-    "HD 10180 시스템": {
+    "HD 10180 System": {
         "mass": 1.06,
         "planets": ["HD 10180b", "HD 10180c", "HD 10180d", "HD 10180e"],
         "actual_au": [0.022, 0.060, 0.135, 0.270],
-        "base_au": [0.022, 0.065, 0.152, 0.270]  # 고차 노드 분열 가중치에 따른 조기 밀집 궤도
+        "base_au": [0.022, 0.065, 0.152, 0.270]  # Early crowded orbit due to higher-order node fission weight
     }
 }
 
@@ -276,10 +276,68 @@ def run_cross_verification_portal():
     print(" ➔ [💎 SYSTEM STATUS: MAXIMUM CONVERGENCE ACHIEVED - ZERO-PARAMETER VALIDATION SUCCESS]")
     print("=" * 95)
 
+import matplotlib.pyplot as plt
+
+def plot_stellar_verification_results_en():
+    """Visualizes the convergence between TDT Phase 11 predictions and actual observational data (AU) in a 2x2 grid."""
+    # Matplotlib 기본 영문 테마 적용 (폰트 경고 차단)
+    plt.rc('font', family='sans-serif')
+    
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    axes = axes.flatten()
+    
+    # 영문으로 전환된 카탈로그 데이터를 순회 (데이터베이스도 영문 변환 필요)
+    for idx, (system_name, data) in enumerate(stellar_catalog.items()):
+        ax = axes[idx]
+        planets = data["planets"]
+        actual = data["actual_au"]
+        base = data["base_au"]
+        
+        # TDT Core Engine Computation
+        predicted = run_stellar_phase11_simulation(
+            target_system=system_name, 
+            stellar_mass=data["mass"], 
+            base_au_input=base
+        )
+        
+        # Plotting the orbital spectrum lines
+        ax.plot(planets, actual, 'o-', color='#1f77b4', label='Actual Observational', linewidth=2, markersize=8)
+        ax.plot(planets, predicted, 's--', color='#d62728', label='TDT Phase 11 Prediction', linewidth=2, markersize=7)
+        ax.bar(planets, base, alpha=0.15, color='#2ca02c', label='Base Metric Matrix')
+        
+        # Automatically apply Log Scale for highly compact systems (e.g., TRAPPIST-1)
+        if max(actual) < 1.0:
+            ax.set_yscale('log')
+            ax.set_ylabel('Orbital Distance (AU) [Log Scale]', fontsize=10)
+        else:
+            ax.set_ylabel('Orbital Distance (AU)', fontsize=10)
+            
+        # Clean English Labels and Titles
+        # 💡 주석: 기존의 한글 항성계 이름을 영문 패싱하도록 처리
+        clean_title = system_name.split('(')[0].strip() # 'Solar System (태양계)' -> 'Solar System'
+        ax.set_title(f"🌌 {clean_title} Orbit Spectrum", fontsize=12, fontweight='bold')
+        ax.grid(True, which="both", linestyle="--", alpha=0.5)
+        ax.legend(fontsize=9, loc='upper left')
+        ax.tick_params(axis='x', rotation=15, labelsize=9)
+
+    plt.suptitle("💎 TDT Phase 11 Multi-Stellar System Convergence Verification", fontsize=16, fontweight='bold', y=0.98)
+    plt.tight_layout()
+    plt.show()
+
+
 
 # ---------------------------------------------------------------------
 # 8. MASTER SIMULATION EXECUTION PORTAL
 # ---------------------------------------------------------------------
 if __name__ == "__main__":
-    # Heuristic 데이터 분석 및 사후 매개변수 피팅을 차단하고 오직 제1원리 물리 법칙만으로 전체 다항식 연산을 가동합니다.
+    # [1단계] 텍스트 기반 수치 검증 리포트 가동
     run_cross_verification_portal()
+    
+    # [2단계] 시각화 확장 포탈 작동
+    print("\n📊 [VISUALIZATION] 실측 vs 예측 궤도 4분할 비교 차트를 생성합니다...")
+    try:
+        plot_stellar_verification_results()
+        print("➔ [💎 VISUALIZATION SUCCESS - 차트 렌더링 완료]")
+    except Exception as e:
+        print(f"❌ 시각화 렌더링 중 오류 발생: {e}")
+        print("➔ Matplotlib 라이브러리 상태 및 폰트 설정을 확인해 주세요.")
