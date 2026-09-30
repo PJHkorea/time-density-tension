@@ -133,11 +133,14 @@ def run_stellar_phase11_simulation(target_system="Solar System", stellar_mass=1.
         n_space = np.arange(1, l_max + 1, dtype=float)
 
         # [Lattice Continuous Switch] 다항식 정류기 확장 (6차 노드 평탄화 경계 마진 통합)
-        resonance_weight = -0.125 * (n_space**4) + 1.75 * (n_space**3) - 8.375 * (n_space**2) + 15.75 * n_space - 9.0
+        resonance_weight = - 0.125 * ( n_space** 4) + 1.75 * ( n_space** 3) - 8.375 * ( n_space** 2) + 15.75 * n_space - 9.0
     
-        # 6번째 노드(토성 등 최외각 점근 경계) 진입 시 연속장 자가소멸 및 평탄화 조건 매칭
-        resonance_weight = np.where(n_space == 6, 0.0, resonance_weight)
+        # 💡 미세 유령 오차를 먼저 정화 (순서 변경 및 위로 이동)
         resonance_weight = np.where(np.abs(resonance_weight) < 1e-12, 0.0, resonance_weight)
+
+        # 💡 최종적으로 6번째 노드 자가소멸 조건 강제 확정 (아래로 이동)
+        resonance_weight = np.where(n_space == 6, 0.0, resonance_weight)
+
 
         # [Mass-Dynamical 2-Loop Radiative Correction]
         # 중심 항성의 질량 감쇠율(stellar_mass)의 스퀘어루트 커플링을 반영하여 고차 섭동의 세기를 비선형 변조합니다.
@@ -237,6 +240,11 @@ def run_cross_verification_portal():
         planets = data["planets"]
         actual_au = data["actual_au"]
         
+        # 💡 이 위치에 안전장치가 들어가 있으면 완벽합니다!
+        if len(actual_au) != len(predicted_distances):
+            raise ValueError(f"데이터 불일치: 관측치 수({len(actual_au)})와 예측치 수({len(predicted_distances)})가 다릅니다.")
+
+        
         print(f"\n [📊 COMPARISON REPORT] {system_name}")
         print("-" * 95)
         
@@ -275,4 +283,3 @@ def run_cross_verification_portal():
 if __name__ == "__main__":
     # Heuristic 데이터 분석 및 사후 매개변수 피팅을 차단하고 오직 제1원리 물리 법칙만으로 전체 다항식 연산을 가동합니다.
     run_cross_verification_portal()
-
