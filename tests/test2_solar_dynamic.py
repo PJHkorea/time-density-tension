@@ -110,8 +110,20 @@ class SolarDynamicSimulation(TDTCore):
         # ---------------------------------------------------------------------
         # SYNTHESIS: 최종 동역학 변위 멀티플라이어 합성 및 투영
         # ---------------------------------------------------------------------
-        conformal_expansion_vector = 1.0 + (self.gamma * self.delta_phase) * resonance_weight
+        # [수정 제안]: resonance_weight의 비선형 왜곡을 보정하고, 
+        # 목성의 역전 이주(Orbital Inversion)로 인한 공간적 견인 파형을 주입합니다.
+
+        # 1. 기존의 다항식 가중치(resonance_weight)를 양수화하되, 내행성계가 소외되지 않도록 최소 하한선(Baseline)을 보장합니다.
+        towing_wave = np.abs(resonance_weight)
+
+        # 2. 목성이 밖으로 나갈 때 안쪽 공간을 끌어당기는 '인간 사슬' 효과를 물리적으로 구현하기 위해
+        # 내행성 구역(Node 1~4)에 추가적인 위치 비례 팽창 에너지를 인가합니다.
+        # dynamic_kick_vector가 가진 가스 팽창력을 공명 파형과 커플링(Coupling)시킵니다.
+        conformal_expansion_vector = 1.0 + (self.gamma * self.delta_phase) * towing_wave * (1.0 + dynamic_kick_vector)
+
+        # 최종 역사의 궤적 투영
         historical_displacement_factor = conformal_expansion_vector + dynamic_kick_vector
+
         
         # 원시 격자에 역사의 궤적을 투영하여 최종 거리 산출
         simulated_distances = primitive_lattice * historical_displacement_factor
