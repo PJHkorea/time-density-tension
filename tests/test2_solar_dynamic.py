@@ -3,9 +3,7 @@
  TDT Phase 12: Solar System Gas-Driven Accretion & Domino Scattering Simulation
 ========================================================================================
 Filename: tests/test2_solar_dynamic.py
-Description:
- [요약된 코드 내용] 전체 소스 코드는 너무 길어 본문에서 축약되었으며, 상세한 구현 및 클래스(`SolarDynamicSimulation`), 
- `generate_primitive_lattice_8d` 메서드 등의 전체 원문은 참조된 웹 문서에 제공된 코드를 통해 확인하실 수 있습니다.
+
 ========================================================================================
 """
 
