@@ -1,13 +1,25 @@
 """
 ========================================================================================
- Multi-Stellar System Quantum Gravity & Distance Verification Engine
+ Multi-Stellar System Conformal Quantum Gravity & Baseline Lattice Verification Engine
 ========================================================================================
-This module evaluates the continuous spectral convergence trajectories and stellar 
-orbital distance distributions across the 1D number-theoretic baseline, Phase 10 
-macroscopic 3D inverse projection, and Phase 11 higher-order quantum gravity 
-perturbation layers utilizing standard NumPy infrastructure.
+[MODULE ROLE]:
+ This master engine evaluates the continuous spectral convergence trajectories and 
+ primitive orbital distance distributions across the multi-stellar regime. It isolates 
+ the unperturbed, static spacetime geometric template (Primitive Stable Lattice) by 
+ intentionally factoring out localized hydrodynamic gas accretion and non-linear 
+ gravitational perturbations from Jupiters.
+
+[PIPELINE INTEGRITY]:
+ - Phase 10: Macroscopic 3D conformal boundary inverse projection.
+ - Phase 11: Higher-order quantum loop radiative corrections under a zero-tuning matrix.
+ 
+[ARCHITECTURAL RELATIONSHIP]:
+ Serves as the static parameter-free baseline for universal systems, providing the 
+ initial T=0 core positions layout subsequently used by 'test2_solar_dynamic.py' 
+ to compute the dynamic, gas-driven scattering cascade histories.
 ========================================================================================
 """
+
 
 
 import numpy as np
