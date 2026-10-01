@@ -3,11 +3,11 @@
 # 🪐 Sandbox Solar System: TDT Phase Conformal Core Lattice
 > **30% 어두운 초기 태양과 목성의 0.855 AU 얼음핵 형성을 기반으로 한 항성계 동역학 시뮬레이터**
 
-본 서브 프로젝트(`샌드박스 태양계`)는 초기 태양계의 가스 원반 역학(Gas-driven Accretion)과 행성 간의 도미노 중력 산란(Nice-model equivalent Cascades)을 하나의 통일된 **8차원 정사형 격자(Conformal Core Lattice)와 각운동량 반작용 텐서** 수식으로 구현한 수치 시뮬레이터입니다.
+본 서브 프로젝트(`sandboxes/solar_system`)는 초기 태양계의 가스 원반 역학(Gas-driven Accretion)과 행성 간의 도미노 중력 산란(Nice-model equivalent Cascades)을 묶어 정사형 격자(Conformal Core Lattice)와 각운동량 반작용 텐서 수식으로 구현한 수치 시뮬레이터입니다.
 
 ---
 
-## 🔬 핵심 물리 이론 및 가설 (Core Physics)
+## 핵심 물리 이론 및 가설 (Core Physics)
 
 ### 1. 희미한 젊은 태양 역설과 동결선 수축 (The Faint Young Sun & Shifted Snowline)
 * **물리적 전제:** 약 46억 년 전 원시 태양의 광도는 현재의 약 70% 수준.
@@ -22,7 +22,7 @@
 
 ---
 
-## 🛠️ 수리적 아키텍처 및 소스코드 구조
+## 수리적 아키텍처 및 소스코드 구조
 
 시뮬레이션은 하드코딩된 상수를 철저히 배제하고, 미세구조상수($\alpha$) 기반의 질량 가속 인자와 중력 감쇄 로그-멱함수를 결합한 순수 수식 체계로 구동됩니다.
 
