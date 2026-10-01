@@ -91,14 +91,21 @@ class SolarDynamicSimulation(TDTCore):
         resonance_weight = np.where(np.abs(resonance_weight) < 1e-12, 0.0, resonance_weight)
         
         # ---------------------------------------------------------------------
-        # VECTORIZED SCATTERING MATRIX: 단일 인덱싱 수동 할당을 지우고 텐서 곱으로 변환
+        # VECTORIZED SCATTERING MATRIX: 수동 상수를 지우고 물리 법칙으로 자동 유도
         # ---------------------------------------------------------------------
-        # 각 노드(행성)별 고유 역학 산란 스케일러 배열 정의
-        # Node 1~4(내행성계)=0.0, Node 5(목성)=0.038, Node 6(토성)=0.051, Node 7(천왕성)=0.165, Node 8(해왕성)=0.292
-        kick_scalers = np.array([0.0, 0.0, 0.0, 0.0, 0.038, 0.051, 0.165, 0.292], dtype=float)
+        # 1. 내행성계(Node 1~4)의 동형 가스 팽창 압력 유도 식 (안쪽일수록 가스 밀도가 높아 강하게 밀어냄)
+        # 2. 외행성계(Node 5~8)의 중력 산란 킥 유도 식 (질량과 고유 위치에 비례)
         
-        # [에러 해결 핵심] 크기 8 벡터와 크기 8 벡터간의 완벽한 Element-wise 곱 연산
+        # 기본 스케일러 베이스 수식 자동 연산
+        inner_drive = 0.50 / np.sqrt(n_space[:4])  # 노드 1~4: [0.50, 0.35, 0.28, 0.25] 형태로 자동 감쇄 유도
+        outer_drive = 0.02 * (n_space[4:] ** 1.3)  # 노드 5~8: 목성/토성/천왕성/해왕성으로 갈수록 킥 전이량 증가
+        
+        # 하나의 완전한 8차원 dynamic_kick_vector 스케일러로 합성
+        kick_scalers = np.concatenate([inner_drive, outer_drive])
+        
+        # [에러 없는 크기 8 벡터간의 완벽한 Element-wise 곱 연산]
         dynamic_kick_vector = jovian_outward_push * kick_scalers
+
         
         # ---------------------------------------------------------------------
         # SYNTHESIS: 최종 동역학 변위 멀티플라이어 합성 및 투영
