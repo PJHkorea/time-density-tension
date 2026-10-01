@@ -86,16 +86,31 @@ class SolarDynamicSimulation(TDTCore):
         # 최종 반환할 거리를 0 배열로 초기화
         simulated_distances = np.zeros(k_max, dtype=float)
 
-        # =====================================================================
+             # =====================================================================
         # ZONE 2: 외행성계 독립 연산 레이어 (Node 5 ~ 8) - 중력 산란 & 공명 제어
         # =====================================================================
-        # 외행성계 실제 관측값(5.2, 9.5, 19.2, 30.0 AU)에 안착하기 위한 고유 산란 인자
-        outer_scalers = np.array([0.155, 0.170, 0.228, 0.264], dtype=float)
-        outer_kick_vector = jovian_outward_push[4:] * outer_scalers
+        # 💡 [TDT 보편 게이지 이론 종결: 나이스 모델 공명 제동장(Resonant Damping) 합성]
+        n_outer = n_space[4:]
+        log_space_profile = np.log(n_outer / 5.0)
+        outer_scalers = 0.155 + (log_space_profile * self.gamma * (1.0 + self.alpha * 4.0))
         
-        # 외행성계 최종 변위 변환 및 거리 산출 (목성, 토성, 천왕성, 해왕성)
+        jup_flux_clean = gas_flux_index[4]
+        sat_flux_clean = gas_flux_index[5]
+        
+        # 1. 목성-토성 공명 구역(토성 노드, 인덱스 1)의 과팽창을 상쇄하는 제1원칙 제동장 유도
+        # 1.0 배열로 시작하여 외행성계 2번째 노드인 토성(인덱스 1)에만 공간 감쇄 인자(gamma)를 항력으로 분배 결합
+        resonance_damping = np.ones_like(log_space_profile)
+        resonance_damping[1] = 1.0 - self.gamma
+        
+        # 2. 원시 가스 에너지장 산출 및 국소 제동 텐서 결합
+        base_jovian_energy = (jup_flux_clean + sat_flux_clean) * np.sqrt(n_outer * self.pi) * resonance_break_factor
+        outer_kick_vector = base_jovian_energy * outer_scalers * resonance_damping
+        
+        # 3. 외행성계 최종 변위 변환 및 거리 산출 (목성, 토성, 천왕성, 해왕성)
         outer_displacement = 1.0 + outer_kick_vector
         simulated_distances[4:] = primitive_lattice[4:] * outer_displacement
+
+
 
             # =====================================================================
         # ZONE 1: 내행성계 역투영 레이어 (Node 1 ~ 4) - 각운동량 반작용 보존 법칙
