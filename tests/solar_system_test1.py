@@ -15,7 +15,7 @@
  
 [ARCHITECTURAL RELATIONSHIP]:
  Serves as the static parameter-free baseline for universal systems, providing the 
- initial T=0 core positions layout subsequently used by 'test2_solar_dynamic.py' 
+ initial T=0 core positions layout subsequently used by 'solar_dynamic_test2.py' 
  to compute the dynamic, gas-driven scattering cascade histories.
 ========================================================================================
 """
