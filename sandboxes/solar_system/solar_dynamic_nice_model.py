@@ -2,7 +2,7 @@
 ========================================================================================
  TDT Phase 12: Solar System Gas-Driven Accretion & Domino Scattering Simulation
 ========================================================================================
-Filename: sandboxes/solar_system/solar_dynamic_test2.py
+Filename: sandboxes/solar_system/solar_dynamic_nice_model.py
 
 ========================================================================================
 """
